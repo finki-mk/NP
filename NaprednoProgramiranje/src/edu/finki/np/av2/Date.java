@@ -7,8 +7,8 @@ public class Date {
 	private static final int[] daysOfMonth = {
 		31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 
 	};
-	private static int[] daysTillFirstOfMonth;
-	private static int[] daysTillJan1;
+	private static final int[] daysTillFirstOfMonth;
+	private static final int[] daysTillJan1;
 	static {
 		daysTillFirstOfMonth = new int[12];
 		for(int i = 1; i < 12; i++) {
@@ -42,8 +42,7 @@ public class Date {
 		if(year < FIRST_YEAR || year > LAST_YEAR) {
 			throw new RuntimeException();
 		}
-		int y = year - FIRST_YEAR;
-		days += daysTillJan1[y];
+		days += daysTillJan1[year - FIRST_YEAR];
 		days += daysTillFirstOfMonth[month - 1];
 		if(month > 2 && isLeapYear(year)) {
 			days++;
