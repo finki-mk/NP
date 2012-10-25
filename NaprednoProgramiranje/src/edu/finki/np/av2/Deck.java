@@ -5,7 +5,7 @@ public class Deck {
 	public static final int SIZE = 52;
 	
 	private PlayingCard[] cards;
-	private boolean[] used;
+	private boolean[] isUsed;
 	private int totalUsed;
 
 	public Deck() {
@@ -18,9 +18,9 @@ public class Deck {
 			}
 			n++;
 		}
-		used = new boolean[SIZE];
+		isUsed = new boolean[SIZE];
 		for(int i = 0; i < SIZE; i++) {
-			used[i] = false;
+			isUsed[i] = false;
 		}
 		totalUsed = 0;
 	}
@@ -29,12 +29,12 @@ public class Deck {
 		if(totalUsed < SIZE) {
 			Random random = new Random();
 			int cardIndex =random.nextInt(SIZE); 
-			if(!used[cardIndex]) {
-				used[cardIndex] = true;
+			if(!isUsed[cardIndex]) {
+				isUsed[cardIndex] = true;
 				totalUsed++;
 				return cards[cardIndex];
 			} else {
-				deal();
+				return deal();
 			}
 		}
 		return null;
@@ -53,6 +53,8 @@ public class Deck {
 	public static void main(String[] args) {
 		Deck deck = new Deck();
 		System.out.println(deck);
-		System.out.println("DEAL: " + deck.deal());
+		for(int i = 0; i < SIZE; i++) {
+			System.out.println("DEAL: " + deck.deal());			
+		}
 	}
 }

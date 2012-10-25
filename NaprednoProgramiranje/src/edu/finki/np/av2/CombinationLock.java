@@ -1,29 +1,23 @@
 package edu.finki.np.av2;
+
 public class CombinationLock {
-	private int first;
-	private int second;
-	private int third;
+	private int combination;
 	private boolean isOpen;
 
-	public CombinationLock(int first, int second, int third) {
-		this.first = first;
-		this.second = second;
-		this.third = third;
+	public CombinationLock(int combination) {
+		this.combination = combination;
 		this.isOpen = false;
 	}
 
-	public boolean open(int first, int second, int third) {
-		this.isOpen = (this.first == first && this.second == second && this.third == third);
+	public boolean open(int combination) {
+		this.isOpen = (this.combination == combination);
 		return this.isOpen;
 	}
 
-	public boolean changeCombo(int first, int second, int third, int newFirst,
-			int newSecond, int newThird) {
-		boolean isCorrect = (this.first == first && this.second == second && this.third == third);
+	public boolean changeCombo(int combination, int newCombination) {
+		boolean isCorrect = (this.combination == combination);
 		if (isCorrect) {
-			this.first = newFirst;
-			this.second = newSecond;
-			this.third = newThird;
+			this.combination = newCombination;
 		}
 		return isCorrect;
 	}

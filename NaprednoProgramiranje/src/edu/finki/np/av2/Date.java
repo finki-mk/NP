@@ -95,6 +95,7 @@ public class Date {
 	
 	public static void main(String[] args) {
 		Date sample = new Date(1, 10, 2012);
+		System.out.println("Date: " + sample);
 		System.out.println(sample.substract(new Date(1, 1, 2000)));
 		System.out.println(sample);
 		sample = new Date(1, 1, 1800);
