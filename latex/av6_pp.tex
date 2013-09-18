@@ -1,0 +1,278 @@
+\input{ex_preamble.tex}
+
+\rhead{\textsc{Напредно програмирање}}
+\chead{Задачи}
+\lhead{Аудиториски вежби 6}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+\usepackage{textcomp}
+
+\begin{document}
+\begin{questions}
+
+%\section{}
+
+\renewcommand{\theenumi}{\alph{enumi}}
+
+\question
+Да се имплементира следниот метод кој го враќа бројот на појавување на стрингот
+\texttt{str} во колекцијата од колекција од стрингови: 
+\begin{lstlisting}
+public static int count(Collection<Collection<String>> c, String str)
+\end{lstlisting}
+\begin{enumerate}
+  \item Да претпоставиме дека \texttt{Collection c} содржи  \texttt{N} колекции
+  и дека секоја од овие колекции содржи N објекти. Кое е времето на извршување
+  на вашиот метод?
+  \item Да претпоставиме дека е потребно 2 милисекунди да се изврши за N = 100.
+  Колку ќе биде времето на извршување кога N = 300?
+\end{enumerate}
+
+\lstinputlisting[firstline=7,lastline=17]{src/av6/CountCollection.java}
+
+\question
+
+Да се напише метод за печатење на колекција во обратен редослед со помош на
+\texttt{Collections API} но без употреба на \texttt{ListIterator}.
+
+\lstinputlisting[firstline=19,lastline=25]{src/av6/CountCollection.java}
+
+\question
+
+Методот \texttt{equals} кој е прикажан, враќа \texttt{true} ако две листи имаат
+иста големина и ако ги содржат истите елементи во ист редослед. Да
+претпоставиме дека \texttt{N} е големината на овие лист.
+\begin{lstlisting}
+public boolean equals( List<Integer> lhs,  List<Integer> rhs ) {
+    if( lhs.size( ) != rhs.size( ) )
+        return false;
+    for( int i = 0; i < lhs.size( ); i++ )
+        if( !lhs.get( i ).equals( rhs.get( i ) )
+            return false;
+    return true;
+}
+
+\end{lstlisting}
+\begin{enumerate}
+  \item Кое е времето на извршување ако двете листи се \texttt{ArrayLists}?
+  \item Кое е времето на извршување ако двете листи се \texttt{LinkedLists}?
+  \item Да претпоставиме дека за 4 секунди се извршува методот за две еднакво
+  големи поврзани листи \texttt{LinkedList} со 10.000 елементи. Колку време ќе
+  биде потребно за извршување со две еднакво големи поврзани листи со 50.000
+  елементи?
+  \item Објаснете со една реченица како да го направиме алгоритмот поефикасен за
+  сите видови листи?
+\end{enumerate}
+
+\question
+
+Методот \texttt{hasSpecial}, прикажан подолу, враќа \texttt{true} ако постојат
+два уникатни броеви во листата чија што сума е еднаква на некој трет број во
+листата. Да претпоставиме дека \texttt{N} е големината на листата. 
+
+\begin{lstlisting}
+// Returns true if two numbers in c when added together sum // to a third number in c.
+public static boolean hasSpecial( List<Integer> c ) {
+    for( int i = 0; i < c.size( ); i++ )
+        for( int j = i + 1; j < c.size( ); j++ )
+            for( int k = 0; k < c.size( ); k++ )
+                if( c.get( i ) + c.get( j ) == c.get( k ) )
+                    return true;
+    return false;
+}
+\end{lstlisting}
+\begin{enumerate}
+  \item Кое е времето на извршување ако листата е \texttt{ArrayList}?
+  \item Кое е времето на извршување ако листата е \texttt{LinkedList}?
+  \item Ако се потребни 2 секунди за извршување со листа со 1000 елементи, колку
+  време ќе биде потребно за извршување на 3000 елементи. Да претпоставиме дека и
+  во двата случаи методот враќа резултат \texttt{false}.
+\end{enumerate}
+
+\question
+Ситото на Ератостен (The Sieve of Erastothenes) е  древен алгоритам за
+генерирање прости броеви. Да ја земеме следната листа со броеви:
+\begin{verbatim}
+2 3 4 5 6 7 8 9 10
+\end{verbatim}
+Алгоритмот започнува со првиот прост број во листата, тоа е 2 и потоа ги
+изминува останатите елементи од листата, со тоа што ги отстранува сите броеви
+чии што множител е 2 (во овој случај, 4, 6, 8 и 10), со што остануваат 2 3 5 7.
+Го повторуваме овој процес со вториот прост број во листата, тоа е 3 и итерираме
+низ остатокот од листата и што ги отстрануваме броевите чии што множител е 3
+(во овој случај 9), а остануваат 2 3 5 7.
+
+Потоа ја повторуваме постапката со секој следен прост број, но не се
+отстрануваат елемнти, затоа што нема броеви чии што множители се 5 и 7. Сите
+броеви кои остануваат во листата се прости.
+
+Да се имплементира алгоритмот со користење на \texttt{ArrayList} од цели броеви
+која што е иницијализирана со вредности од 2 до 100. Имплементацијата може да
+итерира низ листата со индекс од 0 од \texttt{size() - 1} за да го земе
+тековниот прост број, но треба да користи \texttt{Iterator} за да го скенира
+остатокот од листата и ги избрише сите елементи чии што множител е тековниот
+прост број. Отпечатете ги сите прости броеви во листата.
+
+\lstinputlisting{src/av6/ErastothenesSieve.java}
+
+\question
+Парадоксот на роденден е дека постои изненадувачки голема веројатност дека
+двајца луѓе во иста просторија имаат ист роденден. Под ист роденден подразбираме
+дека се родени на ист ден во годината (ги игнорираме престпните). Да се напише
+програма која апроксимативно ја пресметува веројатноста дека 2-ца или повеќе
+луѓе во иста соба имаат ист роденден, за 2 до 50 луѓе во просторија.
+
+Програмата треба да го пресмета одговорот со симулација. Во повеќе обиди (пр.
+5000), се доделува случаен роденден (пр. број од 1 - 365) на сите во собата.
+Родендените се чуваат во \texttt{HashSet}. Како што се генерираат случајни
+родендени, со помош на методот \texttt{contains} на \texttt{HashSet} се
+проверува дали тој роденден е веќе назначен во собата. Ако е тоа случај, се
+зголемува еден бројач кој брои колку пати барем 2-ца во собата имаат ист
+роденден и се преминува на следниот обид. 
+
+Излезот од вашата програма треба да биде во следниот облик. Броевите нема да
+бидат сосема точни затоа што се употребуваат случајни броеви.
+\begin{verbatim}
+For 2 people, the probability of two birthdays is about 0.002
+For 3 people, the probability of two birthdays is about 0.0082
+For 4 people, the probability of two birthdays is about 0.0163
+...
+For 49 people, the probability of two birthdays is about 0.9654
+For 50 people, the probability of two birthdays is about 0.969
+\end{verbatim}
+
+\lstinputlisting{src/av6/Birthdays.java}
+
+\question
+
+The text files \texttt{boynames.txt} and \texttt{girlnames.txt}, which are included in the source
+code for this book, contain lists of the 1,000 most popular boy and girl names in the
+United States for the year 2005, as compiled by the Social Security Administration.
+These are blank-delimited files where the most popular name is listed first, the
+second most popular name is listed second, and so on to the 1,000th most popular
+name, which is listed last. Each line consists of the first name followed by a blank
+space followed by the number of registered births in the year using that name. For
+example, the \texttt{girlnames.txt} file begins with
+\begin{verbatim}
+Emily 25494
+Emma 22532
+\end{verbatim}
+
+This indicates that Emily is the most popular name with 25,494 registered nam-
+ings, Emma is the second most popular with 22,532, and so on.
+Write a program that determines how many names are on both the boys’ and
+the girls’ list. Use the following algorithm:
+\begin{itemize}
+  \item Read each girl name as a \texttt{String}, ignoring the number of namings, and add it to
+a \texttt{HashSet} object.
+  \item Read each boy name as a \texttt{String}, ignoring the number of namings, and add it to
+the same \texttt{HashSet} object. If the name is already in the \texttt{HashSet}, then the add
+method returns false. If you count the number of false returns, then this
+gives you the number of common namings.
+  \item Add each common name to an \texttt{ArrayList} and output all of the common names
+from this list before the program exits.   
+\end{itemize}
+
+Repeat the previous problem except create your own class, \texttt{Name}, that is added to a
+\texttt{HashMap} instead of a \texttt{HashSet}. The \texttt{Name} class should have three private variables,
+a \texttt{String} to store the name, an integer to store the number of namings for girls,
+and an integer to store the number of namings for boys. Use the first name as the
+key to the \texttt{HashMap}. The value to store is the \texttt{Name} object. Instead of ignoring the
+number of namings, as in the previous project, store the number in the \texttt{Name} class.
+Make the \texttt{ArrayList} a list of \texttt{Name} objects; each time you find a common name,
+add the entire \texttt{Name} object to the list. Your program should then iterate through
+the \texttt{ArrayList} and output each common name, along with the number of boy and
+girl namings.
+
+\lstinputlisting{src/av6/Names.java}
+
+\question
+
+In an ancient land, the beautiful princess Eve had many suitors. She decided on
+the following procedure to determine which suitor she would marry. First, all of
+the suitors would be lined up one after the other and assigned numbers. The first
+suitor would be number 1, the second number 2, and so on up to the last suitor,
+number n. Starting at the first suitor, she would then count three suitors down
+the line (because of the three letters in her name) and the third suitor would be
+eliminated from winning her hand and removed from the line. Eve would then
+continue, counting three more suitors, and eliminating every third suitor. When
+she reached the end of the line, she would reverse direction and work her way back
+to the beginning. Similarly, on reaching the first person in line, she would reverse
+direction and make her way to the end of the line.
+For example, if there were five suitors, then the elimination process would
+proceed as follows:
+\begin{verbatim}
+12345 Initial list of suitors; start counting from 1.
+1245 Suitor 3 eliminated; continue counting from 4 and bounce from end
+back to 
+Suitor 4 eliminated; continue counting back from 2 and bounce from
+front back to 2.
+15
+Suitor 2 eliminated; continue counting forward from 5.
+1
+Suitor 5 eliminated; 1 is the lucky winner.
+\end{verbatim}
+Write a program that uses an \texttt{ArrayList} or \texttt{Vector} to determine which position
+you should stand in to marry the princess if there are n suitors. Your program
+should use the ListIterator interface to traverse the list of suitors and remove
+a suitor. Be careful that your iterator references the proper object upon reversing
+direction at the beginning or end of the list. The suitor at the beginning or end of
+the list should only be counted once when the princess reverses the count.
+
+\lstinputlisting{src/av6/LuckySuitor.java}
+
+\question
+
+In social networking websites, people link to their friends to form a social network.
+Write a program that uses \texttt{HashMaps} to store the data for such a network. Your
+program should read from a file that specifies the network connections for different
+usernames. The file should have the following format to specify a link:
+\begin{verbatim}
+source_username friend_username
+\end{verbatim}
+There should be an entry for each link, one per line. Here is a sample file for five
+usernames:
+\begin{verbatim}
+iba java_guru
+iba crisha
+iba ducky
+crisha java_guru
+crisha iba
+ducky java_guru
+ducky iba
+java_guru iba
+java_guru crisha
+java_guru ducky
+wittless java_guru
+\end{verbatim}
+In this network, everyone links to \texttt{java\_guru} as a friend. \texttt{iba} is
+friends with \texttt{java\_guru}, \texttt{crisha}, and \texttt{ducky}. Note that links are not
+bidirectional; wittless links with \texttt{java\_guru} but \texttt{java\_guru} does not link with wittless.
+
+First, create a \texttt{User} class that has an instance variable to store the user’s name
+and another instance variable that is of type \texttt{HashSet<User>}. The \texttt{HashSet<User>}
+variable should contain references to the User objects that the current user links
+to. For example, for the user \texttt{iba} there would be three entries, for \texttt{java\_guru},
+\texttt{crisha}, and \texttt{ducky}. Second, create a
+\texttt{HashMap<String,User>} instance variable in your main class that is used to map from a username to the corresponding \texttt{User}
+object. Your program should do the following:
+\begin{itemize}
+  \item Upon startup, read the data file and populate the HashMap and HashSet data
+structures according to the links specified in the file.
+  \item Allow the user to enter a name.
+  \item If the name exists in the map, then output all usernames that are one link away
+from the user entered.
+\item If the name exists in the map, then output all usernames that are two links away
+from the user entered. To accomplish this in a general way, you might consider
+writing a recursive subroutine.
+\end{itemize}
+Do not forget that your \texttt{User} class must override the \texttt{hashCode} and \texttt{equals} methods.
+
+\lstinputlisting{src/av6/SocialNetwork.java}
+
+\end{questions}
+
+\end{document}

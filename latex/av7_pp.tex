@@ -1,0 +1,90 @@
+\input{ex_preamble.tex}
+
+\rhead{\textsc{Напредно програмирање}}
+\chead{Задачи}
+\lhead{Аудиториски вежби 7}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+\usepackage{textcomp}
+
+\begin{document}
+\begin{questions}
+
+%\section{}
+
+\renewcommand{\theenumi}{\alph{enumi}}
+
+\question
+
+Да се напише програма која чита стрингови од стандардниот влез и ги печати
+сортирани според должината, односно најкраткиот стринг прв. Ако повеќе стрингови
+имаат иста должина, тогаш се сортираат по азбучен ред.
+
+\lstinputlisting[firstline=8,lastline=33]{src/av7/StringSort.java}
+
+\question
+
+\texttt{Collections.fill} прима аргумент \texttt{List} и вредност и ја поставува
+вредноста на сите елементи во листата. Да се имплементира овој метод.
+
+\lstinputlisting[firstline=28,lastline=32]{src/av7/CollectionsMethods.java}
+
+\question
+
+\texttt{Collections.reverse} прима аргумент \texttt{List} и го превртува
+редоследот на елементите. Да се имплементира овој метод.
+
+\lstinputlisting[firstline=34,lastline=41]{src/av7/CollectionsMethods.java}
+
+\question
+
+Да се напише метод кој прима \texttt{Map<String,String>} како параметар и враќа
+нова \texttt{Map<String,String>} во која клучевите и вредностите се заменети
+меѓу себе. Да се фрли исклучок ако постојат дупликати вредности во мапата
+која се проследува како влезен параметар.
+
+\lstinputlisting[firstline=49,lastline=64]{src/av7/CollectionsMethods.java}
+
+
+\question
+
+Arrange Letters (from codefu.com.mk)
+
+You are given a string and your task is to arrange the words in the string as follows:
+\begin{itemize}
+  \item each word should begin with a capital letter
+  \item the lowercase letters should be arranged alphabetically  
+\end{itemize}
+
+Afterwards, the words in the sentence should be arranged alphabetically.
+
+Example:
+\begin{verbatim}
+"kO pSk sO"
+should return: "Ok Os Skp"
+\end{verbatim}
+
+Input parameters:
+\begin{itemize}
+  \item sentence - \texttt{String} 
+\end{itemize}
+  
+          
+Constraints:
+\begin{itemize}
+  \item sentence will have between 1 and 1000 characters inclusive,
+  \item every character will be a letter ('a'-'z' 'A'-'Z') or ' ' - space.
+  \item each word in sentence will have exactly one capital letter.
+  \item there will be no two consecutive spaces, and no spaces at the beginning
+  or end of the string.
+  \item a word may consist of only one capital letter 
+\end{itemize}
+
+\lstinputlisting[firstline=6,lastline=24]{src/av7/ArrangeLetters.java}
+
+\end{questions}
+
+\end{document}

@@ -1,0 +1,174 @@
+\input{ex_preamble.tex}
+
+\rhead{\textsc{Напредно програмирање}}
+\chead{Задачи}
+\lhead{Аудиториски вежби 3}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+\usepackage{textcomp}
+
+\begin{document}
+\begin{questions}
+
+\section{Исклучоци}
+
+\question
+Да се напише програма едноставен калкулатор. Калкулаторот чува еден број од тип
+\texttt{double} со име резултат и неговата почетна вредност е 0.0. Во циклус му
+се дозволува на корисникот да додаде, одземе, помножи или подели со втор број.
+Резултатот од овие операции е новата вредност на резултатот. Пресметката
+завршува кога корисникот ќе внесе R за ``result'' (како мала или голема буква).
+Корисникот може да направи уште една пресметка од почеток или да ја заврши
+програмата (Y/N).
+Ако корисникот внесе различен знак за оператор од +, -, * или /, тогаш се фрла
+исклучок \texttt{UnknownOperatorException} и се чека повторно на внес.
+
+\emph{Пример форматот на влезните податоци:}
+
+\begin{verbatim}
+Calculator is on.
+result = 0.0
++5
+result + 5.0 = 5.0
+new result = 5.0
+* 2.2
+result * 2.2 = 11.0
+updated result = 11.0
+% 10
+% is an unknown operation.
+Reenter, your last line:
+* 0.1
+result * 0.1 = 1.1
+updated result = 1.1
+r
+Final result = 1.1
+Again? (y/n)
+yes
+result = 0.0
++10
+result + 10.0 = 10.0
+new result = 10.0
+/2
+result / 2.0 = 5.0
+updated result = 5.0
+r
+Final result = 5.0
+Again? (y/n)
+N
+End of Program
+\end{verbatim}
+
+\lstinputlisting{src/av3/Calculator.java}
+
+\lstinputlisting{src/av3/CalculatorTest.java}
+
+\section{Текстуални датотеки}
+
+\question
+Да се напише програма која го прикажува бројот на знаци, бројот на зборови и
+бројот на редови во датотеките чии што имиња се задаваат како аргументи на
+командна линија.
+
+
+\lstinputlisting{src/av3/WordCount.java}
+
+\question
+Во секој ред од една датотека се запишани име (\texttt{String}) и возраст
+(\texttt{int}). Да се напише програма која ќе го отпечати името и возраста на
+највозрасното лице.
+
+\emph{Пример на содржината датотеката:}
+
+\begin{verbatim}
+Кристијан 25
+Дритон 39
+Ристе 17
+Лусијана 28
+Бобан 7
+Оливера 71
+Ана 14
+Димитар 56
+Диме 11
+Билјана 12
+\end{verbatim}
+
+\lstinputlisting{src/av3/FindOldest.java}
+
+\question
+
+Да се напише програма која пресметува оценки за одреден курс. Во програмата прво
+се вчитува името на датотеката која ги содржи информациите за резултатите од
+испититите. Секој ред од датотеката е во следниот формат:
+
+\begin{verbatim}
+LastName:FirstName:Exam1:Exam2:Exam3
+\end{verbatim}
+
+Испитите се вреднуваат тежински и тоа 25\% за првиот, 30\% за вториот и 45\% за
+третиот испит. Врз основа на ова, конечната оценка се добива според следната
+скала: 
+\begin{itemize}
+  \item 91 - 100 A
+  \item 81 - 90 B
+  \item 71 - 80 C
+  \item 61 - 70 D
+  \item 0 - 60 F
+\end{itemize}
+Вашата програма треба да отпечати на стандардниот излез листа од студенти со
+оценката во следниот формат:
+\begin{verbatim}
+LastName FirstName LetterGrade
+\end{verbatim}
+
+Исто така во датотека чие што име се внесува од стандарден влез се запишуваат
+резултатите во следнио формат:
+
+\begin{verbatim}
+LastName FirstName Exam1 Exam2 Exam3 TotalPoints LetterGrade
+\end{verbatim}
+Откако ќе се запише оваа содржина во датотека, се печати на стандарден излез
+дистрибуцијата на оценките.
+
+Пример ако содржината на датотеката е:
+\begin{verbatim}
+Doe:John:100:100:100
+Pantz:Smartee:80:90:80
+\end{verbatim}
+Излезот е:
+\begin{verbatim}
+Doe John A
+Pantz Smartee B
+\end{verbatim}
+Излезот во датотеката ќе биде:
+\begin{verbatim}
+Doe John 100 100 100 100 A
+Pantz Smartee 80 90 80 83 B
+A 1
+B 1
+C 0
+D 0
+F 0
+\end{verbatim}
+
+\lstinputlisting{src/av3/CalculateGrades.java}
+
+\section{Бинарни датотеки}
+
+\question
+Да се напише програма која запишува n случајни броеви во бинарна датотека, потоа
+ги вчитува и пресметува просек.
+
+\lstinputlisting{src/av3/BinaryNumbers.java}
+
+\question
+Да се напише класа за резултат (\texttt{Score}) од некоја видео игра. Секој
+резултат се состои од името и бројот на поени. Да се напише нова класа
+(\texttt{Scoreboard}) која ќе ги чува најдобрите N резултати. Оваа класа треба да има
+можност за додавање нов резултат и прикажување на тековните резултати.
+
+\end{questions}
+
+\end{document}
