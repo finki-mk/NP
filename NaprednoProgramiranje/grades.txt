@@ -1,2 +1,0 @@
-Doe:John:100:100:100
-Pantz:Smartee:80:90:80
