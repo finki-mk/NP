@@ -1,111 +1,100 @@
 package edu.finki.np.av6;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Names {
-	public static void main(String[] args) {
-		Scanner fileScanner = null;
-		Map<String, Name> names = new HashMap<String, Name>();
-		List<Name> repeating = new ArrayList<Name>();
-		try {
-			fileScanner = new Scanner(new FileReader("girlnames.txt"));
-			while (fileScanner.hasNextLine()) {
-				String line = fileScanner.nextLine();
-				String[] parts = line.split(" ");
-				String name = parts[0];
-				int count = Integer.parseInt(parts[1]);
-				Name nameObject = new Name(name, count, 0);
-				names.put(name, nameObject);
-			}
-			fileScanner.close();
-			fileScanner = new Scanner(new FileReader("boynames.txt"));
-			while (fileScanner.hasNextLine()) {
-				String line = fileScanner.nextLine();
-				String[] parts = line.split(" ");
-				String name = parts[0];
-				int count = Integer.parseInt(parts[1]);
-				if (names.containsKey(name)) {
-					Name nameObject = names.get(name);
-					nameObject.setCountBoys(count);
-					repeating.add(nameObject);
-				}
-			}
-			fileScanner.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+	public static void main(String[] args) throws FileNotFoundException {
+		Scanner scanner = new Scanner(new FileInputStream("girlnames.txt"));
+		Map<String, Integer> names = new TreeMap<String, Integer>();
+		while(scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			String[] parts = line.split(" ");
+			String name = parts[0];
+			int countGirs = Integer.parseInt(parts[1]);
+			names.put(name, countGirs);
 		}
-		//Collections.sort(repeating);
-		Collections.sort(repeating, new NameComparator());
-		for (Name name : repeating) {
+		scanner.close();
+		scanner = new Scanner(new FileInputStream("boynames.txt"));
+		List<Name> duplicates = new ArrayList<Name>();
+		while(scanner.hasNext()) {
+			String line = scanner.nextLine();
+			String[] parts = line.split(" ");
+			String name = parts[0];
+			int countBoys = Integer.parseInt(parts[1]);
+			if(names.containsKey(name)) {
+				Name n = new Name(name, names.get(name), countBoys);
+				duplicates.add(n);
+			}
+		}
+		scanner.close();
+		Collections.sort(duplicates, new BoysNameCountComparator());
+		for(Name name : duplicates) {
 			System.out.println(name);
 		}
-		System.out.println("Sorted by boys count");
-		Collections.sort(repeating, new BoysNamesCountComparator());
-		for (Name name : repeating) {
-			System.out.println(name);
-		}
+		
 	}
 }
 
-class Name implements Comparable<Name> {
-	String name;
-	int countGirls;
-	int countBoys;
-
-	public Name(String name, int countGirls, int countBoys) {
+class Name {
+	private String name;
+	private int countGirs;
+	private int countBoys;
+	public Name(String name, int countGirs, int countBoys) {
 		this.name = name;
-		this.countGirls = countGirls;
+		this.countGirs = countGirs;
 		this.countBoys = countBoys;
 	}
-
-	public void setCountBoys(int countBoys) {
-		this.countBoys = countBoys;
+	
+	@Override
+	public String toString() {
+		return String.format("%s %d %d", name, countGirs, countBoys);
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
-	@Override
-	public String toString() {
-		return String.format("%s %d %d", name, countGirls, countBoys);
+	
+	public int getCountGirs() {
+		return countGirs;
 	}
-
-	@Override
-	public int compareTo(Name n) {
-		//return this.name.compareTo(n.name);
-		return this.countGirls - n.countGirls;
+	
+	public int getCountBoys() {
+		return countBoys;
 	}
-
+	
 }
+
 class NameComparator implements Comparator<Name> {
 
 	@Override
-	public int compare(Name n1, Name n2) {
-		return n1.name.compareTo(n2.name);
+	public int compare(Name o1, Name o2) {
+		return o1.getName().compareTo(o2.getName());
 	}
+	
 }
 
-class GirlsNamesCountComparator implements Comparator<Name> {
+class GirlNameCountComparator implements Comparator<Name> {
 
 	@Override
-	public int compare(Name n1, Name n2) {
-		return n1.countGirls - n2.countGirls;
+	public int compare(Name o1, Name o2) {
+		return o1.getCountGirs() - o2.getCountGirs();
 	}
+	
 }
-class BoysNamesCountComparator implements Comparator<Name> {
+
+class BoysNameCountComparator implements Comparator<Name> {
 
 	@Override
-	public int compare(Name n1, Name n2) {
-		return n1.countBoys - n2.countBoys;
+	public int compare(Name o1, Name o2) {
+		return o2.getCountBoys() - o1.getCountBoys();
 	}
+	
 }
-

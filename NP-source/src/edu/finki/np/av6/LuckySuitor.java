@@ -7,6 +7,7 @@ import java.util.ListIterator;
 public class LuckySuitor {
 	public static int getWinner(int n) {
 		List<Integer> positions = new ArrayList<Integer>();
+		
 		for (int i = 0; i < n; ++i) {
 			positions.add(i + 1);
 		}
@@ -41,6 +42,6 @@ public class LuckySuitor {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("Winner: " + LuckySuitor.getWinner(9));
+		System.out.println("Winner: " + LuckySuitor.getWinner(7));
 	}
 }

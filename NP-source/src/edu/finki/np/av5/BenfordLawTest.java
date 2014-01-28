@@ -1,6 +1,8 @@
 package edu.finki.np.av5;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -25,42 +27,34 @@ public class BenfordLawTest {
 
 	 */
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		System.out.println("Enter filename: ");
 		Scanner scanner = new Scanner(System.in);
-		String filename = scanner.nextLine();
-		BufferedReader fileReader = null;
+		String fileName = scanner.nextLine();
+		scanner = new Scanner(new FileInputStream(fileName));
+		String line;
 		int[] counts = new int[10];
-		int total = 0;
-		try {
-			fileReader = new BufferedReader(new FileReader(filename));
-			String line;
-			while ((line = fileReader.readLine()) != null) {
-				if(line.length() > 0) {
-					String[] parts = line.split(" ");
-					int num;
-					if(parts.length > 0) {
-						num = Integer.parseInt(parts[parts.length - 1]);
-					} else {
-						num = Integer.parseInt(line); 
-					}
-					int firstDigit = firstDigit(num);
-					counts[firstDigit]++;
-					total++;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		int totalCount = 0;
+		while((line = scanner.nextLine()) != null) {
+			String[] parts = line.split(" ");
+			System.out.println();
+			int number = Integer.parseInt(parts[parts.length - 1]);
+			int first = firstDigit(number);
+			counts[first]++;
+			totalCount++;
 		}
-		for(int i = 1; i < counts.length; i++) {
-			System.out.printf("%d : %d : %.2f%%\n", i, counts[i], counts[i] * 100. / total);
+		scanner.close();
+		for(int i = 1; i <= 9; ++i) {
+			System.out.println(String.format("%d : %.3f\n", i, counts[i] * 100. / totalCount));
 		}
+		
+		
 	}
 	
-	static int firstDigit(int num) {
-		while(num >= 10) {
-			num /= 10;
+	static int firstDigit(int a) {
+		while(a > 9) {
+			a /= 10;
 		}
-		return num;
+		return a;
 	}
 }

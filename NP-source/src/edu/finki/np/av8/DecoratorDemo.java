@@ -63,5 +63,7 @@ public class DecoratorDemo {
 		Widget aWidget = new BorderDecorator(new BorderDecorator(
 				new ScrollDecorator(new TextField(80, 24))));
 		aWidget.draw();
+		aWidget = new ScrollDecorator(new ScrollDecorator(new BorderDecorator(new TextField(40, 50))));
+		aWidget.draw();
 	}
 }

@@ -19,23 +19,25 @@ public class WordCount {
 		int linesCount = 0;
 		int wordsCount = 0;
 		int charactersCount = 0;
-		BufferedReader bufferedReader = null;
 		try {
-			bufferedReader = new BufferedReader(new FileReader(filename));
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
-				linesCount++;
-				String[] words = line.split("\\s+");
-				wordsCount += words.length;
-				charactersCount += line.length();
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+			while(true){
+				try {
+					String line = bufferedReader.readLine();
+					// end of steam
+					if(line == null) break;
+					++linesCount;
+					charactersCount += line.length();
+					wordsCount += line.split("").length;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			}
-			bufferedReader.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return String.format("%d %d %d\n", linesCount, wordsCount,
-				charactersCount);
+		return String.format("%d %d %d %s", wordsCount, linesCount, charactersCount, filename);
 	}
 }

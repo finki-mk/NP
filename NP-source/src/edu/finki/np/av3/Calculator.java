@@ -12,7 +12,7 @@ public class Calculator {
 	}
 
 	public String init() {
-		return String.format("result = %f", result);
+		return String.format("Calculator is on\nresult = %f", result);
 	}
 
 	public double getResult() {

@@ -9,6 +9,7 @@ public class PriorityQueue<T> {
 	public PriorityQueue() {
 		queue = new ArrayList<T>();
 		priorities = new ArrayList<Integer>();
+		
 	}
 
 	public void add(T item, int priority) {
@@ -34,7 +35,7 @@ public class PriorityQueue<T> {
 
 	public static void main(String[] args) {
 		PriorityQueue<String> pq = new PriorityQueue<String>();
-		pq.add("X", 10);
+		pq.add("X", 0);
 		pq.add("Y", 1);
 		pq.add("Z", 3);
 		System.out.println(pq.remove()); // Returns X

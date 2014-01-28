@@ -1,6 +1,5 @@
 package edu.finki.np.av2;
 
-
 public class PlayingCard {
 	public static final int MAX_RANK = 13;
 	public static final int MIN_RANK = 1;

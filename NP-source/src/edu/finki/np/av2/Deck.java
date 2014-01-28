@@ -37,7 +37,7 @@ public class Deck {
 	public PlayingCard deal() {
 		if(totalUsed < SIZE) {
 			Random random = new Random();
-			int cardIndex =random.nextInt(SIZE); 
+			int cardIndex =random.nextInt(SIZE);
 			if(!isUsed[cardIndex]) {
 				isUsed[cardIndex] = true;
 				totalUsed++;
