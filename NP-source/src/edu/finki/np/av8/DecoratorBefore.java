@@ -2,47 +2,47 @@ package edu.finki.np.av8;
 
 public class DecoratorBefore {
 
-	static class A {
+	static class Coffee {
 		public void doIt() {
-			System.out.print('A');
+			System.out.print("Coffee");
 		}
 	}
 
-	static class AwithX extends A {
+	static class CoffeeWithSugar extends Coffee {
 		public void doIt() {
 			super.doIt();
 			doX();
 		}
 
 		private void doX() {
-			System.out.print('X');
+			System.out.print(" Sugar ");
 		}
 	}
 
-	static class AwithY extends A {
+	static class CoffeeWithCinamon extends Coffee {
 		public void doIt() {
 			super.doIt();
 			doY();
 		}
 
 		public void doY() {
-			System.out.print('Y');
+			System.out.print(" Cinamon ");
 		}
 	}
 
-	static class AwithZ extends A {
+	static class CofeeWithMilk extends Coffee {
 		public void doIt() {
 			super.doIt();
 			doZ();
 		}
 
 		public void doZ() {
-			System.out.print('Z');
+			System.out.print(" Milk ");
 		}
 	}
 
-	static class AwithXY extends AwithX {
-		private AwithY obj = new AwithY();
+	static class CoffeeWithSugarAndCinamon extends CoffeeWithSugar {
+		private CoffeeWithCinamon obj = new CoffeeWithCinamon();
 
 		public void doIt() {
 			super.doIt();
@@ -50,9 +50,9 @@ public class DecoratorBefore {
 		}
 	}
 
-	static class AwithXYZ extends AwithX {
-		private AwithY obj1 = new AwithY();
-		private AwithZ obj2 = new AwithZ();
+	static class CoffeeWithSugarCinamonAndMilk extends CoffeeWithSugar {
+		private CoffeeWithCinamon obj1 = new CoffeeWithCinamon();
+		private CofeeWithMilk obj2 = new CofeeWithMilk();
 
 		public void doIt() {
 			super.doIt();
@@ -62,7 +62,9 @@ public class DecoratorBefore {
 	}
 
 	public static void main(String[] args) {
-		A[] array = { new AwithX(), new AwithXY(), new AwithXYZ() };
+		Coffee[] array = { new CoffeeWithSugar(),
+				new CoffeeWithSugarAndCinamon(),
+				new CoffeeWithSugarCinamonAndMilk() };
 		for (int i = 0; i < array.length; i++) {
 			array[i].doIt();
 			System.out.print("  ");

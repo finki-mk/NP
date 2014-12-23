@@ -8,23 +8,25 @@ public class Birthdays {
 	static final int NUM_TRIALS = 5000;
 
 	public static void main(String[] args) {
-		for (int i = 2; i <= 50; ++i) {
-			int counter = 0;
+		Random rand = new Random();
+
+		for (int numPeople = 2; numPeople <= 50; ++numPeople) {
+			int positiveEvents = 0;
 			for (int j = 0; j < NUM_TRIALS; ++j) {
+				int sameBirthday = 1;
 				Set<Integer> room = new HashSet<Integer>();
-				Random random = new Random();
-				for (int k = 0; k < i; ++k) {
-					int birthday = random.nextInt(365) + 1;
-					//System.out.println(birthday);
+				for (int i = 0; i < numPeople; ++i) {
+					int birthday = rand.nextInt(365) + 1;
 					if (!room.add(birthday)) {
-						++counter;
-						break;
+						sameBirthday++;
 					}
 				}
+				if (sameBirthday == 5) {
+					positiveEvents++;
+				}
 			}
-			System.out.printf("For %d people, P = %.4f\n", i, 1. * counter
+			System.out.printf("Probability: %d : %f\n", numPeople, positiveEvents * 1.0
 					/ NUM_TRIALS);
 		}
-
 	}
 }

@@ -4,20 +4,16 @@ import java.util.Random;
 
 public class Finalists {
 	public static void main(String[] args) {
-		boolean[] picked = new boolean[30];
-		int totalPicked = 0;
-		int[] pickedNum = new int[3];
-		while(totalPicked < 3) {
-			Random r = new Random();
-			int pick = r.nextInt(30);
-			if(!picked[pick]) {
-				picked[pick] = true;
-				pickedNum[totalPicked] = pick + 1;
-				totalPicked++;
+		Random r = new Random();
+		boolean[] generated = new boolean[30];
+		int count = 0;
+		while(count != 9) {
+			int n = r.nextInt(30) + 1;
+			if(!generated[n - 1]) {
+				System.out.println(n);
+				count++;
+				generated[n - 1] = true;
 			}
-		}
-		for(int p : pickedNum) {
-			System.out.println(p);
 		}
 	}
 }

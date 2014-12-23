@@ -18,7 +18,7 @@ public class LongestPalindrome {
 					if(longest == null) {
 						longest = word;
 					} else {
-						if(word.length() >= longest.length()) {
+						if(word.length() > longest.length()) {
 							longest = word;
 						}
 					}

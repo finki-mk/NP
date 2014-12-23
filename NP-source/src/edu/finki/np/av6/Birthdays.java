@@ -5,24 +5,28 @@ import java.util.Random;
 import java.util.Set;
 
 public class Birthdays {
-	static final int NUM_TRIALS = 100000;
+	static final int NUM_TRIALS = 5000;
 
 	public static void main(String[] args) {
-		for(int i = 2; i <= 100; ++i) {
-			Random random = new Random();
-			int count = 0;
-			for(int j = 0; j < NUM_TRIALS; ++j) {
-				Set<Integer> generated = new HashSet<Integer>();
-				for(int k = 0; k < i; ++k) {
-					int birthday = random.nextInt(365) + 1;
-					if(!generated.add(birthday)) {
-						++count;
-						break;
-					}				
-				}				
-			}
-			System.out.printf("%d persons, %.15f\n", i, 1. * count / NUM_TRIALS);
-		}
+		Random rand = new Random();
 
+		for (int numPeople = 2; numPeople <= 50; ++numPeople) {
+			int positiveEvents = 0;
+			for (int j = 0; j < NUM_TRIALS; ++j) {
+				int sameBirthday = 1;
+				Set<Integer> room = new HashSet<Integer>();
+				for (int i = 0; i < numPeople; ++i) {
+					int birthday = rand.nextInt(365) + 1;
+					if (!room.add(birthday)) {
+						sameBirthday++;
+					}
+				}
+				if (sameBirthday == 5) {
+					positiveEvents++;
+				}
+			}
+			System.out.printf("Probability: %d : %f\n", numPeople, positiveEvents * 1.0
+					/ NUM_TRIALS);
+		}
 	}
 }

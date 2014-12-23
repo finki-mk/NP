@@ -1,116 +1,114 @@
 package edu.finki.np.av6;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class SocialNetwork {
-	private Map<String, User> users;
+	Map<String, User> users;
 
-	public SocialNetwork() {
-		this.users = new HashMap<String, User>();
-	}
-
-	public void read(InputStream inputStream) {
-		Scanner scanner = new Scanner(inputStream);
-		while (scanner.hasNext()) {
+	public void loadNetwork(String filename) throws FileNotFoundException {
+		Scanner scanner = new Scanner(new FileInputStream(filename));
+		users = new HashMap<String, User>();
+		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
 			String[] parts = line.split(" ");
-			String name1 = parts[0];
-			String name2 = parts[1];
-			User first = users.get(name1);
-			User second = users.get(name2);
-			if (first == null) {
-				first = new User(name1);
-				users.put(name1, first);
+			String user = parts[0];
+			String friend = parts[1];
+			User userObj = users.get(user);
+			if (userObj == null) {
+				userObj = new User(user);
 			}
-			if (second == null) {
-				second = new User(name2);
-				users.put(name2, second);
+			users.put(user, userObj);
+			User friendObj = users.get(friend);
+			if (friendObj == null) {
+				friendObj = new User(friend);
 			}
-			first.addFriend(second);
+			users.put(friend, friendObj);
+			userObj.addFriend(friendObj);
 		}
 		scanner.close();
 	}
 
-	public void findFriends(String name, int n) {
-		if (this.users.containsKey(name)) {
-			this.users.get(name).findFriends(n);
+	public void print() {
+		for (String key : users.keySet()) {
+			System.out.println("KEY: " + key);
+			System.out.println("VALUE: ");
+			System.out.println(users.get(key));
 		}
 	}
 
-	public void print() {
-		
-		for (String key : this.users.keySet()) {
-			System.out.println("USER: " + key);
-			System.out.println("FRIENDS: ");
-			User u = this.users.get(key);
-			for (User user : u.getFriends()) {
-				System.out.println(user);
+	public void printFriends(String username, int level, HashSet<String> found) {
+
+		User user = users.get(username);
+		if (level == 1) {
+			for (User friend : user.friends) {
+				if (!found.contains(friend.username)) {
+					System.out.println(friend.username);
+					found.add(friend.username);
+				}
+			}
+		} else {
+			for (User friend : user.friends) {
+				printFriends(friend.username, level - 1, found);
 			}
 		}
+
+	}
+	
+	public void search(String username, int level) {
+		HashSet<String> found = new HashSet<String>();
+		found.add(username);
+		printFriends(username, level, found);
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-		InputStream inputStream = new FileInputStream(new File("friends.txt"));
-		SocialNetwork socialNetwork = new SocialNetwork();
-		socialNetwork.read(inputStream);
-		socialNetwork.print();
-		//Scanner scanner = new Scanner(System.in);
-		//String name = scanner.nextLine();
-		//socialNetwork.findFriends(name, 2);
+		SocialNetwork sn = new SocialNetwork();
+		sn.loadNetwork("friends.txt");
+		// sn.print();
+		
+		sn.search("iba", 2);
 	}
 }
 
 class User {
-	private String name;
-	private Set<User> friends;
-	private static Set<String> found;
+	String username;
+	Set<User> friends;
 
-	public User(String name) {
-		this.name = name;
+	public User(String username) {
+		this.username = username;
 		this.friends = new HashSet<User>();
 	}
 
-	public boolean addFriend(User friend) {
-		return this.friends.add(friend);
+	public void addFriend(User user) {
+		this.friends.add(user);
 	}
 
-	public void findFriends(int n) {
-		User.found = new HashSet<String>();
-		User.found.add(this.name);
-		this.findFriendsOfFriends(this.name, n);
+	@Override
+	public boolean equals(Object obj) {
+		User u = (User) obj;
+		return u.username.equals(username);
 	}
 
-	private void findFriendsOfFriends(String name, int n) {
-		if (n == 0) {
-			for (User user : this.friends) {
-				if (!User.found.contains(user.name)) {
-					System.out.println(user);
-				}
-			}
-			return;
-		}
-		for (User user : this.friends) {
-			if (!User.found.contains(user.name)) {
-				user.findFriendsOfFriends(name, n - 1);
-				User.found.add(user.name);
-			}
-		}
-	}
-
-	public Set<User> getFriends() {
-		return this.friends;
+	@Override
+	public int hashCode() {
+		return username.hashCode();
 	}
 
 	@Override
 	public String toString() {
-		return this.name;
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("User: %s\n", username));
+		sb.append("Friends: \n");
+		for (User user : friends) {
+			sb.append(user.username);
+			sb.append("\t");
+		}
+		return sb.toString();
 	}
 }

@@ -1,4 +1,5 @@
 package edu.finki.np.mt2;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,8 +15,8 @@ public class WeatherStationTest {
 	public static void main(String[] args) throws ParseException {
 		Scanner scanner = new Scanner(System.in);
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-        int n = scanner.nextInt();
-        scanner.nextLine();
+		int n = scanner.nextInt();
+		scanner.nextLine();
 		WeatherStation ws = new WeatherStation(n);
 		while (true) {
 			String line = scanner.nextLine();
@@ -68,62 +69,64 @@ public class WeatherStationTest {
 }
 
 class WeatherStation {
-	private Set<Measurment> measurments;
-	private int days;
+	TreeSet<Measurement> measurments;
 
-	public WeatherStation(int days) {
+	int days;
+
+	WeatherStation(int days) {
 		this.days = days;
-		measurments = new TreeSet<Measurment>();
+		measurments = new TreeSet<Measurement>();
 	}
 
 	public void addMeasurment(float temperature, float wind, float humidity,
 			float visibility, Date date) {
-		Measurment measurment = new Measurment(temperature, wind, humidity,
+		Measurement m = new Measurement(temperature, wind, humidity,
 				visibility, date);
-		long time = measurment.getDate().getTime();
-		Iterator<Measurment> iterator = measurments.iterator();
-		if (iterator.hasNext()) {
-			Measurment m = iterator.next();
-			long d = time - m.getDate().getTime();
-			if (d > days * 24 * 60 * 60 * 1000) {
-				iterator.remove();
+		if(!measurments.add(m)) {
+			return;
+		}
+		
+		long d = days * 24 * 60 * 60 * 1000;
+		Iterator<Measurement> it = measurments.iterator();
+		while (it.hasNext()) {
+			Measurement mm = it.next();
+			long diff = date.getTime() - mm.date.getTime();
+			if (diff > d) {
+				it.remove();
+			} else {
+				break;
 			}
 		}
-		measurments.add(measurment);
-	}
+		
 
-	public void status(Date from, Date to) {
-		Iterator<Measurment> iterator = measurments.iterator();
-		float tempSum = 0;
-		int n = 0;
-		while (iterator.hasNext()) {
-			Measurment m = iterator.next();
-			if (m.getDate().compareTo(from) >= 0&&m.getDate().compareTo(to) <= 0) {
-				System.out.println(m);
-				tempSum += m.getTemperature();
-				++n;
-			}
-		}
-        if (n == 0) {
-			throw new RuntimeException(String.format(
-					"No measurments in period %s - %s", from, to));
-		}
-		System.out.printf("Average temperature: %.2f\n", tempSum / n);
 	}
 
 	public int total() {
 		return measurments.size();
 	}
+
+	public void status(Date from, Date to) {
+		float tempSum = 0;
+		int count = 0;
+		for (Measurement m : measurments) {
+			if (m.date.compareTo(from) >= 0 && m.date.compareTo(to) <= 0) {
+				System.out.println(m);
+				tempSum += m.temperature;
+				++count;
+			}
+		}
+		System.out.printf("Avarage temperature: %.2f\n", tempSum / count);
+	}
 }
 
-class Measurment implements Comparable<Measurment> {
-	private float temperature;
-	private float wind;
-	private float humidity;
-	private float visibility;
-	private Date date;
+class Measurement implements Comparable<Measurement> {
+	float temperature;
+	float wind;
+	float humidity;
+	float visibility;
+	Date date;
 
-	public Measurment(float temperature, float wind, float humidity,
+	public Measurement(float temperature, float wind, float humidity,
 			float visibility, Date date) {
 		this.temperature = temperature;
 		this.wind = wind;
@@ -133,21 +136,14 @@ class Measurment implements Comparable<Measurment> {
 	}
 
 	@Override
-	public int compareTo(Measurment o) {
-		long t1 = this.date.getTime();
-		long t2 = o.date.getTime();
-		if (Math.abs(t1 - t2) < 150 * 1000) {
+	public int compareTo(Measurement o) {
+		/*long t1 = o.date.getTime();
+		long t2 = this.date.getTime();
+		long d = Math.abs(t1 - t2);
+		if (d < 150 * 1000) {
 			return 0;
-		}
+		}*/
 		return this.date.compareTo(o.date);
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public float getTemperature() {
-		return temperature;
 	}
 
 	@Override
@@ -155,4 +151,5 @@ class Measurment implements Comparable<Measurment> {
 		return String.format("%.1f %.1f km/h %.1f%% %.1f km %s", temperature,
 				wind, humidity, visibility, date);
 	}
+
 }

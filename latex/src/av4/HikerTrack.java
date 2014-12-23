@@ -5,21 +5,30 @@ import java.util.ArrayList;
 public class HikerTrack {
 	private static final double SCALE_FACTOR = 0.1;
 	private ArrayList<Waypoint> waypoints;
+	private double distance;
+	private int time;
 
 	public HikerTrack() {
 		waypoints = new ArrayList<Waypoint>();
+		distance = 0;
+		time = 0;
 	}
 
 	public void addPoint(double x, double y, int timestamp) {
-		waypoints.add(new Waypoint(x, y, timestamp));
+		Waypoint w = new Waypoint(x, y, timestamp);
+		waypoints.add(w);
+		int size = waypoints.size();
+		if(size >= 2) {
+			distance += waypoints.get(size - 2).getDistance(waypoints.get(size - 1));
+		}
 	}
 
 	public double getDistance() {
-		double d = 0;
+		/*double d = 0;
 		for (int i = 1; i < waypoints.size(); i++) {
 			d += waypoints.get(i).getDistance(waypoints.get(i - 1));
 		}
-		return d * SCALE_FACTOR;
+*/		return distance * SCALE_FACTOR;
 	}
 
 	public int getTime() {

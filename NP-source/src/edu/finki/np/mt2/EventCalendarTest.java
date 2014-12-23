@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
@@ -39,78 +40,72 @@ public class EventCalendarTest {
 }
 
 class EventCalendar {
-	private int year;
-	private Map<Integer, Set<Event>> events;
-	private Map<Integer, Integer> months;
+	int year;
+	HashMap<Integer, TreeSet<Event>> events;
+	HashMap<Integer, Integer> byMonth;
 
 	public EventCalendar(int year) {
 		this.year = year;
-		this.events = new HashMap<Integer, Set<Event>>();
-		this.months = new HashMap<Integer, Integer>();
+		events = new HashMap<Integer, TreeSet<Event>>();
+		byMonth = new HashMap<Integer, Integer>();
+		for(int i = 1; i <= 12; ++i) {
+			byMonth.put(i, 0);
+		}
 	}
 
 	public void addEvent(String name, String location, Date date)
 			throws WrongDateException {
-		int year = getYear(date);
-		if (year != this.year)
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int y = cal.get(Calendar.YEAR);
+		if (y != year)
 			throw new WrongDateException(date);
-		Event event = new Event(name, location, date);
-		int day = getDayOfYear(date);
-		Set<Event> list = events.get(day);
-		if (list == null) {
-			list = new TreeSet<Event>();
+		int day = dayFromDate(date);
+		TreeSet<Event> dayEvents = events.get(day);
+		if (dayEvents == null) {
+			dayEvents = new TreeSet<Event>();
+			events.put(day, dayEvents);
 		}
-		list.add(event);
-		int monthKey = getMonth(date);
-		Integer count = months.get(monthKey);
-		if (count == null) {
+		dayEvents.add(new Event(name, location, date));
+		int month = cal.get(Calendar.MONTH) + 1;
+		Integer count = byMonth.get(month);
+		if(count == null) {
 			count = 0;
+			//byMonth.put(month, count);
 		}
 		++count;
-		months.put(monthKey, count);
-		events.put(day, list);
+		byMonth.put(month, count);
 	}
 
-	static int getDayOfYear(Date date) {
+	public void listEvents(Date date) {
+		int day = dayFromDate(date);
+		TreeSet<Event> dayEvents = events.get(day);
+		if (dayEvents == null) {
+			System.out.println("No events on this day!");
+			return;
+		}
+		for (Event e : dayEvents) {
+			System.out.println(e);
+		}
+	}
+
+	static int dayFromDate(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return cal.get(Calendar.DAY_OF_YEAR);
 	}
-
-	static int getMonth(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		return cal.get(Calendar.MONTH);
-	}
-
-	static int getYear(Date date) {
-		Calendar cal = Calendar.getInstance();		
-		cal.setTime(date);
-		return cal.get(Calendar.YEAR);
-	}
-
-	public void listEvents(Date date) {
-		int day = getDayOfYear(date);
-		Set<Event> list = events.get(day);
-		if (list != null) {
-			for (Event e : list) {
-				System.out.println(e);
-			}
-		}
-	}
-
+	
 	public void listByMonth() {
-		for (int i = 0; i < 12; ++i) {
-			System.out.printf("%d : %d\n", i + 1, months.get(i) == null ? 0
-					: months.get(i));
+		for(Entry<Integer, Integer> e : byMonth.entrySet()) {
+			System.out.printf("%d : %d\n", e.getKey(), e.getValue());
 		}
 	}
 }
 
 class Event implements Comparable<Event> {
-	private String name;
-	private String location;
-	private Date date;
+	String name;
+	String location;
+	Date date;
 
 	public Event(String name, String location, Date date) {
 		this.name = name;
@@ -119,24 +114,23 @@ class Event implements Comparable<Event> {
 	}
 
 	@Override
-	public String toString() {
-		DateFormat df = new SimpleDateFormat("dd MMM, YYY");
-		return String.format("%s | %s, %s", df.format(date), location, name);
+	public int compareTo(Event o) {
+		if (this.date.compareTo(o.date) == 0)
+			return name.compareTo(o.name);
+		return date.compareTo(o.date);
 	}
 
 	@Override
-	public int compareTo(Event o) {
-		
-		if(date.compareTo(o.date) == 0) {;
-			return name.compareTo(o.name);
-		} else {
-			return date.compareTo(o.date);
-		}
+	public String toString() {
+		DateFormat format = new SimpleDateFormat("dd MMM, YYY HH:mm");
+		return String.format("%s at %s, %s", format.format(date), location,
+				name);
 	}
+
 }
 
 class WrongDateException extends Exception {
 	public WrongDateException(Date date) {
-		super(String.format("Wrong date: %s\n", date));
+		super(String.format("Wrong date: %s", date));
 	}
 }

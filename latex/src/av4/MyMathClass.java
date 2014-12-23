@@ -3,6 +3,10 @@ package edu.finki.np.av4;
 import java.util.ArrayList;
 
 public class MyMathClass {
+	
+	public static ArrayList<? super Double> result(double d) {
+		return new ArrayList<Number>();
+	}
 
 	public static double standardDeviation(ArrayList<? extends Number> array) {
 		double sum = 0;
@@ -27,8 +31,9 @@ public class MyMathClass {
 		ints.add(50);
 		System.out.println(String.format("STD: %.2f",
 				MyMathClass.standardDeviation(ints)));
-		ArrayList<String> strings = new ArrayList<String>();
-		// MyMathClass.standardDeviation(strings); compilation error
+		ArrayList<Double> doubles = new ArrayList<Double>();
+		doubles.add(3.4);
+		System.out.println(String.format("STD: %.2f",
+				MyMathClass.standardDeviation(doubles)));
 	}
-
 }

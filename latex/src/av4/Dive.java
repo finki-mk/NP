@@ -36,7 +36,6 @@ public class Dive {
 		double sum = 0;
 		for (int i = 0; i < scores.size(); i++) {
 			double d = scores.get(i);
-
 			if (i != minIndex && i != maxIndex) {
 				sum += d;
 			}

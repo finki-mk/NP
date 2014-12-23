@@ -1,5 +1,9 @@
 package edu.finki.np.av5;
 
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class ProductsBill {
@@ -7,63 +11,68 @@ public class ProductsBill {
 	private static final double SALES_TAX = 6.25;
 
 	public static void main(String[] args) {
-		Product[] products = new Product[TOTAL_PRODUCTS];
 		Scanner scanner = new Scanner(System.in);
-
-		for (int i = 0; i < TOTAL_PRODUCTS; i++) {
-			System.out.printf("Product %d\n", i + 1);
-			System.out.print("Name: ");
-			String name = scanner.nextLine();
-			System.out.print("Quantity: ");
-			int quantity = scanner.nextInt();
-			System.out.print("Price: ");
-			double price = scanner.nextDouble();
-			products[i] = new Product(name, quantity, price);
-			scanner.nextLine();
+		List<Product> products = new ArrayList<Product>();
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			String[] parts = line.split(" ");
+			StringBuilder name = new StringBuilder();
+			for (int i = 0; i < parts.length - 2; ++i) {
+				name.append(parts[i]);
+				name.append(" ");
+			}
+			Product p = new Product(name.toString().trim(),
+					Integer.parseInt(parts[parts.length - 2]),
+					Float.parseFloat(parts[parts.length - 1]));
+			products.add(p);
 		}
-		double total = 0;
 		System.out.printf("%-30s%10s%10s%10s\n", "Name", "Quantity", "Price",
 				"Total");
-		for (int i = 0; i < TOTAL_PRODUCTS; i++) {
-			total += products[i].getTotal();
-			System.out.printf("%-30s%10d%10.2f%10.2f\n", products[i].getName(),
-					products[i].getQuantity(), products[i].getPrice(),
-					products[i].getTotal());
+		float subtotal = 0;
+		Collections.sort(products);
+		for (Product p : products) {
+			System.out.println(p);
+			subtotal += p.getTotal();
 		}
-		System.out.printf("%-30s%30.2f\n", "Subtotal", total);
-		System.out.printf("%-30s%30.2f\n",
-				String.format("%.2f%% sales tax", SALES_TAX), SALES_TAX * total
-						/ 100);
-		System.out.printf("%-30s%30.2f\n", "Total",
-				total *= (1. + SALES_TAX / 100));
+		System.out.printf("%-50s%10.2f\n", "Subtotal", subtotal);
+		System.out.printf("%-50s%10.2f\n", String.format("%.2f%% sales tax", SALES_TAX), subtotal * SALES_TAX / 100);
+		System.out.printf("%-50s%10.2f\n", "Total", subtotal * (1 + SALES_TAX / 100));
+
 	}
+
 }
 
-class Product {
+class Product implements Comparable<Product> {
 	private String name;
 	private int quantity;
-	private double price;
+	private float price;
 
-	public Product(String name, int quantity, double price) {
+	public Product(String name, int quantity, float price) {
 		this.name = name;
 		this.quantity = quantity;
 		this.price = price;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public double getTotal() {
+	public float getTotal() {
 		return quantity * price;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%-30s%10d%10.2f%10.2f", name, quantity, price,
+				quantity * price);
+	}
+
+	@Override
+	public int compareTo(Product o) {
+		if(name.compareTo(o.name) == 0) {
+			return Float.compare(price, o.price);
+		}
+		return name.compareTo(o.name);
+	}
+	
+	
+	
+	
 
 }

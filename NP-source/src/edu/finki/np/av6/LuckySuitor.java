@@ -7,41 +7,40 @@ import java.util.ListIterator;
 public class LuckySuitor {
 	public static int getWinner(int n) {
 		List<Integer> positions = new ArrayList<Integer>();
-		
-		for (int i = 0; i < n; ++i) {
-			positions.add(i + 1);
+		for(int i = 1; i <= n; ++i) {
+			positions.add(i);
 		}
-		ListIterator<Integer> listIterator = positions.listIterator();
 		boolean toRight = true;
-		while (positions.size() != 1) {
+		ListIterator<Integer> it = positions.listIterator();
+		while(positions.size() != 1) {
 			int last = -1;
-			for (int i = 0; i < 3; ++i) {
-				if (listIterator.hasNext() && toRight) {
-					last = listIterator.next();
-					if (!listIterator.hasNext()) {
+			for(int i = 0; i < 3; ++i) {
+				if(toRight && it.hasNext()) {
+					last = it.next();
+					System.out.println(last);
+					System.out.println(toRight ? "->" : "<-");
+					if(!it.hasNext()) {
 						toRight = false;
-						listIterator.previous();
+						//last = it.previous();
 					}
-					System.out.println("->: " + last);
 				} else {
-					if (listIterator.hasPrevious()) {
-						last = listIterator.previous();
-						if (!listIterator.hasPrevious()) {
-							toRight = true;
-							listIterator.next();
-						}
-						System.out.println("<-: " + last);
+					last = it.previous();
+					System.out.println(last);
+					System.out.println(toRight ? "->" : "<-");
+					if(!it.hasPrevious()) {
+						toRight = true;
+						//last = it.next();
 					}
 				}
 			}
-			System.out.println("Remove: " + last);
-			listIterator.remove();
-			System.out.println("DIR: " + (toRight ? "->" : "<-"));
+			System.out.println(toRight ? "->" : "<-");
+			System.out.println("REMOVING: " + last);
+			it.remove();
 		}
 		return positions.get(0);
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("Winner: " + LuckySuitor.getWinner(7));
+		System.out.println("Winner: " + LuckySuitor.getWinner(6));
 	}
 }

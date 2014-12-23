@@ -2,20 +2,27 @@ package edu.finki.np.av8;
 
 public class DecoratorAfter {
 
-	interface I {
+	interface Drink {
 		void doIt();
 	}
 
-	static class A implements I {
+	static class Coffee implements Drink {
 		public void doIt() {
-			System.out.print('A');
+			System.out.print("Coffee ");
+		}
+	}
+	
+	static class Tea implements Drink {
+		@Override
+		public void doIt() {
+			System.out.print("Tea ");
 		}
 	}
 
-	static abstract class D implements I {
-		private I core;
+	static abstract class DecoratedDrink implements Drink {
+		private Drink core;
 
-		public D(I inner) {
+		public DecoratedDrink(Drink inner) {
 			core = inner;
 		}
 
@@ -24,58 +31,108 @@ public class DecoratorAfter {
 		}
 	}
 
-	static class X extends D {
-		public X(I inner) {
+	static class Milk extends DecoratedDrink {
+		public Milk(Drink inner) {
 			super(inner);
 		}
-
+		
+		@Override
 		public void doIt() {
 			super.doIt();
-			doX();
+			doMilk();
 		}
 
-		private void doX() {
-			System.out.print('X');
+		private void doMilk() {
+			System.out.print(" Milk ");
 		}
 	}
 
-	static class Y extends D {
-		public Y(I inner) {
+	static class Sugar extends DecoratedDrink {
+		public Sugar(Drink inner) {
 			super(inner);
 		}
 
 		public void doIt() {
 			super.doIt();
-			doY();
+			doSugar();
 		}
 
-		private void doY() {
-			System.out.print('Y');
+		private void doSugar() {
+			System.out.print(" Sugar ");
 		}
 	}
 
-	static class Z extends D {
-		public Z(I inner) {
+	static class Cinamon extends DecoratedDrink {
+		public Cinamon(Drink inner) {
 			super(inner);
 		}
 
 		public void doIt() {
 			super.doIt();
-			doZ();
+			doCinamon();
 		}
 
-		private void doZ() {
-			System.out.print('Z');
+		private void doCinamon() {
+			System.out.print(" Cinamon ");
 		}
+	}
+	
+	static class Rum extends DecoratedDrink {
+		public Rum(Drink inner) {
+			super(inner);
+		}
+
+		public void doIt() {
+			super.doIt();
+			doRum();
+		}
+
+		private void doRum() {
+			System.out.print(" Rum ");
+		}
+	}
+	
+	static class Honey extends DecoratedDrink {
+
+		public Honey(Drink inner) {
+			super(inner);
+		}
+		
+		@Override
+		public void doIt() {
+			super.doIt();
+			System.out.print(" Honey ");
+		}
+		
 	}
 
 	public static void main(String[] args) {
-		I[] array = { new X(new A()), new Y(new X(new A())),
-				new Z(new Y(new X(new A()))), new X(new Z(new A())),
-				new Y(new X(new Z(new A())))};
-		for (int i = 0; i < array.length; i++) {
-			array[i].doIt();
-			System.out.print("  ");
-		}
+		Drink drink = new Milk(new Coffee());
+		Drink teaWithHoney = new Honey(new Tea());
+		
+		teaWithHoney = new Rum(teaWithHoney);
+		teaWithHoney = new Sugar(teaWithHoney);
+		
+		Drink doubleMilk = new Milk(new Milk(new Coffee()));
+		
+		drink.doIt();
+		teaWithHoney.doIt();
+		doubleMilk.doIt();
+		
+		Drink teaWithMilk = new Milk(new Tea());
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
