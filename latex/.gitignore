@@ -1,2 +1,12 @@
 /out
 /tmp
+*.aux
+*.fdb_latexmk
+*.out
+*.log
+*.synctex.gz
+*.nav
+*.snm
+*.toc
+*.vrb
+
