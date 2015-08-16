@@ -96341,7 +96341,7 @@ voted
 voter
 voter's
 voters
-votes
+points
 voting
 votive
 vouch

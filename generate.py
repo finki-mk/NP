@@ -14,12 +14,31 @@ def getwords():
 	words = open('NP-source/words.txt', 'r').readlines()
 	return [w.strip() for w in words]
 
+def randindex():
+	return '14%04d' % random.randint(0, 9999)
 
-def randstring(size):
+
+def randstring(size = 10, alphanum = False, uppercase = False):
 	res = ''
 	letters = list(alphabet)
+	letters_uppercase = list(alphabet.upper())
+	x = '0123456789'
+	digits = list(x)
 	for i in range(size):
-		res += random.choice(letters)
+		l = letters
+		if uppercase:
+			upper = random.random()
+			if upper > .7:
+				l = letters_uppercase
+		if alphanum:
+			alpha = random.random()
+			if alpha > .8:
+				res += random.choice(digits)
+			else:
+				res += random.choice(l)
+		else:	
+			res += random.choice(l)
+		
 	return res
 def rn(n):
 	print n
@@ -75,10 +94,138 @@ def students(n):
 			random.randint(0, 100), random.randint(0, 100),
 			random.randint(0, 100), random.randint(0, 100))
 
+def checkIn(n):
+	for i in range(n):
+		sepDate = '.'
+		sepTime = ':'
+		x = random.random()
+		if x > 0.8:
+			sepDate = '/'
+		if x < .3:
+			sepTime = '.'
+		date1 = randDate(separator = sepDate)
+		time1 = randTime(hourEnd = 12, separator = sepTime)
+		time2 = randTime(hourStart = 13, hourEnd = 23, separator = sepTime)
+		date2 = date1
+		if x > 0.4 and x < 0.45:
+			date2 = randDate(separator = sepDate)
+
+		if x > 0.5 and x < 0.55:
+			time1, time2 = time2, time1
+
+		print "%s %s-%s %s-%s" % (random.choice(names), date1, time1, date2, time2)
+
+def points(n):
+	team = 0
+	team1 = "Cavaliers"
+	team2 = "Warriors"
+	current_team = team1
+	time = 0
+	for i in range(n):
+		player = random.randint(4, 15)
+		atack = random.randint(5, 30)
+		time += atack
+		attempt = random.randint(1, 3)
+
+		if attempt == 1:
+			accuracy = random.randint(70, 100)	
+			shoot = random.randint(0, 100)
+			basket = 0
+			if shoot >= accuracy:
+				basket = 1
+			print "%d %s %d %d %d" % (time, current_team, player, basket, attempt)			
+			
+		if attempt == 2:
+			accuracy = random.randint(40, 90)	
+
+		if attempt == 3:
+			accuracy = random.randint(40, 90)	
+
+		shoot = random.randint(0, 100)
+		basket = 0
+		if shoot >= accuracy:
+			basket = 1
+		print "%d %s %d %d %d" % (time, current_team, player, basket, attempt)			
+		if team == 1: 
+			current_team = team1
+			team = 0
+		else: 
+			current_team = team2
+			team = 1
+
+def randDate(dayStart = 1, dayEnd = 30, monthStart = 1, monthEnd = 12, year = 2015, separator = '.'):
+	return "%02d%s%02d%s%d" % (random.randint(dayStart, dayEnd), separator, 
+		random.randint(monthStart, monthEnd), separator, year)
+
+def randTime(hourStart = 0, hourEnd = 23, minuteStart = 0, minuteEnd = 59, separator = ':'):
+	return "%02d%s%02d" % (random.randint(hourStart, hourEnd), separator, random.randint(minuteStart, minuteEnd))
+
+def p11(n):
+	print n
+	for i in range(n):
+		print randstring(random.randint(2, 80), False, True)
+
+def matrica(m, n):
+	print "%d %d" % (m, n)
+	for i in range(m):
+		for j in range(n):
+			print "%d\t" % random.randint(1, 100),
+		print
+
+def matrica_kv(m):
+	print "%d" % m
+	for i in range(m):
+		for j in range(m):
+			print "%d\t" % random.randint(1, 100),
+		print
+
+def p13(n):
+	added = set()
+	indexes = set()
+	for i in range(n):
+		name = random.choice(names)
+		if name not in added:
+			print '%s %s %d' % (name, randindex(), random.randint(5, 10))
+			added.add(name)
+
+def p21(n):
+	print n
+	for i in range(n):
+		x = random.randint(1, 50)
+		print x,
+		for j in range(x):
+			print random.randint(100, 1000000),
+		print
+
+def calls(n):
+	prefixes = [70, 71, 72, 75, 76, 77, 78, 88, 99]
+	print n
+	type = "I"
+	for i in range(n):
+		x = random.random()
+		if x > 0.8:
+			separator = '.'
+		else:
+			separator = ':'
+		if x > 0.5:
+			type = "O"
+		else:
+			type = "I"
+		if x > 0.9:
+			print "0%s%03d %02d%s%02d%s%02d %s" % (str(random.choice(prefixes)), random.randint(0, 999), 
+			random.randint(0, 2), separator, random.randint(0, 60), separator, random.randint(0, 60), type)
+		else:
+			print "0%s%06d %02d%s%02d%s%02d %s" % (str(random.choice(prefixes)), random.randint(0, 999999), 
+			random.randint(0, 2), separator, random.randint(0, 60), separator, random.randint(0, 60), type)
+
+def br(n):
+	for i in range(n):
+		print '%d %d %d' % (random.randint(1, 50), random.randint(1, 50), random.randint(1, 50))
+
 if __name__ == "__main__":
 	if len(sys.argv) <= 1:
 		print 'Usage: %s [arguments]' % (sys.argv[0])
 	else:
 		n = int(sys.argv[1])
-		rn(n)
+		calls(n)
 

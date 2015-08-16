@@ -86101,7 +86101,7 @@ vote
 voted
 voter
 voters
-votes
+points
 voting
 votive
 votively
