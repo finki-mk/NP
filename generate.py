@@ -116,34 +116,44 @@ def checkIn(n):
 		print "%s %s-%s %s-%s" % (random.choice(names), date1, time1, date2, time2)
 
 def points(n):
+	END = 48 * 60
 	team = 0
-	team1 = "Cavaliers"
-	team2 = "Warriors"
+	team1 = "Heat"
+	team2 = "Thunder"
 	current_team = team1
+	print "%s %s" % (team1, team2)
 	time = 0
-	for i in range(n):
+	while True:
 		player = random.randint(4, 15)
-		atack = random.randint(5, 30)
+		atack = random.randint(5, 24)
 		time += atack
-		attempt = random.randint(1, 3)
+		if time >= END:
+			return
+		ap = random.random() * 100
+		if ap <= 20:
+			attempt = 1
+		elif ap > 20 and ap <= 70:
+			attempt = 2
+		elif ap > 70:
+			attempt = 3
 
 		if attempt == 1:
-			accuracy = random.randint(70, 100)	
+			accuracy = random.randint(60, 98)	
 			shoot = random.randint(0, 100)
 			basket = 0
-			if shoot >= accuracy:
+			if shoot <= accuracy:
 				basket = 1
 			print "%d %s %d %d %d" % (time, current_team, player, basket, attempt)			
 			
 		if attempt == 2:
-			accuracy = random.randint(40, 90)	
+			accuracy = random.randint(20, 80)	
 
 		if attempt == 3:
-			accuracy = random.randint(40, 90)	
+			accuracy = random.randint(10, 60)	
 
 		shoot = random.randint(0, 100)
 		basket = 0
-		if shoot >= accuracy:
+		if shoot <= accuracy:
 			basket = 1
 		print "%d %s %d %d %d" % (time, current_team, player, basket, attempt)			
 		if team == 1: 
@@ -199,7 +209,6 @@ def p21(n):
 
 def calls(n):
 	prefixes = [70, 71, 72, 75, 76, 77, 78, 88, 99]
-	print n
 	type = "I"
 	for i in range(n):
 		x = random.random()
@@ -227,5 +236,5 @@ if __name__ == "__main__":
 		print 'Usage: %s [arguments]' % (sys.argv[0])
 	else:
 		n = int(sys.argv[1])
-		calls(n)
+		points(n)
 
