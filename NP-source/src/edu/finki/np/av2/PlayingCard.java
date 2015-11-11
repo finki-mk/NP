@@ -1,35 +1,50 @@
 package edu.finki.np.av2;
 
 public class PlayingCard {
-	public static final int MAX_RANK = 13;
-	public static final int MIN_RANK = 1;
-	public enum SUIT {
+	public enum TYPE {
 		HEARTS,
 		DIAMONDS,
-		CLUBS,
-		SPADES
+		SPADES,
+		CLUBS
 	}
-	
-	private SUIT suit;
+	private TYPE type;
 	private int rank;
-
-	public PlayingCard(SUIT suit, int rank) {		
-		this.suit = suit;
+	
+	public PlayingCard(TYPE type, int rank) {
+		this.type = type;
 		this.rank = rank;
 	}
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder(String.valueOf(rank));
-		if(this.suit == SUIT.HEARTS) {
-			sb.append("H");
-		} else if(this.suit == SUIT.DIAMONDS) {
-			sb.append("D");
-		} else if(this.suit == SUIT.CLUBS) {
-			sb.append("C");
-		} else if(this.suit == SUIT.SPADES) {
-			sb.append("S");
-		}
-		return sb.toString();
+		return String.format("%d %s", rank, type.toString());
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + rank;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PlayingCard other = (PlayingCard) obj;
+		if (rank != other.rank)
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+	
+	
+	
 }

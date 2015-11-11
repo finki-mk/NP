@@ -1,27 +1,25 @@
 package edu.finki.np.av3;
 
+class UnknownOperatorException extends Exception {
+
+	public UnknownOperatorException(String msg) {
+		super(msg);
+	}
+}
+
 public class Calculator {
 	private double result;
-	private static final char PLUS = '+';
-	private static final char MINUS = '-';
-	private static final char MULTIPLY = '*';
-	private static final char DIVIDE = '/';
+	public static final char PLUS = '+';
+	public static final char MINUS = '-';
+	public static final char MULTIPLY = '*';
+	public static final char DIVIDE = '/';
 
 	public Calculator() {
 		result = 0;
 	}
 
-	public String init() {
-		return String.format("Calculator is on\nresult = %f", result);
-	}
-
-	public double getResult() {
-		return result;
-	}
-
 	public String execute(char operator, double value)
 			throws UnknownOperatorException {
-
 		if (operator == PLUS) {
 			result += value;
 		} else if (operator == MINUS) {
@@ -31,20 +29,30 @@ public class Calculator {
 		} else if (operator == DIVIDE) {
 			result /= value;
 		} else {
-			throw new UnknownOperatorException(operator);
+			throw new UnknownOperatorException(String.valueOf(operator));
 		}
-		return String.format("result %c %f = %f", operator, value, result);
+		return String.format("result = %.2f", result);
 	}
-
-	class UnknownOperatorException extends Exception {
-		public UnknownOperatorException(char operator) {
-			super(String.format("%c is unknown operation", operator));
-		}
+	
+	public double getResult() {
+		return result;
 	}
-
-	@Override
-	public String toString() {
-		return String.format("updated result = %f", result);
+	
+	public String init() {
+		result = 0;
+		return String.format("result = %.2f", result);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

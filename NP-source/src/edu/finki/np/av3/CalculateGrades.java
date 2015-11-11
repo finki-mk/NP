@@ -1,87 +1,65 @@
 package edu.finki.np.av3;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class CalculateGrades {
 
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		String filename = scanner.nextLine();
-		BufferedReader fileReader = null;
-		ArrayList<Student> students = new ArrayList<Student>();
-		int[] gradesDistribution = new int[5];
-		try {
-			fileReader = new BufferedReader(new FileReader(filename));
-			String line = null;
-			while ((line = fileReader.readLine()) != null) {
-				String[] parts = line.split(":");
-				int exam1 = Integer.parseInt(parts[2]);
-				int exam2 = Integer.parseInt(parts[3]);
-				int exam3 = Integer.parseInt(parts[4]);
-				Student s = new Student(parts[0], parts[1], exam1, exam2, exam3);
-				students.add(s);
-				if (s.getGrade() == 'A') {
-					gradesDistribution[0]++;
-				} else if (s.getGrade() == 'B') {
-					gradesDistribution[1]++;
-				} else if (s.getGrade() == 'C') {
-					gradesDistribution[2]++;
-				} else if (s.getGrade() == 'D') {
-					gradesDistribution[3]++;
-				} else {
-					gradesDistribution[4]++;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				fileReader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		Collections.sort(students);
-		for (Student s : students) {
-			System.out.println(String.format("%s %s %c", s.getFirstName(),
-					s.getLastName(), s.getGrade()));
-		}
-		String outputFile = scanner.nextLine();
-		PrintWriter printWriter = null;
-		try {
-			printWriter = new PrintWriter(new FileWriter(outputFile));
-			for (Student s : students) {
-				printWriter.println(s);
-			}
-			printWriter.println(String.format("A : %d", gradesDistribution[0]));
-			printWriter.println(String.format("B : %d", gradesDistribution[1]));
-			printWriter.println(String.format("C : %d", gradesDistribution[2]));
-			printWriter.println(String.format("D : %d", gradesDistribution[3]));
-			printWriter.println(String.format("F : %d", gradesDistribution[4]));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			printWriter.close();
-		}
+	public static void main(String[] args) throws FileNotFoundException {
+		readGrades(new FileInputStream("grades.txt"));
+	}
 
+	static void readGrades(InputStream is) throws FileNotFoundException {
+		List<Student> students = new ArrayList<Student>();
+		Scanner scanner = new Scanner(is);
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			String[] parts = line.split("\\s+");
+			String[] name = parts[0].split(":");
+			String[] exams = parts[1].split(":");
+			Student student = new Student(name[0], name[1],
+					Integer.parseInt(exams[0]), Integer.parseInt(exams[1]),
+					Integer.parseInt(exams[2]));
+			students.add(student);
+		}
+		int[] freq = new int[2];
+		for (Student s : students) {
+			System.out.println(s);
+			freq[s.grade - 'A']++;
+		}
+		System.out.println(Arrays.toString(freq));
+		Collections.sort(students);
+		OutputStream output = new FileOutputStream("res.txt");
+		PrintWriter writer = new PrintWriter(output);
+		for (Student s : students) {
+			writer.println(s.toFile());
+		}
+		// writer.flush();
+		writer.close();
 	}
 }
 
 class Student implements Comparable<Student> {
-	private String firstName;
-	private String lastName;
-	private int exam1;
-	private int exam2;
-	private int exam3;
-	private char grade;
-	private double total;
+	String firstName;
+	String lastName;
+	int exam1;
+	int exam2;
+	int exam3;
+	char grade;
+	double total;
 
 	public Student(String firstName, String lastName, int exam1, int exam2,
 			int exam3) {
@@ -90,63 +68,41 @@ class Student implements Comparable<Student> {
 		this.exam1 = exam1;
 		this.exam2 = exam2;
 		this.exam3 = exam3;
-		this.total = exam1 * .25 + exam2 * .3 + exam3 * .45;
-		if (this.total >= 91) {
-			this.grade = 'A';
-		} else if (this.total >= 81) {
-			this.grade = 'B';
-		} else if (this.total >= 71) {
-			this.grade = 'C';
-		} else if (this.total >= 61) {
-			this.grade = 'D';
+		total = .25 * exam1 + .30 * exam2 + .45 * exam3;
+		if (total >= 90 && total <= 100) {
+			grade = 'A';
 		} else {
-			this.grade = 'F';
+			grade = 'B';
 		}
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public Student(String line) {
+
 	}
 
-	public String getLastName() {
-		return lastName;
-	}
-
-	public int getExam1() {
-		return exam1;
-	}
-
-	public int getExam2() {
-		return exam2;
-	}
-
-	public int getExam3() {
-		return exam3;
-	}
-
-	public char getGrade() {
-		return grade;
-	}
-
-	public double getTotal() {
-		return total;
-	}
-
-	@Override
-	public int compareTo(Student o) {
-		if (this.total < o.total) {
-			return 1;
-		} else if (this.total > o.total) {
-			return -1;
-		} else {
-			return 0;
-		}
+	public String toFile() {
+		return String.format("%s %s %d %d %d %.1f %c", lastName, firstName,
+				exam1, exam2, exam3, total, grade);
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%s %s %d %d %d %.0f %c", firstName, lastName,
-				exam1, exam2, exam3, total, grade);
+		return String.format("%s %s %c", firstName, lastName, grade);
+	}
+
+	@Override
+	public int compareTo(Student o) {
+		if (this.total < o.total)
+			return -1;
+		else if (this.total > o.total)
+			return 1;
+		else {
+			int name = this.firstName.compareTo(o.firstName);
+			if (name == 0) {
+				return this.lastName.compareTo(o.lastName);
+			}
+			return name;
+		}
 	}
 
 }

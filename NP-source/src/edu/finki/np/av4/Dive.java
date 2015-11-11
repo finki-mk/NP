@@ -28,7 +28,7 @@ public class Dive {
 				min = d;
 				minIndex = i;
 			}
-			if (d > max) {
+			if (d >= max) {
 				max = d;
 				maxIndex = i;
 			}
@@ -39,6 +39,9 @@ public class Dive {
 			if (i != minIndex && i != maxIndex) {
 				sum += d;
 			}
+		}
+		if(minIndex == maxIndex) {
+			sum -= min;
 		}
 		return sum * difficulty * COEFICIENT;
 	}

@@ -1,6 +1,6 @@
 package edu.finki.np.av4;
 
-public class Waypoint {
+public final class Waypoint {
 	private double x;
 	private double y;
 	private int timestamp;
@@ -28,8 +28,21 @@ public class Waypoint {
 	}
 
 	public double getDistance(Waypoint point) {
-		return Math.sqrt((x - point.x) * (x - point.x) + (y - point.y)
+		return Math.sqrt((x - point.x) * (x - point.x)
+				+ (y - point.y)
 				* (y - point.y));
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

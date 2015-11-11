@@ -1,43 +1,37 @@
 package edu.finki.np.av3;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class WordCount {
+	
 	public static void main(String[] args) {
-		StringBuilder result = new StringBuilder();
-		for (String filename : args) {
-			String wordCount = processFile(filename);
-			result.append(wordCount);
+		String fileName = args[0];
+		try {
+			System.out.printf("%s %s\n", count(System.in), fileName);
+		} catch (IOException e) {
+			System.out.printf("File %s can not be read\n", fileName);
+			System.out.println(e.getMessage());
 		}
-		System.out.println(result.toString());
 	}
 
-	private static String processFile(String filename) {
-		int linesCount = 0;
-		int wordsCount = 0;
-		int charactersCount = 0;
-		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
-			while(true){
-				try {
-					String line = bufferedReader.readLine();
-					// end of steam
-					if(line == null) break;
-					++linesCount;
-					charactersCount += line.length();
-					wordsCount += line.split("").length;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public static String count(InputStream is) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		int lines = 0;
+		int words = 0;
+		int chars = 0;
+		while (true) {
+			String line = reader.readLine();
+			if (line == null)
+				break;
+			++lines;
+			String[] wordsArray = line.split("\\s+");
+			words += wordsArray.length;
+			chars += line.length();
 		}
-		return String.format("%d %d %d %s", wordsCount, linesCount, charactersCount, filename);
+		return String.format("%5d %5d %5d", lines, words, chars);
 	}
 }

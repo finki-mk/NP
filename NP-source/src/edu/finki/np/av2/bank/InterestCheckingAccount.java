@@ -1,6 +1,7 @@
 package edu.finki.np.av2.bank;
 
-public class InterestCheckingAccount extends Account implements InterestBearingAccount {
+public class InterestCheckingAccount 
+extends Account implements InterestBearingAccount {
 	
 	public static final double INTEREST_RATE = .03; // 3%
 

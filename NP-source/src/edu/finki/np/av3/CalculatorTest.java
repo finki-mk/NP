@@ -2,8 +2,6 @@ package edu.finki.np.av3;
 
 import java.util.Scanner;
 
-import edu.finki.np.av3.Calculator.UnknownOperatorException;
-
 public class CalculatorTest {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
@@ -12,6 +10,8 @@ public class CalculatorTest {
 			System.out.println(calculator.init());
 			while (true) {
 				String line = scanner.nextLine();
+				line = line.trim();
+				if(line.length() == 0) continue;
 				if (line.length() == 1) {
 					char r = line.charAt(0);
 					r = Character.toLowerCase(r);
@@ -21,15 +21,17 @@ public class CalculatorTest {
 						break;
 					}
 				}
-				String[] parts = line.split(" ");
+				String[] parts = line.split("\\s+");
 				char operator = parts[0].charAt(0);
-				double value = Double.parseDouble(parts[1]);
 				try {
+					double value = Double.parseDouble(parts[1]);
 					String result = calculator.execute(operator, value);
 					System.out.println(result);
 					System.out.println(calculator);
 				} catch (UnknownOperatorException e) {
-					System.out.println(e.getMessage());
+					System.out.printf("Unknown operator: %s\n", e.getMessage());
+				} catch(NumberFormatException e) {
+					System.out.println("Second argument is not number");
 				}
 
 			}

@@ -1,70 +1,86 @@
 package edu.finki.np.av2;
+
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 public class Deck {
-	public static final int SIZE = 52;
-	
 	private PlayingCard[] cards;
-	private boolean[] isUsed;
-	private int totalUsed;
-
+	private boolean[] picked;
+	int total;
+	
 	public Deck() {
-		cards = new PlayingCard[SIZE];
-		int n = 0;
-		for (PlayingCard.SUIT suit : PlayingCard.SUIT.values()) {
-			for (int rank = PlayingCard.MIN_RANK; rank <= PlayingCard.MAX_RANK; rank++) {
-				cards[n * (PlayingCard.MAX_RANK - PlayingCard.MIN_RANK + 1) + rank
-						- 1] = new PlayingCard(suit, rank);
-			}
-			n++;
-		}
-		isUsed = new boolean[SIZE];
-		for(int i = 0; i < SIZE; i++) {
-			isUsed[i] = false;
-		}
-		totalUsed = 0;
-	}
-	
-	public void shuffle() {
-		List<PlayingCard> lista = Arrays.asList(cards);
-		Collections.shuffle(lista);
-		cards = lista.toArray(cards);
-	}
-	
-	public PlayingCard deal() {
-		if(totalUsed < SIZE) {
-			Random random = new Random();
-			int cardIndex =random.nextInt(SIZE);
-			if(!isUsed[cardIndex]) {
-				isUsed[cardIndex] = true;
-				totalUsed++;
-				return cards[cardIndex];
-			} else {
-				return deal();
+		total = 0;
+		cards = new PlayingCard[52];
+		picked = new boolean[52];
+		for(int i = 0; i < PlayingCard.TYPE.values().length; ++i) {
+			for(int j = 0; j < 13; ++j) {
+				cards[j + (13 * i)] = 
+						new PlayingCard(PlayingCard.TYPE.values()[i], j + 1);
 			}
 		}
-		return null;
 	}
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		for(PlayingCard card : cards) {
-			sb.append(card.toString());
-			sb.append(" ");
+		StringBuilder result = new StringBuilder();
+		for(PlayingCard playingCard : cards) {
+			result.append(playingCard);
+			result.append("\n");
 		}
-		return sb.toString();
+		return result.toString();
 	}
 	
 	public static void main(String[] args) {
 		Deck deck = new Deck();
-		deck.shuffle();
-		System.out.println(deck);
-		/*for(int i = 0; i < SIZE; i++) {
-			System.out.println("DEAL: " + deck.deal());			
-		}*/
+		PlayingCard card;
+		while((card = deck.dealCard()) != null) {
+			System.out.println(card);
+		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(cards);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Deck other = (Deck) obj;
+		if (!Arrays.equals(cards, other.cards))
+			return false;
+		return true;
+	}
+
+	public PlayingCard dealCard() {
+		if(total == 52) return null;
+		int card = (int)(52 * Math.random());
+		if(!picked[card]) {
+			++total;
+			picked[card] = true;
+			return cards[card];
+		}
+		return dealCard();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

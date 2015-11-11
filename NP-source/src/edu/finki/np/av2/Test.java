@@ -1,41 +1,33 @@
 package edu.finki.np.av2;
 
 public class Test {
-	public static boolean isPrefix(String str1, String str2) {
-		if(str1.length() > str2.length()) {
-			return false;
-		}		
-		for(int i = 0; i < str1.length(); i++) {
-			if(str1.charAt(i) != str2.charAt(i)) {
-				return false;
-			}
+	public static boolean isPrefix(String s1, String s2) {
+		if(s1.length() > s2.length()) return false;
+		for(int i = 0; i < s1.length(); ++i) {
+			if(s1.charAt(i) != s2.charAt(i)) return false;
 		}
 		return true;
 	}
 	
-	public static double sum(double[][] a) {
-		double s = 0;
-		for(int i = 0; i < a.length; i++) {
-			for(int j = 0; j < a[i].length; j++) {
-				s += a[i][j];
+	public static double sum(double[][] x) {
+		double sum = 0;
+		for(int i = 0; i < x.length; ++i) {
+			for(int j = 0; j < x[i].length; ++j) {
+				sum += x[i][j];
 			}
 		}
-		return s;
+		return sum;
 	}
 	
-	public static double avarage(double[][] a) {
-		double s = 0;
-		for(int i = 0; i < a.length; i++) {
-			for(int j = 0; j < a[i].length; j++) {
-				s += a[i][j];
-			}
-		}
-		return s / (a.length * a[0].length); 
+	public static double avg(double[][] x) {
+		return sum(x) / (x.length * x[0].length);
 	}
+	
+	
+	
 	
 	public static void main(String[] args) {
-		System.out.println(isPrefix("mak", "makedonija"));
-		System.out.println(isPrefix("napredno programiranje", "np"));
-		System.out.println(isPrefix("start", "start stop"));
+		System.out.println(isPrefix("abc", "a"));
+		CombinationLock cl;
 	}
 }
