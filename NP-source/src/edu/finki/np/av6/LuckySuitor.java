@@ -10,35 +10,46 @@ public class LuckySuitor {
 		for(int i = 1; i <= n; ++i) {
 			positions.add(i);
 		}
-		boolean toRight = true;
 		ListIterator<Integer> it = positions.listIterator();
+		boolean toRight = true;
 		while(positions.size() != 1) {
-			int last = -1;
+			int x = 0;
 			for(int i = 0; i < 3; ++i) {
 				if(toRight && it.hasNext()) {
-					last = it.next();
-					System.out.println(last);
-					System.out.println(toRight ? "->" : "<-");
+					x = it.next();
+					System.out.printf("%d ->\n", x);
 					if(!it.hasNext()) {
 						toRight = false;
-						//last = it.previous();
+						it.previous();
 					}
-				} else {
-					last = it.previous();
-					System.out.println(last);
-					System.out.println(toRight ? "->" : "<-");
+				} else if(!toRight && it.hasPrevious()) {
+					x = it.previous();
+					System.out.printf(" <- %d\n", x);
 					if(!it.hasPrevious()) {
 						toRight = true;
-						//last = it.next();
+						it.next();
 					}
 				}
 			}
-			System.out.println(toRight ? "->" : "<-");
-			System.out.println("REMOVING: " + last);
-			it.remove();
+			System.out.printf("Removing: %d %s\n", x, toRight ? "->" : "<-");
+			it.remove();			
 		}
 		return positions.get(0);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public static void main(String[] args) {
 		System.out.println("Winner: " + LuckySuitor.getWinner(6));

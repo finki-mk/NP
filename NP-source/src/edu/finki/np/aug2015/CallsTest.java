@@ -3,10 +3,7 @@ package edu.finki.np.aug2015;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * August 2015
@@ -30,6 +27,7 @@ class Calls {
   }
 
   public void read(InputStream inputStream) {
+
     Scanner scanner = new Scanner(inputStream);
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();

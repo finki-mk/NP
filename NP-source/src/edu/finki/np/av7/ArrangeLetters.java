@@ -10,27 +10,39 @@ import java.util.List;
 public class ArrangeLetters {
 	public String arrange(String input) {
 		String[] words = input.split(" ");
-		List<String> result = new ArrayList<String>();
+		List<String> wordsList = new ArrayList<String>();
 		for(String w : words) {
-			char[] wc = w.toCharArray();
-			Arrays.sort(wc);
-			result.add(String.valueOf(wc));
+			char[] wa = w.toCharArray();
+			Arrays.sort(wa);
+			wordsList.add(new String(wa));
 		}
-		Collections.sort(result);
-		StringBuilder s = new StringBuilder();
-		Iterator<String> it = result.iterator();
-		while(it.hasNext()) {
-			s.append(it.next());
-			if(it.hasNext()) {
-				s.append(" ");
+		Collections.sort(wordsList);
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i < wordsList.size(); ++i) {
+			result.append(wordsList.get(i));
+			if(i != wordsList.size() - 1) {
+				result.append(" ");
 			}
 		}
-		return s.toString();
-		
+		return result.toString();
 	}
+	
 	
 	public static void main(String[] args) {
 		ArrangeLetters al = new ArrangeLetters();
 		System.out.println(al.arrange("kO pSk sO"));
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

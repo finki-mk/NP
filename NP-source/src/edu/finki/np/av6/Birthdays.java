@@ -6,27 +6,37 @@ import java.util.Set;
 
 public class Birthdays {
 	static final int NUM_TRIALS = 5000;
+	static final int N = 50;
 
 	public static void main(String[] args) {
-		Random rand = new Random();
+		Random random = new Random();
 
-		for (int numPeople = 2; numPeople <= 50; ++numPeople) {
+		for (int numberOfPeople = 2; numberOfPeople < N; ++numberOfPeople) {
 			int positiveEvents = 0;
 			for (int j = 0; j < NUM_TRIALS; ++j) {
-				int sameBirthday = 1;
-				Set<Integer> room = new HashSet<Integer>();
-				for (int i = 0; i < numPeople; ++i) {
-					int birthday = rand.nextInt(365) + 1;
-					if (!room.add(birthday)) {
-						sameBirthday++;
+				Set<Integer> duplicates = new HashSet<Integer>();
+				int same = 0;
+
+				for (int i = 0; i < numberOfPeople; ++i) {
+					int birthday = random.nextInt(365);
+					if (!duplicates.add(birthday)) {
+						++same;
 					}
 				}
-				if (sameBirthday == 5) {
-					positiveEvents++;
+				if (same > 0) {
+					++positiveEvents;
 				}
 			}
-			System.out.printf("Probability: %d : %f\n", numPeople, positiveEvents * 1.0
-					/ NUM_TRIALS);
+			System.out.printf("For %d people the prob. is: %f\n", numberOfPeople, positiveEvents * 100. / NUM_TRIALS);
+
 		}
+
 	}
 }
+
+
+
+
+
+
+

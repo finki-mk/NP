@@ -11,23 +11,43 @@ public class StringSort {
 
 	public static void main(String[] args) {
 		List<String> list = Arrays.asList(test);
-		Collections.sort(list, new StringComparator());
+
+		Collections.sort(list, specialComparator);
 		for (String s : list) {
 			System.out.println(s);
 		}
 	}
+
+	static Comparator<String> specialComparator = new Comparator<String>() {
+
+		@Override
+		public int compare(String o1, String o2) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+	};
+
 }
 
-class StringComparator implements Comparator<String> {
+class MyStringComparator implements Comparator<String> {
 
 	@Override
-	public int compare(String s1, String s2) {
-		int len1 = s1.length();
-		int len2 = s2.length();
-		if (len1 != len2) {
-			return len1 - len2;
-		} else {
-			return s1.compareTo(s2);
+	public int compare(String o1, String o2) {
+		if (o1.length() != o2.length()) {
+			return Integer.compare(o1.length(), o2.length());
 		}
+		return o1.compareTo(o2);
 	}
+
+}
+
+class MyHappyStringComparator implements Comparator<String> {
+
+	@Override
+	public int compare(String o1, String o2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

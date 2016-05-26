@@ -231,10 +231,133 @@ def br(n):
 	for i in range(n):
 		print '%d %d %d' % (random.randint(1, 50), random.randint(1, 50), random.randint(1, 50))
 
+def trans():
+	n = random.randint(50, 500)
+	cur = ['MKD', 'USD', 'EUR']#, 'mkd', 'eur', 'usd']
+	print n
+	for i in range(n):
+		print '%s %d %02d/%02d/%04d' % (random.choice(cur), (random.randint(1, 10000)) * random.choice([-1, 1, 2]), random.randint(1, 31), random.randint(1, 12), random.randint(2010, 2016))
+
+def numbers(total_from = 5, total_to = 100, number_from = 1, number_to = 1000000):
+	n = random.randint(total_from, total_to)
+	print n
+	for i in range(n):
+		print '%d' % random.randint(number_from, number_to),
+	
+def numbers_sorted(total_from = 5, total_to = 100, number_from = 1, number_to = 1000000):
+	n = random.randint(total_from, total_to)
+	print n
+	a = []
+	for i in range(n):
+		a.append(random.randint(number_from, number_to))
+	a = sorted(a)
+	for i in range(n):
+		print '%d' % a[i],
+
+
+def users(n):
+	gen = set()
+	x = '0123456789'
+	digits = list(x)
+	for i in range(n):
+		user = randstring(5)
+		if user in gen:
+			continue
+		gen.add(user)
+		d = random.choice(digits)
+		print 'insert into users (name) values (\'%s%c\');' % (user, d)
+
+def text():
+    n = random.randint(5, 50)
+    for i in range(n):
+        x = random.randint(10, 80)
+        s = randstring(x, True, True)
+        print s
+
+def movies():
+	n = random.randint(5, 500)
+	print n
+	movies = open('movies.txt').readlines()
+	picked = set()
+	while len(picked) != n:
+		x = random.randint(0, len(movies) - 1)
+		if x not in picked:
+			picked.add(x)
+			m = movies[x].strip()
+			print m
+			rc = random.randint(5, 100)
+			print rc
+			for r in range(rc):
+				print random.randint(1, 10),
+			print
+
+def a():
+	ap = open('airports.txt').readlines()
+	print len(ap)
+	l = []
+	for a in ap:
+		aa = a.strip()
+		print aa
+		l.append(aa.split(';')[2])
+	n = random.randint(50, 500)
+	print n
+	for i in range(n):
+		p = random.sample(l, 2)
+		print '%s;%s;%d;%d' % (p[0], p[1], random.randint(0, 24 * 60), random.randint(30, 5 * 60))
+	x = random.randint(0, len(ap))
+	y = (x + random.randint(0, len(ap)))  % len(ap)
+	print '%d %d' % (x, y)
+
+def nn():
+	n = random.randint(5, 100)
+	print n
+	for i in range(n):
+		x = random.randint(5, 100)
+		print x,
+		for j in range(x):
+			print random.randint(0, 30),
+		print
+def mm():
+	n = random.randint(10, 30)
+	for i in range(n):
+		x = random.randint(0, 1)
+		print x
+		print random.randint(-120, 120), random.randint(-120, 120), random.randint(-5, 50),
+		if x == 1:
+			print random.randint(-5, 50)
+		else:
+			print
+	print 2
+def np16():
+	courses = ['KNI', 'IKI', 'PET', 'MT']
+	n = random.randint(50, 250)
+	for i in range(n):
+		print '%s%c %s' % (randstring(5), str(random.randint(0, 9)), random.choice(courses)),
+		x = random.randint(5, 40)
+		for j in range(x):
+			print grade(),
+		print
+
+
+
+def grade():
+	g = int(round(random.gauss(8, 1.5)))
+	if g < 6:
+		return 6
+	elif g > 10:
+		return 10
+	return g
+
+def cluster():
+	n = random.randint(50, 250)
+	print n
+	for i in range(n):
+		print '%d %f %f' % (i + 1, random.uniform(-20, 20), random.uniform(-20, 20))
+	print random.randint(1, n), random.randint(5, 20)
+
 if __name__ == "__main__":
-	if len(sys.argv) <= 1:
-		print 'Usage: %s [arguments]' % (sys.argv[0])
-	else:
-		n = int(sys.argv[1])
-		points(n)
+#	if len(sys.argv) <= 1:
+#		print 'Usage: %s [arguments]' % (sys.argv[0])
+#	else:
+	mm()
 

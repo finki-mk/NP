@@ -41,77 +41,76 @@ public class CarTest {
 	}
 }
 
+class Car {
+	String manufacturer;
+	String model;
+	float price;
+	float power;
+
+	public Car(String manufacturer, String model, float price, float power) {
+		this.manufacturer = manufacturer;
+		this.model = model;
+		this.price = price;
+		this.power = power;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %s %d %d", manufacturer, model, (int)price, (int)power);
+	}
+}
+
 class CarCollection {
-	private List<Car> cars;
+	List<Car> cars;
 
 	public CarCollection() {
-		cars = new ArrayList<Car>();
+		cars = new ArrayList<>();
 	}
 
 	public void addCar(Car car) {
 		cars.add(car);
 	}
 
-	public void sortByPrice(boolean asscending) {
-		Comparator<Car> carPriceComparator = new CarPriceComparator();
-		if (!asscending) {
-			carPriceComparator = Collections.reverseOrder(carPriceComparator);
+	public void sortByPrice(boolean ascending) {
+		Comparator<Car> comparator = new CarPriceComparator();
+		if (!ascending) {
+			comparator = Collections.reverseOrder(comparator);
 		}
-		Collections.sort(cars, carPriceComparator);
+		Collections.sort(cars, comparator);
+	}
+
+	public List<Car> filterByManufacturer(String manufacturer) {
+		List<Car> result = new ArrayList<>();
+		for (Car car : cars) {
+			if (car.manufacturer.equalsIgnoreCase(manufacturer)) {
+				result.add(car);
+			}
+		}
+		Collections.sort(result, new Comparator<Car>() {
+
+			@Override
+			public int compare(Car o1, Car o2) {
+				return o1.model.compareTo(o2.model);
+			}
+
+		});
+		return result;
 	}
 
 	public List<Car> getList() {
 		return cars;
 	}
 
-	public List<Car> filterByManufacturer(String manufacturer) {
-		List<Car> result = new ArrayList<Car>();
-		for (Car c : cars) {
-			if (c.getManufacturer().equalsIgnoreCase(manufacturer)) {
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-}
-
-class Car {
-	private String model;
-	private String manufacturer;
-	private float price;
-	private float power;
-
-	public Car(String model, String manufacturer, float price, float power) {
-		this.model = model;
-		this.manufacturer = manufacturer;
-		this.price = price;
-		this.power = power;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public String getManufacturer() {
-		return manufacturer;
-	}
-
-	public float getPrice() {
-		return price;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("%s %s (%.0f) %.2f", model, manufacturer, power,
-				price);
-	}
 }
 
 class CarPriceComparator implements Comparator<Car> {
 
 	@Override
-	public int compare(Car c1, Car c2) {
-		return (int) (c1.getPrice() - c2.getPrice());
+	public int compare(Car o1, Car o2) {
+		if (o1.price == o2.price) {
+			return Float.compare(o1.power, o2.power);
+		}
+		return Float.compare(o1.price, o2.price);
 	}
+
 }

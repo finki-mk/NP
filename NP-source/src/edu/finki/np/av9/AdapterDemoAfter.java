@@ -2,7 +2,7 @@ package edu.finki.np.av9;
 
 public class AdapterDemoAfter {
 	public static void main(String[] args) {
-		Shape[] shapes = { new Line(), new Rectangle(new LegacyRectangle()) };
+		Shape[] shapes = { new Line(new LegacyLine()), new Rectangle(new LegacyRectangle()) };
 		// A begin and end point from a graphical editor
 		int x1 = 10, y1 = 20;
 		int x2 = 30, y2 = 60;
@@ -18,15 +18,19 @@ interface Shape {
 class Line implements Shape {
 	private LegacyLine adaptee = new LegacyLine();
 
+	public Line(LegacyLine legacyLine) {
+		adaptee = legacyLine;
+	}
+
 	public void draw(int x1, int y1, int x2, int y2) {
 		adaptee.draw(x1, y1, x2, y2);
 	}
 }
 
 class Rectangle implements Shape {
-	
+
 	private LegacyRectangle adaptee;
-	
+
 	public Rectangle(LegacyRectangle adaptee) {
 		this.adaptee = adaptee;
 	}

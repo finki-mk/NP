@@ -1,31 +1,25 @@
 package edu.finki.np.av4;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Box<T> {
-	private ArrayList<T> items;
+	List<T> elements;
 
 	public Box() {
-		items = new ArrayList<T>();
+		elements = new ArrayList<T>();
 	}
 
-	public void add(T item) {
-		items.add(item);
-	}
-
-	public boolean isEmpty() {
-		return items.size() == 0;
+	public void add(T element) {
+		elements.add(element);
 	}
 
 	public T drawItem() {
-		if (isEmpty()) {
-			return null;
-		}
-		Random random = new Random();
-		return items.get(random.nextInt(items.size()));
+		int r = new Random().nextInt(elements.size());
+		return elements.get(r);
 	}
-	
+
 	public static void main(String[] args) {
 		Box<String> stringBox = new Box<String>();
 		stringBox.add("Dexter");

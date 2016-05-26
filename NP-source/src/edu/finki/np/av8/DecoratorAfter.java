@@ -1,5 +1,10 @@
 package edu.finki.np.av8;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
+
 public class DecoratorAfter {
 
 	interface Drink {
@@ -107,6 +112,7 @@ public class DecoratorAfter {
 	}
 
 	public static void main(String[] args) {
+		
 		Drink drink = new Milk(new Coffee());
 		Drink teaWithHoney = new Honey(new Tea());
 		
@@ -116,10 +122,15 @@ public class DecoratorAfter {
 		Drink doubleMilk = new Milk(new Milk(new Coffee()));
 		
 		drink.doIt();
+		System.out.println();
 		teaWithHoney.doIt();
+		System.out.println();
 		doubleMilk.doIt();
+		System.out.println();
 		
 		Drink teaWithMilk = new Milk(new Tea());
+		teaWithMilk.doIt();
+		System.out.println();
 	}
 	
 	

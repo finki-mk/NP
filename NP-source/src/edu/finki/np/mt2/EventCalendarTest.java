@@ -41,16 +41,13 @@ public class EventCalendarTest {
 
 class EventCalendar {
 	int year;
-	HashMap<Integer, TreeSet<Event>> events;
-	HashMap<Integer, Integer> byMonth;
+	HashMap<String, TreeSet<Event>> events;
+	HashMap<Integer, Integer> count;
 
 	public EventCalendar(int year) {
 		this.year = year;
-		events = new HashMap<Integer, TreeSet<Event>>();
-		byMonth = new HashMap<Integer, Integer>();
-		for(int i = 1; i <= 12; ++i) {
-			byMonth.put(i, 0);
-		}
+		events = new HashMap<String, TreeSet<Event>>();
+		count = new HashMap<Integer, Integer>();
 	}
 
 	public void addEvent(String name, String location, Date date)
@@ -58,48 +55,45 @@ class EventCalendar {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		int y = cal.get(Calendar.YEAR);
-		if (y != year)
+		if (y != year) {
 			throw new WrongDateException(date);
-		int day = dayFromDate(date);
-		TreeSet<Event> dayEvents = events.get(day);
-		if (dayEvents == null) {
-			dayEvents = new TreeSet<Event>();
-			events.put(day, dayEvents);
 		}
-		dayEvents.add(new Event(name, location, date));
-		int month = cal.get(Calendar.MONTH) + 1;
-		Integer count = byMonth.get(month);
-		if(count == null) {
-			count = 0;
-			//byMonth.put(month, count);
+		Event event = new Event(name, location, date);
+		String key = Event.getKey(date);
+		TreeSet<Event> eventsSet = events.get(key);
+		if (eventsSet == null) {
+			eventsSet = new TreeSet<Event>();
+			events.put(key, eventsSet);
 		}
-		++count;
-		byMonth.put(month, count);
-	}
+		eventsSet.add(event);
 
+		int month = cal.get(Calendar.MONTH);
+		Integer c = count.get(month);
+		if (c == null) {
+			c = 0;
+		}
+		++c;
+		count.put(month, c);
+	}
+	
 	public void listEvents(Date date) {
-		int day = dayFromDate(date);
-		TreeSet<Event> dayEvents = events.get(day);
-		if (dayEvents == null) {
-			System.out.println("No events on this day!");
-			return;
+		String key = Event.getKey(date);
+		TreeSet<Event> dayEvents = events.get(key);
+		for(Event event : dayEvents) {
+			System.out.println(event);
 		}
-		for (Event e : dayEvents) {
-			System.out.println(e);
-		}
-	}
-
-	static int dayFromDate(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		return cal.get(Calendar.DAY_OF_YEAR);
 	}
 	
 	public void listByMonth() {
-		for(Entry<Integer, Integer> e : byMonth.entrySet()) {
-			System.out.printf("%d : %d\n", e.getKey(), e.getValue());
+		for(Integer key : count.keySet()) {
+			Integer c = count.get(key);
+			if(c == null) {
+				c = 0;
+			}
+			System.out.printf("%d : %d", key, c);
 		}
 	}
+
 }
 
 class Event implements Comparable<Event> {
@@ -113,24 +107,26 @@ class Event implements Comparable<Event> {
 		this.date = date;
 	}
 
-	@Override
-	public int compareTo(Event o) {
-		if (this.date.compareTo(o.date) == 0)
-			return name.compareTo(o.name);
-		return date.compareTo(o.date);
+	public static String getKey(Date date) {
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM");
+		return dateFormat.format(date);
 	}
 
 	@Override
+	public int compareTo(Event o) {
+		return date.compareTo(o.date);
+	}
+	
+	@Override
 	public String toString() {
-		DateFormat format = new SimpleDateFormat("dd MMM, YYY HH:mm");
-		return String.format("%s at %s, %s", format.format(date), location,
-				name);
+		DateFormat dateFormat = new SimpleDateFormat("dd MMM, YYY HH:mm");
+		return String.format("%s at %s, %s", dateFormat.format(date), location, name);
 	}
 
 }
 
 class WrongDateException extends Exception {
 	public WrongDateException(Date date) {
-		super(String.format("Wrong date: %s", date));
+		super(String.format("Wrong date: %s", date.toString()));
 	}
 }

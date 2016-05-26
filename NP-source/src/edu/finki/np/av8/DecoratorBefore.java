@@ -67,7 +67,7 @@ public class DecoratorBefore {
 				new CoffeeWithSugarCinamonAndMilk() };
 		for (int i = 0; i < array.length; i++) {
 			array[i].doIt();
-			System.out.print("  ");
+			System.out.println();
 		}
 	}
 }

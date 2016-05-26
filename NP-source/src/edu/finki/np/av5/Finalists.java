@@ -1,19 +1,24 @@
 package edu.finki.np.av5;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Finalists {
 	public static void main(String[] args) {
-		Random r = new Random();
-		boolean[] generated = new boolean[30];
+		boolean[] picked = new boolean[30];
+		int[] winners = new int[3];
 		int count = 0;
-		while(count != 9) {
-			int n = r.nextInt(30) + 1;
-			if(!generated[n - 1]) {
-				System.out.println(n);
+		Random r = new Random();
+		while (count < 3) {
+
+			int number = r.nextInt(30);
+			if (!picked[number]) {
+				winners[count] = number + 1;
 				count++;
-				generated[n - 1] = true;
+				picked[number] = true;
 			}
 		}
+		System.out.println(Arrays.toString(winners));
+
 	}
 }

@@ -2,41 +2,36 @@ package edu.finki.np.av8;
 
 import java.util.Scanner;
 
-abstract class Observer {
-	protected Subject subj;
+interface Observer {
+	//protected Subject subj;
 
-	public abstract void update();
+	public abstract void update(Subject subj);
 }
 
-class HexObserver extends Observer {
-	public HexObserver(Subject s) {
-		subj = s;
-		subj.attach(this);
+class HexObserver implements Observer {
+	public HexObserver() {
 	}
 
-	public void update() {
+	public void update(Subject subj) {
 		System.out.print(" " + Integer.toHexString(subj.getState()));
 	}
 } // Observers "pull" information
 
-class OctObserver extends Observer {
-	public OctObserver(Subject s) {
-		subj = s;
-		subj.attach(this);
+class OctObserver implements Observer {
+	public OctObserver() {
 	}
 
-	public void update() {
+	public void update(Subject subj) {
 		System.out.print(" " + Integer.toOctalString(subj.getState()));
 	}
 } // Observers "pull" information
 
-class BinObserver extends Observer {
-	public BinObserver(Subject s) {
-		subj = s;
-		subj.attach(this);
+class BinObserver implements Observer {
+	public BinObserver() {
+		
 	} // Observers register themselves
 
-	public void update() {
+	public void update(Subject subj) {
 		System.out.print(" " + Integer.toBinaryString(subj.getState()));
 	}
 }
@@ -61,7 +56,7 @@ class Subject {
 
 	private void notifySubscribers() {
 		for (int i = 0; i < totalObs; i++) {
-			observers[i].update();
+			observers[i].update(this);
 		}
 	}
 }
@@ -70,9 +65,9 @@ public class ObserverDemo {
 	public static void main(String[] args) {
 		Subject sub = new Subject();
 		// Client configures the number and type of Observers
-		new HexObserver(sub);
-		new OctObserver(sub);
-		new BinObserver(sub);
+		sub.attach(new HexObserver());
+		sub.attach(new OctObserver());
+		sub.attach(new BinObserver());
 		Scanner scan = new Scanner(System.in);
 		while (true) {
 			System.out.print("\nEnter a number: ");
