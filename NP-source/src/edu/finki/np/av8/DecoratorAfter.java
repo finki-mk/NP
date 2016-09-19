@@ -1,10 +1,5 @@
 package edu.finki.np.av8;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
-
 public class DecoratorAfter {
 
 	interface Drink {

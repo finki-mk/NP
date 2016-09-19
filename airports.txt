@@ -1,0 +1,30 @@
+Hartsfield Jackson Atlanta International;United States;ATL;95462867
+Beijing Capital International;China;PEK;81929359
+London Heathrow;United Kingdom;LHR;70037417
+Tokyo International;Japan;HND;66795178
+Chicago O’Hare International;United States;ORD;66633503
+Los Angeles International;United States;LAX;63688121
+Charles de Gaulle International;France;CDG;61611934
+Dallas Fort Worth International;United States;DFW;58591842
+Soekarno-Hatta International;Indonesia;CGK;57772762
+Dubai International;United Arab Emirates;DXB;57684550
+Frankfurt am Main International;Germany;FRA;57520001
+Hong Kong International Kai Tak;Hong Kong;HKG;56057751
+Denver International;United States;DEN;53156278
+Suvarnabhumi;Thailand;BKK;53002328
+Singapore Changi International;Singapore;SIN;51181804
+Amsterdam Schiphol;Netherlands;AMS;51035590
+John F Kennedy International;United States;JFK;49291765
+Guangzhou Baiyun International;China;CAN;48548430
+Madrid Barajas International;Spain;MAD;45176978
+Atatürk International;Turkey;IST;45124831
+Shanghai Pudong International;China;PVG;44880164
+San Francisco International;United States;SFO;44399885
+Charlotte Douglas International;United States;CLT;41228372
+McCarran International;United States;LAS;40799830
+Phoenix Sky Harbor International;United States;PHX;40421611
+George Bush Intercontinental Houston;United States;IAH;39891444
+Kuala Lumpur International;Malaysia;KUL;39887866
+Miami International;United States;MIA;39467444
+Incheon International;South Korea;ICN;39154375
+Munich International;Germany;MUC;38360604

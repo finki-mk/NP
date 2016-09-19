@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>Напредно програмирање </title>
+<subtitle>Аудиториски вежби 1 (Примери)</subtitle>
+<date>2016-09-15</date>
+<author>
+<personname>
+<firstname>М-р</firstname>
+<othername>Томче</othername>
+<surname>Делев</surname>
+</personname>
+<email>tdelev@finki.ukim.mk</email>
+</author>
+<authorinitials>МТД</authorinitials>
+</info>
+<section xml:id="Задача">
+<title>Задача</title>
+<simpara>Да се напише програма која ќе ги најде сите парови позитивни цели броеви (a, b)
+такви што a &lt; b &lt; 1000 и <inlineequation><alt><![CDATA[\frac{(a^2 + b^2 + 1)}{a * b}]]></alt><mathphrase><![CDATA[\frac{(a^2 + b^2 + 1)}{a * b}]]></mathphrase></inlineequation> е цел број.</simpara>
+<formalpara>
+<title>Решение 1</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av1;
+
+public class Ex1 {
+    public static void main(String[] args) {
+        for (int a = 0; a &lt; 1000; a++) {
+            for (int b = a + 1; b &lt; 1000; b++) {
+                if ((a * b != 0) &amp;&amp; (a * a + b * b + 1) % (a * b) == 0) {
+                    System.out.println(String.format("%d %d", a, b));
+                }
+            }
+        }
+    }
+}</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="Задача-2">
+<title>Задача</title>
+<simpara>Да се напише метод кој ќе прима еден цел број и ќе ја печати неговата
+репрезентација како Римски број. Пример. ако ако се повика со парамететар 1998,
+излезот треба да биде MCMXCVIII.</simpara>
+<note>
+<simpara>За дома</simpara>
+</note>
+</section>
+<section xml:id="Задача-3">
+<title>Задача</title>
+<simpara>Ваша задача е да печатите броеви во средни загради, форматирани на следниот
+начин: [1][2][3], итн. Напишете метод кој прима два параметри: <literal>howMany</literal> и
+<literal>lineLength</literal> и ги печати броевите од <literal>1</literal> до <literal>howMany</literal> во претходно опишаниот формат,
+со што не смее да се печатат повеќе знаци во една линија од <literal>lineLength</literal>. Не треба
+да се започне со отворена заграда <literal>[</literal> ако не може да се затвори во истата линија
+со соодветна <literal>]</literal>.</simpara>
+<note>
+<simpara>За дома</simpara>
+</note>
+</section>
+</article>

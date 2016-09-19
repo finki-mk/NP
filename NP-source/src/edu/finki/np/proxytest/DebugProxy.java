@@ -42,5 +42,8 @@ public class DebugProxy implements InvocationHandler {
     Foo foo = (Foo) DebugProxy.newInstance(new FooImpl());
     foo.bar(null);
     foo.x();
+    Foo oneMoreProxy = (Foo) newInstance(foo);
+    oneMoreProxy.bar(null);
+    oneMoreProxy.x();
   }
 }

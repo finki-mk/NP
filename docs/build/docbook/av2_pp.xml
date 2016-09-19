@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>Напредно програмирање </title>
+<subtitle>Аудиториски вежби 2 (Примери)</subtitle>
+<date>2016-09-15</date>
+<author>
+<personname>
+<firstname>М-р</firstname>
+<othername>Томче</othername>
+<surname>Делев</surname>
+</personname>
+<email>tdelev@finki.ukim.mk</email>
+</author>
+<authorinitials>МТД</authorinitials>
+</info>
+<section xml:id="Задача">
+<title>Задача</title>
+<simpara>Да се напише метод кој враќа точно ако <literal>String str1</literal> е префикс на <literal>String str2</literal>.
+Не е дозволено користење на готови методи за пребарување, единствено дозволено е
+користење на <literal>charAt</literal>.</simpara>
+<formalpara>
+<title>Решение 1 (<literal>sum</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">    public static boolean isPrefix(String str1, String str2) {
+        if (str1.length() &gt; str2.length()) {
+            return false;
+        }
+        for (int i = 0; i &lt; str1.length(); i++) {
+            if (str1.charAt(i) != str2.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="Задача-2">
+<title>Задача</title>
+<simpara>Да се имплементираат следните методи кои примаат дво-димензионални низи од
+double и враќаат како резултат сума и просек.</simpara>
+<programlisting language="java" linenumbering="unnumbered">public static double sum(double[][] a)
+public static double average(double[][] a)</programlisting>
+<formalpara>
+<title>Решение 2 (<literal>sum</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">    public static double sum(double[][] a) {
+        double s = 0;
+        for (int i = 0; i &lt; a.length; i++) {
+            for (int j = 0; j &lt; a[i].length; j++) {
+                s += a[i][j];
+            }
+        }
+        return s;
+    }</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Решение 2 (<literal>average</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">    public static double avarage(double[][] a) {
+        double s = 0;
+        for (int i = 0; i &lt; a.length; i++) {
+            for (int j = 0; j &lt; a[i].length; j++) {
+                s += a[i][j];
+            }
+        }
+        return s / (a.length * a[0].length);
+    }</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="Задача-3">
+<title>Задача</title>
+<simpara>Катанец со комбинации (Combination Lock) ги има следните својства:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>комбинацијата (секвенца од 3 цифри) е скриена</simpara>
+</listitem>
+<listitem>
+<simpara>катанецот може да се отвори само ако се внесе точната комбинација</simpara>
+</listitem>
+<listitem>
+<simpara>комбинацијата може да се промени само ако се знае претходната
+  комбинација.
+Да се дизајнира класа со јавни методи <literal>open</literal> и <literal>changeCombo</literal> и
+приватни податоци кои ја чуваат комбинацијата. Комбинацијата се поставува преку
+конструкторот.</simpara>
+</listitem>
+</itemizedlist>
+<formalpara>
+<title>Решение 3 (<literal>CombinationLock.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2;
+
+public class CombinationLock {
+    private int combination;
+    private boolean isOpen;
+
+    public CombinationLock(int combination) {
+        this.combination = combination;
+        this.isOpen = false;
+    }
+
+    public boolean open(int combination) {
+        this.isOpen = (this.combination == combination);
+        return this.isOpen;
+    }
+
+    public boolean changeCombo(int combination, int newCombination) {
+        boolean isCorrect = (this.combination == combination);
+        if (isCorrect) {
+            this.combination = newCombination;
+        }
+        return isCorrect;
+    }
+
+}</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="Задача-4">
+<title>Задача</title>
+<simpara>Имплементирајте едноставна класа за датум (Date). Вашата класа треба да може:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>да ги репрезентира сите датуми од 1 Јануари 1800 до 31 Декември 2500</simpara>
+</listitem>
+<listitem>
+<simpara>одзема два датуми</simpara>
+</listitem>
+<listitem>
+<simpara>зголеми датум за одреден ден денови</simpara>
+</listitem>
+<listitem>
+<simpara>да споредува два датуми со помош на <literal>equals</literal> и <literal>compareTo</literal>.</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Датумот внатрешно ќе се репрезентира како број на денови од почетното време, кое
+во овој случај е почетокот на 1800. Со ова сите методи освен методот
+<literal>toString</literal> се поедноставуваат. Да се запази правилото за престапни години
+(престапна година е секоја година која е делива со 4 и не е делива со 100 освен
+ако е делива со 400). Конструкторот треба да ја провери валидноста на датумот, а
+исто така и методот <literal>toString</literal>. Датумот може да стане неточен ако
+зголемувањето или намалувањто придонсе да излезе надвор од опсегот.</simpara>
+<simpara>Потешкиот дел од задачата е конверзијата од интерната репрезентација во
+надворешна репрезентација на датум. Еден предлог алгоритам е следниот. Се
+иницијализираат две низи во статички членови. Првата низа е денови до први во
+месецот (daysTillFirstOfMonth) во не престапна година. Оваа низа содржи 0, 31,
+59, 90, итн. Во втората низа, денови од почетокот на првата година
+(daysTillJan1). Така оваа низа ќе содржи 0, 365, 730, 1095, 1460, 1826, итн. Со
+помош на овие низи ќе ја правиме конверзијата на различни репрезентации на
+датум.</simpara>
+<formalpara>
+<title>Решение 4 (<literal>Date.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2;
+
+public class Date {
+    private static final int FIRST_YEAR = 1800;
+    private static final int LAST_YEAR = 2500;
+
+    private static final int[] daysOfMonth = {
+            31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+    };
+    private static final int[] daysTillFirstOfMonth;
+    private static final int[] daysTillJan1;
+
+    static {
+        daysTillFirstOfMonth = new int[12];
+        for (int i = 1; i &lt; 12; i++) {
+            daysTillFirstOfMonth[i] += daysTillFirstOfMonth[i - 1] + daysOfMonth[i - 1];
+        }
+        int totalYears = LAST_YEAR - FIRST_YEAR;
+        daysTillJan1 = new int[totalYears + 1];
+        int currentYear = FIRST_YEAR;
+        for (int i = 1; i &lt;= totalYears; i++) {
+            if (isLeapYear(currentYear)) {
+                daysTillJan1[i] = daysTillJan1[i - 1] + 366;
+            } else {
+                daysTillJan1[i] = daysTillJan1[i - 1] + 365;
+            }
+            currentYear++;
+        }
+    }
+
+    private static boolean isLeapYear(int year) {
+        return (year % 400 == 0 || (year % 4 == 0 &amp;&amp; year % 100 != 0));
+    }
+
+    private int days;
+
+    public Date(int days) {
+        this.days = days;
+    }
+
+    public Date(int date, int month, int year) {
+        days = 0;
+        if (year &lt; FIRST_YEAR || year &gt; LAST_YEAR) {
+            throw new RuntimeException();
+        }
+        days += daysTillJan1[year - FIRST_YEAR];
+        days += daysTillFirstOfMonth[month - 1];
+        if (month &gt; 2 &amp;&amp; isLeapYear(year)) {
+            days++;
+        }
+        days += date;
+    }
+
+    public int substract(Date date) {
+        return this.days - date.days;
+    }
+
+    public Date increment(int days) {
+        return new Date(this.days + days);
+    }
+
+    @Override
+    public boolean equals(Object arg0) {
+        Date date = (Date) arg0;
+        return this.days == date.days;
+    }
+
+    public int compareTo(Date date) {
+        return this.days - date.days;
+    }
+
+    @Override
+    public String toString() {
+        int d = days;
+        int i;
+        for (i = 0; i &lt; daysTillJan1.length; i++) {
+            if (daysTillJan1[i] &gt;= days) {
+                break;
+            }
+        }
+        d -= daysTillJan1[i - 1];
+        int year = FIRST_YEAR + i - 1;
+        for (i = 0; i &lt; daysTillFirstOfMonth.length; i++) {
+            if (daysTillFirstOfMonth[i] &gt;= d) {
+                break;
+            }
+        }
+        int month = i;
+        d -= daysTillFirstOfMonth[i - 1];
+        int date = d;
+        if (isLeapYear(year)) {
+            date--;
+        }
+        return String.format("%02d.%02d.%4d", date, month, year);
+    }
+
+    public static void main(String[] args) {
+        Date sample = new Date(1, 10, 2012);
+        System.out.println("Date: " + sample);
+        System.out.println(sample.substract(new Date(1, 1, 2000)));
+        System.out.println(sample);
+        sample = new Date(1, 1, 1800);
+        System.out.println(sample);
+        sample = new Date(31, 12, 2500);
+        System.out.println(sample);
+        sample = new Date(31, 12, 2300);
+        System.out.println(sample);
+        sample = sample.increment(100);
+        System.out.println(sample);
+    }
+
+}</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="Задача-5">
+<title>Задача</title>
+<simpara><literal>PlayingCard</literal> (карта) е класа со која се репрезентира карта во игри со
+карти како покер и блек џек и во не се чува информација за бојата (херц, каро, пик, треф) и
+рангот (вредност од 2 до 10 или џандар, кралица, поп или ас). <literal>Deck</literal>
+(шпил од карти) е класа која репрезентира комплет од 52 карти. Додека
+<literal>MultipleDeck</literal> (повеќе шпилови) е класа која репрезентира повеќе шпилови
+со карти (точниот број се задава во конструкторот). Да се имплментираат 3 класи
+<literal>PlayingCard</literal>, <literal>Deck</literal>, и <literal>MultipleDeck</literal>, со стандардна
+функционалност за карта, за шпил и повеќе шпилови да се имплментираат методи за
+мешање <literal>shuffle</literal>, делење на карта  <literal>dealCard</literal> и проверка дали има
+останато карти.</simpara>
+<formalpara>
+<title>Решение 4 (<literal>PlayingCard.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2;
+
+public class PlayingCard {
+	public enum TYPE {
+		HEARTS,
+		DIAMONDS,
+		SPADES,
+		CLUBS
+	}
+	private TYPE type;
+	private int rank;
+
+	public PlayingCard(TYPE type, int rank) {
+		this.type = type;
+		this.rank = rank;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%d %s", rank, type.toString());
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + rank;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PlayingCard other = (PlayingCard) obj;
+		if (rank != other.rank)
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+
+
+
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Решение 4 (<literal>Deck.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2;
+
+import java.util.Arrays;
+
+public class Deck {
+    private PlayingCard[] cards;
+    private boolean[] picked;
+    private int total;
+
+    public Deck() {
+        total = 0;
+        cards = new PlayingCard[52];
+        picked = new boolean[52];
+        for (int i = 0; i &lt; PlayingCard.TYPE.values().length; ++i) {
+            for (int j = 0; j &lt; 13; ++j) {
+                cards[j + (13 * i)] =
+                        new PlayingCard(PlayingCard.TYPE.values()[i], j + 1);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (PlayingCard playingCard : cards) {
+            result.append(playingCard);
+            result.append("\n");
+        }
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        Deck deck = new Deck();
+        PlayingCard card;
+        while ((card = deck.dealCard()) != null) {
+            System.out.println(card);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(cards);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Deck other = (Deck) obj;
+        if (!Arrays.equals(cards, other.cards))
+            return false;
+        return true;
+    }
+
+    public PlayingCard dealCard() {
+        if (total == 52) return null;
+        int card = (int) (52 * Math.random());
+        if (!picked[card]) {
+            ++total;
+            picked[card] = true;
+            return cards[card];
+        }
+        return dealCard();
+    }
+
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Решение 4 (<literal>MultipleDeck.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2;
+
+public class MultipleDeck {
+    private Deck[] decks;
+
+    public MultipleDeck(int n) {
+        decks = new Deck[n];
+        for (int i = 0; i &lt; n; ++i) {
+            decks[i] = new Deck();
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Deck deck : decks) {
+            sb.append(deck);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        MultipleDeck md = new MultipleDeck(3);
+        System.out.println(md);
+    }
+
+
+}</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="Задача-6">
+<title>Задача</title>
+<simpara>Комплексен број се состои од реален дел и имагинарен дел. Да се импалементира
+класа <literal>BigComplex</literal>, во која реалниот и имагинарниот дел ќе се чуваат во
+објекти од класата <literal>BigDecimals</literal>.</simpara>
+<formalpara>
+<title>Решение 5 (<literal>BigComplex.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2;
+
+import java.math.BigDecimal;
+
+public class BigComplex {
+    private BigDecimal real;
+    private BigDecimal imag;
+
+    public BigComplex(BigDecimal real, BigDecimal imag) {
+        this.real = real;
+        this.imag = imag;
+    }
+
+    public BigComplex add(BigComplex complex) {
+        BigDecimal real = this.real.add(complex.real);
+        BigDecimal imag = this.real.add(complex.imag);
+        return new BigComplex(real, imag);
+    }
+
+}</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="Задача-7">
+<title>Задача</title>
+<simpara>Дадени се следниве пет класи: <literal>Bank</literal>, <literal>Account</literal>,
+<literal>NonInterestCheckingAccount</literal>, <literal>InterestCheckingAccount</literal> и
+<literal>PlatinumCheckingAccount</literal>, како и интефејс наречен
+<literal>InterestBearingAccount</literal> кои се однесуваат на следниот начин:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Во <literal>Bank</literal> чува листа од сите видови сметки, вклучувајќи сметки
+за штедење и за трошење, некои од нив подложни на камата, а некои не. Во
+<literal>Bank</literal> постои метод <literal>totalAssets</literal> кој ја враќа сумата на
+состојбата на сите сметки. Исто така содржи метод <literal>addInterest</literal> кој го
+повикува методот <literal>addInterest</literal> на сите сметки кои се подложни на
+камата.</simpara>
+</listitem>
+<listitem>
+<simpara><literal>Account</literal> е апстрактна класа. Во секој сметка се чуваат името на
+сопственикот на сметката, бројот на сметката (секвенцијален број доделен
+автоматски), моменталната состојба. Во класата се имплементираат конструктор
+за иницијализација на податочните членови, методи за пристап до моменталната
+состојба, како и за додавање и одземање од моменталната состојба.</simpara>
+</listitem>
+<listitem>
+<simpara><literal>InterestBearingAccount</literal> интерфејсот декларрира единствен метод
+<literal>addInterest</literal> (без параметри и не враќа ништо - <literal>void</literal>) кој ја зголемува
+состојбата со соодветната камата за овој вид на сметка.</simpara>
+</listitem>
+<listitem>
+<simpara><literal>InterestCheckingAccount</literal> е сметка <literal>Account</literal> која е исто
+така <literal>InterestBearingAccount</literal>. Повикување <literal>addInterest</literal> ја
+зголемува состојбата за 3%.</simpara>
+</listitem>
+<listitem>
+<simpara><literal>PlatinumCheckingAccount</literal> е <literal>InterestCheckingAccount</literal>.
+Повикување <literal>addInterest</literal> ја зголемува состојбата двојно од каматата за
+<literal>InterestCheckingAccount</literal> (колку и да е таа).</simpara>
+</listitem>
+<listitem>
+<simpara><literal>NonInterestCheckingAccount</literal> е сметка <literal>Account</literal> но не е
+<literal>InterestBearingAccount</literal>. Нема дополнителни функционалности надвор од
+основните од класата <literal>Account</literal>.</simpara>
+</listitem>
+</itemizedlist>
+<simpara>За оваа задача, треба да се направи следното. Потребно е да се имплментира
+функционалност дадена во претходниот текст:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Пет од шест класи од споменатите формираат хиерархија. За овие класи да
+се нацрта оваа хиерархија.</simpara>
+</listitem>
+<listitem>
+<simpara>Да се имплементира <literal>Account</literal>.</simpara>
+</listitem>
+<listitem>
+<simpara>Да се имплементира <literal>NonInterestCheckingAccount</literal>.</simpara>
+</listitem>
+<listitem>
+<simpara>Да се напише <literal>InterestBearingAccount</literal> интерфејсот.</simpara>
+</listitem>
+<listitem>
+<simpara>Да се имплементира <literal>Bank</literal>.</simpara>
+</listitem>
+<listitem>
+<simpara>Да се имплементира <literal>InterestCheckingAccount</literal>.</simpara>
+</listitem>
+<listitem>
+<simpara>Да се имплементира <literal>PlatinumCheckingAccount</literal>.</simpara>
+</listitem>
+</orderedlist>
+<formalpara>
+<title>Решение 6 (<literal>Account.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2.bank;
+
+public abstract class Account {
+    private String holderName;
+    private int number;
+    private double currentAmount;
+
+    public Account(String holderName, int number, double currentAmount) {
+        this.holderName = holderName;
+        this.number = number;
+        this.currentAmount = currentAmount;
+    }
+
+    public double getCurrentAmount() {
+        return currentAmount;
+    }
+
+    public void addAmount(double amount) {
+        currentAmount += amount;
+    }
+
+    public void withdrawAmount(double amount) {
+        currentAmount -= amount;
+    }
+
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Решение 6 (<literal>NonInterestCheckingAccount.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2.bank;
+
+public class NonInterestCheckingAccount extends Account {
+
+	public NonInterestCheckingAccount(String holderName, int number,
+			double currentAmount) {
+		super(holderName, number, currentAmount);
+	}
+
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Решение 6 (<literal>InterestBearingAccount.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2.bank;
+
+public interface InterestBearingAccount {
+	public void addInterest();
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Решение 6 (<literal>Bank.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2.bank;
+
+public class Bank {
+	private Account[] accounts;
+	private int totalAccounts;
+	private int max;
+
+	public Bank(int max) {
+		this.totalAccounts = 0;
+		this.max = max;
+		accounts = new Account[max];
+	}
+
+	public void addAccount(Account account) {
+		if (totalAccounts == accounts.length) {
+			Account[] old = accounts;
+			max *= 2;
+			accounts = new Account[max];
+			for (int i = 0; i &lt; old.length; i++) {
+				accounts[i] = old[i];
+			}
+		}
+		accounts[totalAccounts++] = account;
+	}
+
+	public double totalAssets() {
+		double sum = 0;
+		for (Account account : accounts) {
+			sum += account.getCurrentAmount();
+		}
+		return sum;
+	}
+
+	public void addInterest() {
+		for (Account account : accounts) {
+			if (account instanceof InterestBearingAccount) {
+				InterestBearingAccount iba = (InterestBearingAccount) account;
+				iba.addInterest();
+			}
+		}
+	}
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Решение 6 (<literal>InterestCheckingAccount.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2.bank;
+
+public class InterestCheckingAccount
+        extends Account implements InterestBearingAccount {
+
+    public static final double INTEREST_RATE = .03; // 3%
+
+    public InterestCheckingAccount(String holderName, int number,
+                                   double currentAmount) {
+        super(holderName, number, currentAmount);
+    }
+
+    @Override
+    public void addInterest() {
+        addAmount(getCurrentAmount() * INTEREST_RATE);
+    }
+
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Решение 6 (<literal>PlatinumCheckingAccount.java</literal>)</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">package mk.ukim.finki.np.av2.bank;
+
+public class PlatinumCheckingAccount extends Account implements
+        InterestBearingAccount {
+
+    public PlatinumCheckingAccount(String holderName, int number,
+                                   double currentAmount) {
+        super(holderName, number, currentAmount);
+        // TODO Auto-generated constructor stub
+    }
+
+    @Override
+    public void addInterest() {
+        addAmount(getCurrentAmount() * InterestCheckingAccount.INTEREST_RATE
+                * 2);
+    }
+
+}</programlisting>
+</para>
+</formalpara>
+</section>
+</article>

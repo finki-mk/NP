@@ -1,6 +1,11 @@
 import random
 import sys
 import string
+import datetime as dt
+import time
+import uuid
+
+from faker import Factory
 
 alphabet = string.ascii_lowercase
 
@@ -9,6 +14,7 @@ names = ["Jacob", "Michael", "Joshua", "Matthew", "Ethan", "Andrew", "Daniel",
 		"Nicholas", "Tyler", "James", "John", "Jonathan", "Nathan", "Emily", "Emma", 
 		"Madison", "Abigail", "Olivia", "Isabella", "Hannah", "Samantha", "Ava", 
 		"Ashley", "Sophia", "Elizabeth", "Alexis", "Grace", "Sarah", "Alyssa", "Mia", "Natalie", "Chloe", "Brianna"]
+products = ['Pasta', 'Eggs', 'Cheese', 'Milk', 'Water', 'Beer', 'Juice', 'Strawberries', 'Tomatoes', 'Bananas', 'Bread']
 
 def getwords():
 	words = open('NP-source/words.txt', 'r').readlines()
@@ -309,25 +315,22 @@ def a():
 	print '%d %d' % (x, y)
 
 def nn():
-	n = random.randint(5, 100)
+	n = random.randint(2, 5)
+	print n * n
+	for i in range(n * n):
+		for j in range(n * n):
+			x = random.randint(5, 100)
+			print x / random.randint(3, 10),
+		print
+
+def mm():
+	n = random.randint(3, 30)
 	print n
 	for i in range(n):
-		x = random.randint(5, 100)
-		print x,
-		for j in range(x):
-			print random.randint(0, 30),
+		for j in range(n):
+			print random.randint(1, 100),
 		print
-def mm():
-	n = random.randint(10, 30)
-	for i in range(n):
-		x = random.randint(0, 1)
-		print x
-		print random.randint(-120, 120), random.randint(-120, 120), random.randint(-5, 50),
-		if x == 1:
-			print random.randint(-5, 50)
-		else:
-			print
-	print 2
+
 def np16():
 	courses = ['KNI', 'IKI', 'PET', 'MT']
 	n = random.randint(50, 250)
@@ -355,9 +358,162 @@ def cluster():
 		print '%d %f %f' % (i + 1, random.uniform(-20, 20), random.uniform(-20, 20))
 	print random.randint(1, n), random.randint(5, 20)
 
+def randDateTime():
+	t = random.randint(1234567890, int(time.time()))
+	return dt.datetime.fromtimestamp(t).isoformat()
+
+
+def fiscal():
+	n = random.randint(50, 250)
+	indexes = [i for i in range(10)]
+	prices = [random.randint(10, 300) for i in range(len(products))]
+	#print n
+	for i in range(n):
+		print '%s ' % (randDateTime())
+		x = random.randint(1, 10)
+		random.shuffle(indexes)
+		for j in range(x):
+			quan = random.randint(1, 10)
+			price = prices[indexes[j]]
+			print '%d x %d.00 %s = %d.00 MKD' % (quan, price, products[indexes[j]], price * quan)
+
+def log():
+	n = random.randint(50, 200)
+	types = ['error', 'info']
+	for i in range(n):
+		id = str(uuid.uuid4())
+		t = random.choice(types)
+		msg = '%s message %d' % (t, random.randint(1, 100))
+		x = random.randint(0, 4)
+		if x == 0:
+			msg = msg.lower()
+		elif x == 1:
+			msg = msg.upper()
+		elif x == 2:
+			msg = string.capitalize(msg)
+		print '%s:%s:%s' % (id, t, msg)
+
+def mobile():
+	prefixes = [70, 71, 75, 76, 77, 78]
+	return '0%d%06d' % (random.choice(prefixes), random.randint(0, 999999))
+
+def cell():
+	network = ['T-Mobile', 'VIP', 'Vodafone', 'Orange', 'Sprint', 'TIM', 'Telefonica']
+	print random.choice(network)
+	n = random.randint(5, 15)
+	cells = ['cell-%d' % i for i in range(n)]
+	for i in range(n):
+		c = random.randint(10, 100)
+		print '%s:%d' % (cells[i], c),
+	n = random.randint(100, 500)
+	print
+	print n
+	numbers = {}
+	for i in range(n):
+		cell_index = random.randint(0, len(cells) - 1)
+		number = mobile()
+		numbers[number] = cell_index
+		print '%s %s' % (cells[cell_index], number)
+	n = random.randint(50, 100)
+	print n
+	for i in range(n):
+		number = random.choice(numbers.keys())
+		fi = numbers[number]
+		numbers[number] = (fi + 1) % len(cells)
+		print '%s %s %s' % (number, cells[fi], cells[(fi + 1) % len(cells)])
+	n = random.randint(10, 50)
+	print n
+	nums = numbers.keys()
+	random.shuffle(nums)
+	for i in range(n):
+		print nums[i]
+def subs():
+	n = random.randint(10, 50)
+	for i in range(n):
+		print randstring(size = random.randint(5, 50), alphanum = True, uppercase = True)
+
+def sb():
+	n = random.randint(5, 50)
+	print n
+	n = random.randint(5, 50)
+	print n
+	for i in range(n):
+		print randstring(size = random.randint(5, 50)), random.randint(-10, 70)
+
+def nums():
+	n = random.randint(10, 100)
+	print n
+	for i in range(n):
+		print random.random() * 200 * random.choice([-1, 1])
+
+def swim():
+    gen = set()
+    fake = Factory.create()
+    for k in range(2):
+        print 'Semifinal %d' % (k + 1)
+        i = 0
+        while i < 8:
+            name = fake.name()
+            if name in gen:
+                continue
+            print '%d. %s %.2f' % (i + 1, fake.name(), random.randint(5000, 5200) / 100.0)
+            i += 1
+def gt():
+    n = random.randint(5, 20)
+    print n
+    x = random.randint(10, 30)
+    for i in range(n):
+        print 'row%d' % (i + 1),
+        for j in range(x):
+            print random.randint(1, 100),
+        print
+
+    n = random.randint(5, 20)
+    print n
+    x = random.randint(10, 30)
+    for i in range(n):
+        print '%d' % (i + 1),
+        for j in range(x):
+            print random.random() * 100,
+        print
+
+    n = random.randint(5, 20)
+    print n
+    x = random.randint(10, 30)
+    for i in range(n):
+        print '%d:%s' % (i + 1, alphabet[i]),
+        for j in range(x):
+            print random.random() * 100,
+        print
+
+def groups():
+    n = random.randint(10, 50)
+    print n
+    users = []
+    for i in range(n):
+        users.append('user_%d' % (i + 1))
+    n = random.randint(5, 10)
+    groups = []
+    for i in range(n):
+        groups.append('group_%d' % (i + 1))
+    for u in users:
+        print '%s:%s' % (u, random.choice(groups))
+    
+    print n / 2
+    for i in range(n / 2):
+        print '%s:%s' % (groups[i], random.choice(groups[n / 2:]))
+
+def tickets():
+	n = random.randint(0, 100000)
+	print n
+	n = random.randint(50, 500)
+	print n
+	for i in range(n):
+		print random.randint(1, 5)
+
 if __name__ == "__main__":
 #	if len(sys.argv) <= 1:
 #		print 'Usage: %s [arguments]' % (sys.argv[0])
 #	else:
-	mm()
+	tickets()
 

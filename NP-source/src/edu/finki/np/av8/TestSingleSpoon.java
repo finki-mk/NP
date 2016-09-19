@@ -19,8 +19,7 @@ class TestSingleSpoon {
 		System.out.println();
 		System.out.println("First person returning the spoon");
 		SingleSpoon.returnTheSpoon();
-		spoonForFirstPerson = null;
-		System.out.println("The spoon was returned");
+		System.out.println("The sposon was returned");
 		System.out.println();
 		System.out.println("Second person getting a spoon");
 		spoonForSecondPerson = SingleSpoon.getTheSpoon();

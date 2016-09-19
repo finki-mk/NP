@@ -1,6 +1,5 @@
 package edu.finki.np.av5;
 
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

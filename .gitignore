@@ -1,2 +1,9 @@
 tests.txt
 *.pdf
+/.idea/
+/examples/.gradle/
+/exams/.gradle/
+/docs/.gradle/
+/exams/src/main/java/mk/ukim/finki/np/homework/
+/exams/build/
+/examples/build/

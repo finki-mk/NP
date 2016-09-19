@@ -1,0 +1,688 @@
+# Напредно програмирање : Аудиториски вежби 1
+М-р Томче Делев <tdelev@finki.ukim.mk>
+{docdate}
+:toc-title: Содржина
+:figure-caption: Слика
+:numbered:
+
+## Што е Eclipse?
+
+Eclipse претставува интегрирана околина за развој (IDE) за програмскиот јазик
+Java. Денес претставува водечка околина за развој за Java со опфатен дел од
+пазарот од приближно 65%.
+
+Eclipse е создаден од Open Source заедницата и се користи во повеќе различни
+области, пр. како развојна околина за Java или Android апликации.
+Развојот на Eclipse датира од 2001.
+
+Eclipse Open Source заедницата има преку 200 Open Source проекти во
+повеќе различни аспекти од развојот на софтвер.
+
+Сите Eclipse проекти ги води _Eclipse Foundation_. Тоа е не профитна
+организација, поддржана од своите членови со цел да хостира Eclipse Open Source
+проекти и да помага во созревањето на Open Source заедницата и како
+комплементарен екосистем на производи и сервиси.
+
+Eclipse IDE може да се прошири со додатни софтверски компоненти кои се
+нарекуваат _plug-ins_. Притоа постојат повеќе Open Source проекти од
+различни компании кои го имаат проширено Eclipse IDE.
+
+Eclipse може да се користи и како основа за креирање на апликации со помош на
+Eclipse Rich Client Platform (_Eclipse RCP_) за апликации.
+
+## Eclipse Public License
+
+*_Eclipse Public License_* (EPL) е Open Source софтверска лиценца која ја
+користи _Eclipse Foundation_ за нејзиниот софтвер. EPL е дизајнирана да
+биде соодветна за бизнисите со тоа што EPL лиценцираните програми може да се
+користат, модификуваат, копираат и дистрибуираат слободно и без да се плаќа.
+
+
+## Инсталација на Eclipse
+
+### Java побарување на Eclipse
+
+Eclipse има потреба од инсталирана Java Runtime околина, односно минмум Java
+5 за да се извршува. Притоа препорачливо е користење на Java верзија 6 или
+повисока.
+
+Eclipse IDE содржи сопствен Java компајлер. За компајлирање изворен
+код надвор од Eclipse потребни се *Java Development Tools*.
+
+### Инсталација на Java
+
+Java можеби е веќе инсталирана на вашата машина. Ова може да се провери со
+отворање на конзола (ако сте на Windows: `Win+R`, внесете `cmd` и
+притиснете `Enter`) и впишување на следната команда:
+
+[source,shell]
+----
+java -version
+----
+
+Ако Java е соодветно инсталирана, треба да видите информации за тоа. Ако
+командната линија врати резултат дека програмата не може да се најде, треба да
+инсталирате Java.
+
+Google пребарување за "How to install JDK on YOUR_OS" треба
+да врати резултати со линкови со помош. Заменете го `YOUR_OS` со
+вашиот оперативен систем, пр. Windows, Ubuntu, Mac OS X, итн.
+
+### Download Eclipse
+
+http://www.eclipse.org[www.eclipse.org] веб сајтот содржи запакувани инсталации на Eclipse дистрибуции.
+
+Симнете го *Eclipse IDE for Java Developers* пакетот од следното URL:
+`http://www.eclipse.org/downloads`
+
+
+На следните слики е прикажан сајтот на Eclipse за симнување на за на Linux
+систем.
+
+[[donwload]]
+.Eclipse Download страница
+image::download.png[]
+
+Содржината на симнувањето е `.zip` датотека.
+
+### Инсталација на Eclipse
+
+Откако ќе ја симнете `.zip` датотеката која ја содржи Eclipse
+дистрибуцијата едниствено треба да ја отпакувате во посакуваниот локален
+директориум.
+
+WARNING: Употеребете директориум во чија патека нема празни места, затоа што Eclipse
+понекогаш има проблем со тоа.
+
+По отпакувањето може да го користите Eclipse. Нема потреба од дополнителни
+инсталации.
+
+<<<
+
+## Работа со Eclipse
+
+### Стартување Eclipse
+
+Стартувајте го Eclipse со двоен-клик на датотеката `eclipse.exe`
+(Microsoft Windows) или `eclipse` (Linux / Mac) во директориумот кој го
+отпакувавте Eclipse.
+
+[[workspace]]
+.Избор на Workspace
+image::workspace.png[]
+
+Системот ќе побара да изберете `workspace` (<<workspace>>).
+`Workspace` е местото каде што ќе работите. Изберете
+празен директориум и притиснете на копчето OK.
+
+Eclipse ќе се стартува и ќе прикаже Welcome страница. Затворете ја оваа
+страница.
+
+[[welcome]]
+.Затворање на Eclipse welcome screen
+image::welcome.png[]
+
+Откако ќе го затворите почетниот екран треба да видите екран сличен на следниот:
+
+[[screen]]
+.Почетен Eclipse поглед
+image::screen.png[]
+
+<<<
+
+## Преглед на Eclipse корисничкиот интерфејс
+
+Eclipse е составен од *Perspectives*, *Views* и *Editors*.
+*Views* и *Editors* се групирани во *Perspectives*.
+
+### Workspace
+
+*Workspace* е физичката локација (патеката на датотеките) со кои работите.
+Вашите проекти, изворни датотеки, слики и други артефакти може да се чуваат во
+вашиот работен простор, но исто така може да референцирате и надворешни ресурси
+(пр. проекти).
+
+Може да изберете работен простор на стартување на Eclipse или преку мени (`File ->
+Switch Workspace -> Others`).
+
+### Parts
+
+*Parts* се компоненти од корисничкиот интерфејс кои овозможуваат да
+навигирате и модификувате податоци. Вообичаено поделени во *Views* и
+*Editors*.
+
+[[parts]]
+.Eclipse апликација со неколку делови
+image::parts.png[]
+
+Раздвојувањето на *Views* и *Editors* примарно не е базирано на
+технички разлики, туку на различни концепти на користење и нивно уредување.
+
+*View* вообичаено се користи за работа со податоци, кои може да се во
+хиерархиска структура. Ако податоците се променат преку *View*, оваа
+промена вообичаено директно се применува на податочната структура под неа.
+*View* понекогаш овозможува да се отвори *Editor* за избрано множество
+податоци.
+
+Пример за *View* е *Java Package Explorer*, кој овозможува да се
+прелистуваат датотеките во Eclipse проектите. Ако промените податоци во Package
+Explorer, на пр. промените име на датотека, ова име директно се менува и во
+податочниот систем.
+
+*Editors* вообичаено се употребуваат за менување единечен податочен
+елемент, пр. датотека или податочен објект. За да се применат овие промени,
+потребно е корисникот експлицитно да ја зачуваа содржината од едиторот.
+
+*Editors* традиционално се позиционирани во одредена област, наречена
+*editor area*.
+
+### Perspective
+
+*Perspective* е визуелен контејнер на множество од делови *Parts*.
+Eclipse IDE користи *Perspectives* за да ги уреди *Parts* за
+различни задачи при развој. *Perspectives* се менуваат преку менито `Window
+-> Open Perspective -> Other` (<<perspective>>).
+
+Основните перспективи во Eclipse IDE се Java перспективата за развој и
+перспективата Debug за дебагирање на Java апликации.
+
+[[perspective]]
+.Менување перспективи во Eclipse IDE
+image::perspective.png[]
+
+Може да ги менувате позициите и содржината на деловите во *Perspective* со
+отварање и затворање или со едноставно уредување со влечење.
+
+[[dialog]]
+.Show View дијалог
+image::dialog.png[]
+
+За да отворите нов *Part* во вашата тековна *Perspective* користете го
+менито `Window -> Show View -> Other`. Следниот `Show View` (<<dialog>>)
+дијалог ви овозможува да пребарувате одредени Parts.
+
+
+[[save-perspective]]
+.Снимање на вашата перспектива конфигурација
+image::save-perspective.png[]
+
+Во случаи кога сакате да ја ресетирате вашата тековна перспектива на нејзината
+стандардна, можете преку менито `Window -> Reset Perspective`.
+
+Може да ја снимите вашата *Perspective* преку `Window -> Save Perspective
+As...` (<<save-perspective>>).
+
+<<<
+
+## Креирање на првата Java програма
+
+Во следните неколку чекори ќе го опишеме процесот на креирање едноставна и
+минимална Java програма со користење Eclipse. Вообичаено во светот на
+програмирањето оваа програма испишува `Hello World` во конзолата, но ние ќе ја
+адаптираме да отпечати `Hello Eclipse!` стандардниот излез.
+
+### Креирање проект
+
+. Изберете од мениот `File -> New -> Java project`.
+. Внесете `edu.finki.np.hello` како име на проектот.
+.. Изберете "Create separate folders for sources and class files".
+
+[[project]]
+.Волшебникот за нов Java Project
+image::project.png[]
+
+Притиснете на копчето Finish за да го креирате проектот. Креиран е нов проект и
+е прикажан како директориум. Отворете го `edu.finki.np.hello` и
+прегледајте ја неговата содржина.
+
+### Креирање пакети
+
+Во следниот чекор ќе креирате нов `package`. Добра конвенција е да
+користите исто име за проектот и пакетот на највисоко ниво.
+
+Да креирате пакет `edu.finki.np.hello`, изберете го фолдерот
+`src` и со десен клик на него изберете `New -> Package`.
+
+[[package]]
+.Десен клик за креирање пакет
+image::package.png[]
+
+Внесете го името на новиот пакет во дијалогот.
+
+[[pkg-name]]
+.Дијалог за креирање пакет
+image::pkg_name.png[]
+
+### Креирање Java класа
+
+Десен клик на пакетот и изберете `New -> Class`.
+
+[[add-class]]
+.Избор за креирање нова класа
+image::add-class.png[]
+
+Внесете `MyFirstClass1` како име на класата и изберете го
+`public static void main (String{[}{]} args)`.
+
+.Избор за креирање нова класа
+image::new-class.png[]
+
+Ова создава нова датотека и ја отвара во *Editor* за Java изворни
+датотеки.
+
+[source,java]
+----
+package edu.finki.np.first;
+
+public class MyFirstClass {
+
+  public static void main(String[] args) {
+    System.out.println("Hello Eclipse!");
+  }
+
+}
+----
+
+### Извршување на проект во Eclipse
+
+За да го извршите кодот, со десен клик на вашата Java класа изберете
+`Run-as -> Java application`.
+
+.Ивршување проект
+image::run.png[]
+
+Eclipse ќе ја изврши вашата Java програма. Треба да го видите следниот излез во
+конзола *View*.
+
+image::result.png[]
+.Резултат од извршување на апликацијата
+
+Честитки! Го креиравте вашиот прв Java проект, пакет и Java класа и ја извршивте
+оваа програма во Eclipse.
+
+## Извршување Java програма надвор од Eclipse
+
+### Креирање на jar датотека
+
+За да извршите Java програма надвор од Eclipse треба да ја експортирате како
+`jar` датотека. `jar` датотека е стандарден формат за дистрибуција
+на Java апликации.
+
+Изберете го вашиот проект, десен клик и изберете `Export`.
+
+image::export.png[]
+.Волшебник за експортирање на Java проект
+
+Изберете JAR датотека, изберете next. Изберете го вашиот проект и изберете си
+дестинација и име за jar датотеката. Пример `myprogram.jar`.
+
+image::export-jar.png[]
+.Волшебник за експортирање на Java проект, дел II
+
+image::wizzard.png[]
+.Волшебник за експортирање на Java проект, дел III
+
+Честитки!
+
+### Извршете ја вашата програма надвор од Eclipse
+
+Отворете командна линија.
+
+Променете ја вашата работна патека со испишување `cd path`. На пример
+ако вашиот jar е лоциран во `c:\\temp` испишете `cd c:\\temp`.
+
+За да ја извршите оваа програма треба да ја вклучите jar датотеката во вашиот
+`classpath`. Со `classpath` се дефинираат сите Java класи кои се
+овозможени во Java извршната околина. Може да додате `jar` датотека во
+classpath со опцијата `-jar`.
+
+----
+java -classpath myprogram.jar edu.finki.np.first.MyFirstClass
+----
+
+Ако ја испиште точно наведената команда и се наоѓате во соодветниот директориум,
+треба да видите порака `Hello Eclipse!` во конзолата.
+
+.Извршување апликација надвор од Eclipse
+image::win.png[]
+
+<<<
+
+## Content Assist, Quick Fix и Class Navigation
+
+### Content assist
+
+Помошникот за содржина ви овозможува да добиете помош во самиот едитор. Може
+да се повика со `Ctrl+Space`
+
+На пример испишете `syso` во едиторот на Java изворен код и притиснете
+`Ctrl+Space`. Ова ќе го замени `syso` со `System.out.println("")`.
+
+Ако имате референца кон објект, како на пример објектот `person` од типот
+`Person` и сакате да ги видите неговите методи, испишете `person.`
+и притиснете `Ctrl+Space`.
+
+.Помошник во содржината
+[[autocomplete]]
+image::autocomplete.png[]
+
+### Quick Fix
+
+Секогаш кога Eclipse детектира некаков проблем, ќе ве го подцрта проблематичниот
+текст во едиторот. Изберете го овој текст и притиснете `Ctrl+1`
+за да видите можни начини за да го решите овој проблем.
+
+На пример напишете `myBoolean = true;` Ако myBoolean не е сѐ уште
+дефинирана, Eclipse ќе ја означи како грешка. Изберете ја променливата и
+притиснете `Ctrl+1`, Eclipse ќе ви предложи креирање на член или
+локална променлива.
+
+.Пример со користење Quickfix
+image::quick-fix.png[]
+
+*Quick Fix* е многу моќна алатка. Ви овозможува да креирате нови локални
+променливи и членови, како и нови методи и класи. Исто така може да додава
+`try-catch` изрази околу исклучоците, а може да извршува и доделување на
+променливи, како и многу повеќе.
+
+### Отворање класа
+
+Може да навигирате помеѓу класите во вашиот проект преку `Package Explorer`
+*View*.
+
+Исто така може да ја отворите било која класа ако го позиционирате покажувачот
+врз името на класата и притиснете `F3`. Алтернативно но и
+многу моќно, може да притиснете `Ctrl+Shift+T`. Ова ќе
+ви отворои дијалог во кој може да ја пребарате класата по нејзиното име и да ја
+отворите.
+
+.Отворање класа
+image::open-type.png[]
+
+### Генерирање код
+
+Eclipse има неколку можности за генерирање код за вас. Ова може да ви заштеди
+значително време при развој.
+
+На пример Eclipse може да ги препокрие методите од суперкласите и генерира
+`toString()`, `hashcode()` и `equals()` методи. Исто така
+може да генерира и getter и setter методи за атрибутите во вашата Java класа.
+
+Овие опции може да се најдата во менито Source.
+
+.Генерирање код
+image::source.png[]
+
+За да го тестирање генерирањето на код, ќе ја креираме следната класа во
+`edu.finki.np.first` проектот.
+
+[source,java]
+----
+package edu.finki.np.first;
+
+public class Person {
+  private String firstName;
+  private String lastName;
+
+}
+----
+
+Изберете `Source -> Generate Constructor from Fields`, маркирајте ги двете
+полиња и притиснете `OK`.
+
+[[generate]]
+.Генерирање
+image::generate.png[]
+
+Изберете `Source -> Generate Getter and Setter`, изберете ги повторно двете
+полиња и притиснете го `OK` копчето.
+
+Изберете `Source -> Generate toString()`, маркирајте ги повторно двете полиња и
+притиснете `OK`.
+
+Го генериравте следниот код:
+
+[source,java]
+----
+package edu.finki.np.first;
+
+public class Person {
+  private String firstName;
+  private String lastName;
+
+  public Person(String firstName, String lastName) {
+    super();
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  @Override
+  public String toString() {
+    return "Person [firstName=" + firstName + ", lastName=" + lastName
+        + "]";
+  }
+
+}
+----
+
+<<<
+
+## Refactoring
+
+### Refactoring во Eclipse
+
+Refactoring is the process of restructuring the code without changing
+his behavior. For example renaming a Java class or method is a
+refactoring activity.
+
+Eclipse supports simple refactoring activities, for example renaming or
+moving. For example you can select your class, right click on it and
+select `Refactor -> Rename to rename your class or method`. Eclipse will
+make sure that all calls in your Workspace to your your class or method
+will also be renamed.
+
+The following shows a screenshot for calling the Rename refactoring on a
+class.
+
+[[refactor]]
+.Renaming a class
+image::refactor.png[]
+
+### Refactoring Examples
+
+For the next examples change the code of your `MyFirstClass`
+class to the following.
+
+[source,java]
+----
+package de.vogella.eclipse.ide.first;
+
+public class MyFirstClass {
+
+  public static void main(String[] args) {
+    System.out.println("Hello Eclipse!");
+    int sum = 0;
+    for (int i = 0; i <= 100; i++) {
+      sum += i;
+    }
+    System.out.println(sum);
+  }
+}
+----
+
+Another useful refactoring is to mark code and create a method from the
+selected code. For this mark the coding of the `for` loop, right click
+and select `Refactoring -> Extract Method`. Use `calculateSum` as name of
+the new method.
+
+[[extract-method]]
+.Extract Method refactoring
+image::extract-method.png[]
+
+The resulting class should look like the following.
+
+[source,java]
+----
+package de.vogella.eclipse.ide.first;
+
+public class MyFirstClass {
+
+  public static void main(String[] args) {
+    System.out.println("Hello Eclipse!");
+    int sum = 0;
+    sum = calculateSum(sum);
+    System.out.println(sum);
+  }
+
+  private static int calculateSum(int sum) {
+    for (int i = 0; i <= 100; i++) {
+      sum += i;
+    }
+    return sum;
+  }
+}
+----
+
+You can also extract strings and create constants from them. Mark for
+this example `Hello Eclipse!`, right click on it and select `Refactor ->
+Extract Constant`. Name your new constant `HELLO`.
+
+image::constants.png[]
+.Extract Constants
+
+The resulting class should look like the following.
+
+[source,java]
+----
+package de.vogella.eclipse.ide.first;
+
+public class MyFirstClass {
+
+  private static final String HELLO = "Hello Eclipse!";
+
+  public static void main(String[] args) {
+    System.out.println(HELLO);
+    int sum = 0;
+    sum = calculateSum(sum);
+    System.out.println(sum);
+  }
+
+  private static int calculateSum(int sum) {
+    for (int i = 0; i <= 100; i++) {
+      sum += i;
+    }
+    return sum;
+  }
+}
+----
+
+Eclipse has much more refactorings, in most cases you should get an idea
+of the performed action by the naming of the refactoring operation.
+
+<<<
+## Eclipse Shortcuts
+
+Eclipse provides a lot of shortcuts to work efficiently with the IDE.
+For a list of the most important Eclipse shortcuts please see
+http://www.vogella.com/articles/EclipseShortcuts/article.html[Eclipse Shortcuts]
+
+## Using jars (libraries)
+
+### Adding a library (.jar) to your project
+
+The following describes how to add Java libraries to your project. Java
+libraries are distributed via `jar` files. It assumes that you have a
+jar file available; if not feel free to skip this step.
+
+Create a new Java project `de.vogella.eclipse.ide.jars`. Then,
+create a new folder called `lib`, by right clicking on your
+project and selecting `New -> Folder`.
+
+image::folder.png[]
+.Creating a new folder
+
+From the menu select `File -> Import -> General -> File System`. Select your
+jar and select the `lib` folder as target. Alternatively, just
+copy and paste your `jar` file into the `lib` folder.
+
+Right click on your project and select Properties. Under `Java Build Path
+-> Libraries` select the *Add JARs button*.
+
+The following example shows how the result would look like, if the
+`junit-4.4.jar` file had been added to the project.
+
+[[build-path]]
+.Adding a jar to the current project
+image::build-path.png[]
+
+Afterwards you can use the classes contained in the `jar` file in
+your Java source code.
+
+### Attach source code to a Java library
+
+As said earlier you can open any class via positioning the cursor on the
+class in an editor and pressing `F3`. Alternatively, you can
+press `Ctrl+Shift+T`. This will show a dialog
+in which you can enter the class name to open it.
+
+If the source code is not available, the editor will show the decompiled
+bytecode of that class.
+
+This happens if you open a class from Java library and the source for
+this .jar file is not available. The same happens if you open a class
+from the standard Java library without attaching the source code to it.
+
+To browse the source of a type contained in a library (i.e. .jar file),
+you can attach a source archive or source folder to that library.
+Afterwards the editor will show the source instead of the bytecode.
+
+In addition setting the source attachment allows debugging this source
+code.
+
+The Source Attachment dialog can be reached in the Java Build Path page
+of a project. To open this page, right click on a project -> `Properties ->
+Java Build Path`. On the Libraries tab, expand the library's node, select
+the Source attachment attribute and press the Edit button.
+
+In the Location path field, enter the path of an archive or a folder
+containing the source.
+
+The following shows this for the standard Java library. If you have the
+Java Development Kit (JDK) installed, you should find the source in the
+JDK installation folder. The file is typically called `src.zip`.
+
+.Maintaining the location of the source attachment to an jar
+image::attach.jpg[]
+
+### Add the Javadoc for a jar
+
+It is also possible to add Javadoc to a library which you use.
+
+Download the Javadoc of the jar and put it somewhere in your filesystem.
+
+Open the Java Build Path page of a project via Right click on a project
+-> `Properties -> Java Build Path`. On the Libraries tab expand the
+library's node, select the *`Javadoc location`* attribute
+and press the Edit button.
+
+Enter the location to the file which contains the Javadoc.
+
+.Maintain the location to the Javadoc file for a jar file
+image::javadoc.png[]
+
