@@ -1,5 +1,4 @@
 tests.txt
-*.pdf
 /.idea/
 /examples/.gradle/
 /exams/.gradle/

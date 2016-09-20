@@ -1,0 +1,19 @@
+# Напредно програмирање
+Аудиториски вежби
+v1.0, 20 Септември, 2016
+include::parts/attributes.adoc[]
+
+:pdf_source: ../pdf
+
+== link:av1_eclipse_tutorial.html[Аудиториска вежба 1]
+
+link:{pdf_source}/av1_eclipse_tutorial.pdf[PDF]
+link:av1_pp.html[Примери] link:{pdf_source}/av1_pp.pdf[Примери PDF]
+
+== link:av2_pp.html[Аудиториска вежба 2]
+
+link:{pdf_source}/av2_pp.pdf[PDF]
+
+== link:av3_pp.html[Аудиториска вежба 3]
+
+link:{pdf_source}/av3_pp.pdf[PDF]

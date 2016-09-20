@@ -1,11 +1,8 @@
-# Напредно програмирање : Аудиториски вежби 2 (Примери)
-М-р Томче Делев <tdelev@finki.ukim.mk>
-{docdate}
-:stem: latexmath
-:toc-title: Содржина
-:figure-caption: Слика
-:numbered:
-:latexmath:
+# Напредно програмирање
+Аудиториски вежби 2
+v1.0, 20 Септември, 2016
+include::parts/attributes.adoc[]
+
 :source_dir: ../../examples/src/main/java/mk/ukim/finki/np/av2
 
 ## Задача

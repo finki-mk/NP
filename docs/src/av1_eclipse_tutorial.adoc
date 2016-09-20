@@ -1,9 +1,7 @@
-# Напредно програмирање : Аудиториски вежби 1
-М-р Томче Делев <tdelev@finki.ukim.mk>
-{docdate}
-:toc-title: Содржина
-:figure-caption: Слика
-:numbered:
+# Напредно програмирање
+Аудиториски вежби 1
+v1.0, 20 Септември, 2016
+include::parts/attributes.adoc[]
 
 ## Што е Eclipse?
 
