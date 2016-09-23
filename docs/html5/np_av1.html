@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.4">
-<meta name="author" content="Аудиториски вежби 2">
+<meta name="author" content="Аудиториски вежби 1">
 <title>Напредно програмирање</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -514,7 +514,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Напредно програмирање</h1>
 <div class="details">
-<span id="author" class="author">Аудиториски вежби 2</span><br>
+<span id="author" class="author">Аудиториски вежби 1</span><br>
 <span id="revnumber">Верзија 1.0,</span>
 <span id="revdate">23 Септември, 2016</span>
 </div>
@@ -561,8 +561,11 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sectionbody">
 <div class="paragraph">
 <p>Да се напише метод кој ќе прима еден цел број и ќе ја печати неговата
-репрезентација како Римски број. Пример. ако ако се повика со парамететар 1998,
-излезот треба да биде MCMXCVIII.</p>
+репрезентација како Римски број.</p>
+</div>
+<div class="paragraph">
+<div class="title">Пример</div>
+<p>Aко ако се повика со парамететар <code>1998</code>, излезот треба да биде <code>MCMXCVIII</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -575,6 +578,32 @@ table.CodeRay td.code>pre{padding:0}
 </td>
 </tr>
 </table>
+</div>
+<div class="listingblock">
+<div class="title">За дома</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av1</span>;
+
+<span class="comment">/**
+ * Homework 1.1 Roman converter
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">RomanConverter</span> {
+    <span class="comment">/**
+     * Roman to decimal converter
+     *
+     * @param n number in decimal format
+     * @return string representation of the number in Roman numeral
+     */</span>
+    <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> toRoman(<span class="type">int</span> n) {
+        <span class="comment">// your solution here</span>
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+    }
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+        <span class="predefined-type">System</span>.out.println(RomanConverter.toRoman(<span class="integer">1998</span>));
+    }
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -601,6 +630,32 @@ table.CodeRay td.code>pre{padding:0}
 </tr>
 </table>
 </div>
+<div class="listingblock">
+<div class="title">За дома</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av1</span>;
+
+<span class="comment">/**
+ * Homework 1.2 number printer
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">NumberPrinter</span> {
+
+    <span class="comment">/**
+     * Print numbers from 1 to howMany in following format [1][2]...[howMany]
+     *
+     * @param howMany    how many numbers to print
+     * @param lineLength the length of the lin
+     */</span>
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> formatNumbers(<span class="type">int</span> howMany, <span class="type">int</span> lineLength) {
+        <span class="comment">// your solution here</span>
+    }
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+        formatNumbers(<span class="integer">250</span>, <span class="integer">60</span>);
+    }
+}</code></pre>
+</div>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -619,7 +674,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="footer">
 <div id="footer-text">
 Верзија 1.0<br>
-Last updated 2016-09-23 13:05:14 CEST
+Last updated 2016-09-23 15:17:35 CEST
 </div>
 </div>
 <script type="text/x-mathjax-config">
