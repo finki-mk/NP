@@ -1,8 +1,10 @@
 package mk.ukim.finki.np.av2;
 
 public class Date {
+
     private static final int FIRST_YEAR = 1800;
     private static final int LAST_YEAR = 2500;
+    private static final int DAYS_IN_YEAR = 365;
 
     private static final int[] daysOfMonth = {
             31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
@@ -15,14 +17,14 @@ public class Date {
         for (int i = 1; i < 12; i++) {
             daysTillFirstOfMonth[i] += daysTillFirstOfMonth[i - 1] + daysOfMonth[i - 1];
         }
-        int totalYears = LAST_YEAR - FIRST_YEAR;
-        daysTillJan1 = new int[totalYears + 1];
+        int totalYears = LAST_YEAR - FIRST_YEAR + 1;
+        daysTillJan1 = new int[totalYears];
         int currentYear = FIRST_YEAR;
-        for (int i = 1; i <= totalYears; i++) {
+        for (int i = 1; i < totalYears; i++) {
             if (isLeapYear(currentYear)) {
-                daysTillJan1[i] = daysTillJan1[i - 1] + 366;
+                daysTillJan1[i] = daysTillJan1[i - 1] + DAYS_IN_YEAR + 1;
             } else {
-                daysTillJan1[i] = daysTillJan1[i - 1] + 365;
+                daysTillJan1[i] = daysTillJan1[i - 1] + DAYS_IN_YEAR;
             }
             currentYear++;
         }
@@ -32,14 +34,14 @@ public class Date {
         return (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0));
     }
 
-    private int days;
+    private final int days;
 
     public Date(int days) {
         this.days = days;
     }
 
     public Date(int date, int month, int year) {
-        days = 0;
+        int days = 0;
         if (year < FIRST_YEAR || year > LAST_YEAR) {
             throw new RuntimeException();
         }
@@ -49,9 +51,10 @@ public class Date {
             days++;
         }
         days += date;
+        this.days = days;
     }
 
-    public int substract(Date date) {
+    public int subtract(Date date) {
         return this.days - date.days;
     }
 
@@ -60,8 +63,8 @@ public class Date {
     }
 
     @Override
-    public boolean equals(Object arg0) {
-        Date date = (Date) arg0;
+    public boolean equals(Object other) {
+        Date date = (Date) other;
         return this.days == date.days;
     }
 
@@ -97,7 +100,7 @@ public class Date {
     public static void main(String[] args) {
         Date sample = new Date(1, 10, 2012);
         System.out.println("Date: " + sample);
-        System.out.println(sample.substract(new Date(1, 1, 2000)));
+        System.out.println(sample.subtract(new Date(1, 1, 2000)));
         System.out.println(sample);
         sample = new Date(1, 1, 1800);
         System.out.println(sample);
@@ -108,5 +111,4 @@ public class Date {
         sample = sample.increment(100);
         System.out.println(sample);
     }
-
 }

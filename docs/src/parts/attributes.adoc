@@ -2,3 +2,5 @@
 :toc-title: Содржина
 :figure-caption: Слика
 :numbered:
+:stem:
+:sources_zip: ../sources

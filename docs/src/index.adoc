@@ -1,19 +1,25 @@
 # Напредно програмирање
 Аудиториски вежби
-v1.0, 20 Септември, 2016
+v1.0, 23 Септември, 2016
 include::parts/attributes.adoc[]
 
 :pdf_source: ../pdf
 
-== link:av1_eclipse_tutorial.html[Аудиториска вежба 1]
+== Аудиториска вежба 1
 
-link:{pdf_source}/av1_eclipse_tutorial.pdf[PDF]
-link:av1_pp.html[Примери] link:{pdf_source}/av1_pp.pdf[Примери PDF]
+Запознавање со *Eclipse* и прва програма во Java.
 
-== link:av2_pp.html[Аудиториска вежба 2]
+link:np_av1_eclipse_tutorial.html[HTML] | link:{pdf_source}/np_av1_eclipse_tutorial.pdf[PDF]
 
-link:{pdf_source}/av2_pp.pdf[PDF]
+=== Примери
+link:np_av1.html[HTML] | link:{pdf_source}/np_av1.pdf[PDF] | link:{sources_zip}/np_av1_src.zip[Source Code ZIP]
 
-== link:av3_pp.html[Аудиториска вежба 3]
+== Аудиториска вежба 2
 
-link:{pdf_source}/av3_pp.pdf[PDF]
+Едноставни примери на структурно и објектно-ориентирано програмирање во Java.
+
+link:np_av2.html[HTML] | link:{pdf_source}/np_av2.pdf[PDF] | link:{sources_zip}/np_av2_src.zip[Source Code ZIP]
+
+== Аудиториска вежба 3
+
+link:np_av3.html[HTML] | link:{pdf_source}/np_av3.pdf[PDF] | link:{sources_zip}/np_av3_src.zip[Source Code ZIP]

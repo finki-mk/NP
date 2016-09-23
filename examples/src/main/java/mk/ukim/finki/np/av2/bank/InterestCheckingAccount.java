@@ -5,8 +5,7 @@ public class InterestCheckingAccount
 
     public static final double INTEREST_RATE = .03; // 3%
 
-    public InterestCheckingAccount(String holderName, int number,
-                                   double currentAmount) {
+    public InterestCheckingAccount(String holderName, int number, double currentAmount) {
         super(holderName, number, currentAmount);
     }
 

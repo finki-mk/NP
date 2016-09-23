@@ -1,6 +1,7 @@
 package mk.ukim.finki.np.av2;
 
 public class CombinationLock {
+
     private int combination;
     private boolean isOpen;
 
@@ -14,12 +15,15 @@ public class CombinationLock {
         return this.isOpen;
     }
 
-    public boolean changeCombo(int combination, int newCombination) {
-        boolean isCorrect = (this.combination == combination);
+    public boolean changeCombo(int oldCombination, int newCombination) {
+        boolean isCorrect = (this.combination == oldCombination);
         if (isCorrect) {
             this.combination = newCombination;
         }
         return isCorrect;
     }
 
+    public boolean isOpen() {
+        return isOpen;
+    }
 }

@@ -29,7 +29,7 @@ public class Examples2 {
     // end::sum[]
 
     // tag::average[]
-    public static double avarage(double[][] a) {
+    public static double average(double[][] a) {
         double s = 0;
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a[i].length; j++) {

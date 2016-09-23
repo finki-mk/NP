@@ -18,11 +18,7 @@ asciidoctor {
     outputDir = file('.')
 
     def files = [
-            'index.adoc',
-            'av1_eclipse_tutorial.adoc',
-            'av1_pp.adoc',
-            'av2_pp.adoc',
-            'av3_pp.adoc'
+            '*.adoc'
     ]
 
     sources {
@@ -40,4 +36,18 @@ asciidoctor {
             'pdf-stylesdir': 'theme',
             'pdf-style': 'finki',
             'pdf-fontsdir': 'fonts'
+
+    dependsOn "srcZip"
+}
+
+task srcZip
+
+(1..3).each { id ->
+    task "srcZip${id}"(type: Zip) {
+        from('../examples/src/main/java/mk/ukim/finki/np/av' + id)
+        excludes = []
+        archiveName = "np_av${id}_src.zip"
+        destinationDir = file('./sources')
+    }
+    srcZip.dependsOn "srcZip${id}"
 }

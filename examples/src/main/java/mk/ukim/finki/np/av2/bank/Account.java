@@ -1,6 +1,7 @@
 package mk.ukim.finki.np.av2.bank;
 
 public abstract class Account {
+    
     private String holderName;
     private int number;
     private double currentAmount;
