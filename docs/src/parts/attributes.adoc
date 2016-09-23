@@ -3,4 +3,4 @@
 :figure-caption: Слика
 :numbered:
 :stem:
-:sources_zip: ../sources
+:sources_zip: https://finki-mk.github.io/NP/sources
