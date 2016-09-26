@@ -4,5 +4,7 @@ tests.txt
 /exams/.gradle/
 /docs/.gradle/
 /exams/src/main/java/mk/ukim/finki/np/homework/
+/exams/src/main/java/mk/ukim/finki/np/lab/
 /exams/build/
 /examples/build/
+generate.py
