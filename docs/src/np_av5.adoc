@@ -189,3 +189,7 @@ include::{source_dir}/BinaryNumbers.java[]
 Оваа класа треба да има можност за додавање нов резултат и прикажување на тековните резултати.
 
 NOTE: За дома
+
+include::parts/footer.adoc[]
+
+link:{sources_zip}/np_av5_src.zip[Source Code ZIP]
