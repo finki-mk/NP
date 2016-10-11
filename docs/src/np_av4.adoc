@@ -1,0 +1,164 @@
+# Напредно програмирање
+Аудиториски вежби 4
+v1.0, 20 Септември, 2016
+include::parts/attributes.adoc[]
+
+:source_dir: ../../examples/src/main/java/mk/ukim/finki/np/av4
+
+## Bank (наследување, полиморфизам и интерфејси)
+
+Дадени се следниве пет класи:
+
+. `Bank`
+. `Account`
+. `NonInterestCheckingAccount`
+. `InterestCheckingAccount`
+. `PlatinumCheckingAccount`
+
+како и интефејс наречен `InterestBearingAccount` кои се однесуваат на следниот начин:
+
+* Во `Bank` чува листа од сите видови сметки, вклучувајќи сметки за штедење и за трошење, некои од нив подложни на камата, а некои не.
+Во `Bank` постои метод `totalAssets` кој ја враќа сумата на состојбата на сите сметки.
+Исто така содржи метод `addInterest` кој го повикува методот `addInterest` на сите сметки кои се подложни на камата.
+* `Account` е апстрактна класа.
+Во секој сметка се чуваат името на сопственикот на сметката, бројот на сметката (секвенцијален број доделен автоматски), моменталната состојба.
+Во класата се имплементираат конструктор за иницијализација на податочните членови, методи за пристап до моменталната состојба, како и за додавање и одземање од моменталната состојба.
+* `InterestBearingAccount` интерфејсот декларрира единствен метод `addInterest` (без параметри и не враќа ништо - `void`) кој ја зголемува состојбата со соодветната камата за овој вид на сметка.
+* `InterestCheckingAccount` е сметка `Account` која е исто така `InterestBearingAccount`.
+Повикување `addInterest` ја зголемува состојбата за 3%.
+* `PlatinumCheckingAccount` е `InterestCheckingAccount`.
+Повикување `addInterest` ја зголемува состојбата двојно од каматата за `InterestCheckingAccount` (колку и да е таа).
+* `NonInterestCheckingAccount` е сметка `Account` но не е `InterestBearingAccount`.
+Нема дополнителни функционалности надвор од основните од класата `Account`.
+
+За оваа задача, потребно е да се имплментира функционалност дадена во претходниот текст:
+
+  . Пет од шест класи од споменатите формираат хиерархија. За овие класи да се нацрта оваа хиерархија.
+  . Да се имплементира `Account`.
+  . Да се имплементира `NonInterestCheckingAccount`.
+  . Да се напише `InterestBearingAccount` интерфејсот.
+  . Да се имплементира `Bank`.
+  . Да се имплементира `InterestCheckingAccount`.
+  . Да се имплементира `PlatinumCheckingAccount`.
+
+.Решение (`Account.java`)
+[source,java]
+----
+include::{source_dir}/bank/Account.java[]
+----
+
+.Решение (`NonInterestCheckingAccount.java`)
+[source,java]
+----
+include::{source_dir}/bank/NonInterestCheckingAccount.java[]
+----
+
+.Решение (`InterestBearingAccount.java`)
+[source,java]
+----
+include::{source_dir}/bank/InterestBearingAccount.java[]
+----
+
+.Решение (`Bank.java`)
+[source,java]
+----
+include::{source_dir}/bank/Bank.java[]
+----
+
+.Решение (`InterestCheckingAccount.java`)
+[source,java]
+----
+include::{source_dir}/bank/InterestCheckingAccount.java[]
+----
+
+.Решение (`PlatinumCheckingAccount.java`)
+[source,java]
+----
+include::{source_dir}/bank/PlatinumCheckingAccount.java[]
+----
+
+== Наследување (рефакторирање)
+
+Следниот код е дизајниран од J. Hacker за видео игра.
+Постои класа `Alien` која репрезентира вонземјанин и класа `AlienPack` која репрезентира група вонземјани и колку штета може да нанесат:
+
+.`Alian.java`
+[source,java]
+----
+include::{source_dir}/Alien.java[]
+----
+
+.`AlianPack.java`
+[source,java]
+----
+include::{source_dir}/AlienPack.java[]
+----
+
+Кодот не е многу објектно ориентиран и не подржува криење на информациите во класата `Alien`.
+Да се пренапише, така што ќе се искористи наследување за да се репрезентираат различни типови вонземјани, наместо да се користи параметарот `type`.
+Исто така пренапишете jа класата `Alien` така што ќе ги крие инстанцните променливи и додадете метод `getDamage` коj за секоја од изведените класа ќе jа врак̀а штетата која jа предизвикува.
+На крај пренапишете го методот `calculateDamage` да го користи `getDamage` и напишете `main` метод да ја тестирате класата.
+
+== Читање од стандарден влез (SI)
+
+=== Калкулатор
+
+Да се напише програма едноставен калкулатор.
+Калкулаторот чува еден број од тип `double` со име резултат и неговата почетна вредност е `0.0`.
+Во циклус му се дозволува на корисникот да додаде, одземе, помножи или подели со втор број.
+Резултатот од овие операции е новата вредност на резултатот.
+Пресметката завршува кога корисникот ќе внесе R за `result` (како мала или голема буква).
+Корисникот може да направи уште една пресметка од почеток или да ја заврши програмата `(Y/N)`.
+Ако корисникот внесе различен знак за оператор од `+`, `-`, `*` или `/`, тогаш се фрла исклучок `UnknownOperatorException` и се чека повторно на внес.
+
+.Пример форматот на влезните податоци:
+
+[source,bash]
+----
+Calculator is on.
+result = 0.0
++5
+result + 5.0 = 5.0
+new result = 5.0
+* 2.2
+result * 2.2 = 11.0
+updated result = 11.0
+% 10
+% is an unknown operation.
+Reenter, your last line:
+* 0.1
+result * 0.1 = 1.1
+updated result = 1.1
+r
+Final result = 1.1
+Again? (y/n)
+yes
+result = 0.0
++10
+result + 10.0 = 10.0
+new result = 10.0
+/2
+result / 2.0 = 5.0
+updated result = 5.0
+r
+Final result = 5.0
+Again? (y/n)
+N
+End of Program
+----
+
+.Решение
+[source,java]
+----
+include::{source_dir}/Calculator.java[]
+----
+
+.Решение (Тест програма)
+[source,java]
+----
+include::{source_dir}/CalculatorTest.java[]
+----
+
+include::parts/footer.adoc[]
+
+link:{sources_zip}/np_av3_src.zip[Source Code ZIP]

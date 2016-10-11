@@ -521,28 +521,24 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toc" class="toc2">
 <div id="toctitle">Содржина</div>
 <ul class="sectlevel1">
-<li><a href="#Задача">1. Задача</a></li>
-<li><a href="#Задача-2">2. Задача</a></li>
-<li><a href="#Задача-3">3. Задача</a></li>
-<li><a href="#Задача-4">4. Задача</a></li>
-<li><a href="#Задача-5">5. Задача</a></li>
-<li><a href="#Задача-6">6. Задача</a></li>
-<li><a href="#Задача-7">7. Задача</a></li>
-<li><a href="#Изворен-код-од-примери-и-задачи">8. Изворен код од примери и задачи</a></li>
+<li><a href="#string-prefix">1. String prefix</a></li>
+<li><a href="#Матрица-сума-и-просек">2. Матрица (сума и просек)</a></li>
+<li><a href="#Катанец-combinationlock">3. Катанец (CombinationLock)</a></li>
+<li><a href="#bigcomplex">4. BigComplex</a></li>
+<li><a href="#Изворен-код-од-примери-и-задачи">5. Изворен код од примери и задачи</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="Задача">1. Задача</h2>
+<h2 id="string-prefix">1. String prefix</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Да се напише метод кој враќа точно ако <code>String str1</code> е префикс на <code>String str2</code>.
-Не е дозволено користење на готови методи за пребарување, единствено дозволено е
-користење на <code>charAt</code>.</p>
+Не е дозволено користење на готови методи за пребарување, единствено дозволено е користење на <code>charAt</code>.</p>
 </div>
 <div class="listingblock">
-<div class="title">Решение 1 (<code>isPrefix</code>)</div>
+<div class="title">Решение (<code>isPrefix</code>)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">    <span class="directive">public</span> <span class="directive">static</span> <span class="type">boolean</span> isPrefix(<span class="predefined-type">String</span> str1, <span class="predefined-type">String</span> str2) {
         <span class="keyword">if</span> (str1.length() &gt; str2.length()) {
@@ -557,14 +553,25 @@ table.CodeRay td.code>pre{padding:0}
     }</code></pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">Решение со Java 8 Streams (<code>isPrefixStream</code>)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    <span class="directive">public</span> <span class="directive">static</span> <span class="type">boolean</span> isPrefixStream(<span class="predefined-type">String</span> str1, <span class="predefined-type">String</span> str2) {
+        <span class="keyword">if</span> (str1.length() &gt; str2.length()) {
+            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+        }
+        <span class="keyword">return</span> IntStream.range(<span class="integer">0</span>, str1.length())
+                .allMatch(i -&gt; str1.charAt(i) == str2.charAt(i));
+    }</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="Задача-2">2. Задача</h2>
+<h2 id="Матрица-сума-и-просек">2. Матрица (сума и просек)</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Да се имплементираат следните методи кои примаат дво-димензионални низи од
-double и враќаат како резултат сума и просек.</p>
+<p>Да се имплементираат следните методи кои примаат дво-димензионални низи од <code>double</code> и враќаат како резултат сума и просек.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -573,7 +580,7 @@ double и враќаат како резултат сума и просек.</p>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Решение 2 (<code>sum</code>)</div>
+<div class="title">Решение (<code>sum</code>)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="type">double</span> sum(<span class="type">double</span><span class="type">[]</span><span class="type">[]</span> a) {
     <span class="type">double</span> s = <span class="integer">0</span>;
@@ -583,6 +590,16 @@ double и враќаат како резултат сума и просек.</p>
         }
     }
     <span class="keyword">return</span> s;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Решение со Java 8 Streams (<code>sumStream</code>)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="type">double</span> sumStream(<span class="type">double</span><span class="type">[]</span><span class="type">[]</span> a) {
+    <span class="keyword">return</span> <span class="predefined-type">Arrays</span>.stream(a)
+            .mapToDouble(row -&gt; <span class="predefined-type">Arrays</span>.stream(row).sum())
+            .sum();
 }</code></pre>
 </div>
 </div>
@@ -603,7 +620,7 @@ double и враќаат како резултат сума и просек.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="Задача-3">3. Задача</h2>
+<h2 id="Катанец-combinationlock">3. Катанец (CombinationLock)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Катанец со комбинации <code>Combination Lock</code> ги има следните својства:</p>
@@ -617,18 +634,16 @@ double и враќаат како резултат сума и просек.</p>
 <p>катанецот може да се отвори само ако се внесе точната комбинација</p>
 </li>
 <li>
-<p>комбинацијата може да се промени само ако се знае претходната
-комбинација.</p>
+<p>комбинацијата може да се промени само ако се знае претходната комбинација.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Да се дизајнира класа со јавни методи <code>open</code> и <code>changeCombo</code> и
-приватни податоци кои ја чуваат комбинацијата. Комбинацијата се
-поставува преку конструкторот.</p>
+<p>Да се дизајнира класа со јавни методи <code>open</code> и <code>changeCombo</code> и приватни податоци кои ја чуваат комбинацијата.
+Комбинацијата се поставува преку конструкторот.</p>
 </div>
 <div class="listingblock">
-<div class="title">Решение 3 (<code>CombinationLock.java</code>)</div>
+<div class="title">Решение (<code>CombinationLock.java</code>)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2</span>;
 
@@ -664,370 +679,23 @@ double и враќаат како резултат сума и просек.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="Задача-4">4. Задача</h2>
+<h2 id="bigcomplex">4. BigComplex</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Имплементирајте едноставна класа за датум <code>Date</code>.
-Вашата класа треба да може:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>да ги репрезентира сите датуми од 1 Јануари 1800 до 31 Декември 2500</p>
-</li>
-<li>
-<p>одзема два датуми</p>
-</li>
-<li>
-<p>зголеми датум за даден број денови</p>
-</li>
-<li>
-<p>да споредува два датуми со помош на <code>equals</code> и <code>compareTo</code>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Датумот внатрешно ќе се репрезентира како број на денови од почетното време, кое
-во овој случај е почетокот на 1800. Со ова сите методи освен методот
-<code>toString</code> се поедноставуваат. Да се запази правилото за престапни години
-(престапна година е секоја година која е делива со 4 и не е делива со 100 освен
-ако е делива со 400). Конструкторот треба да ја провери валидноста на датумот, а
-исто така и методот <code>toString</code>. Датумот може да стане неточен ако
-зголемувањето или намалувањто придонсе да излезе надвор од опсегот.</p>
-</div>
-<div class="paragraph">
-<p>Потешкиот дел од задачата е конверзијата од интерната репрезентација во
-надворешна репрезентација на датум. Еден предлог алгоритам е следниот. Се
-иницијализираат две низи во статички членови. Првата низа е денови до први во
-месецот (daysTillFirstOfMonth) во не престапна година. Оваа низа содржи 0, 31,
-59, 90, итн. Во втората низа, денови од почетокот на првата година
-(daysTillJan1). Така оваа низа ќе содржи 0, 365, 730, 1095, 1460, 1826, итн. Со
-помош на овие низи ќе ја правиме конверзијата на различни репрезентации на
-датум.</p>
+<p>Комплексен број се состои од реален дел и имагинарен дел.
+Да се импалементира класа <code>BigComplex</code>, во која реалниот и имагинарниот дел ќе се чуваат во објекти од класата <code>BigDecimals</code>.</p>
 </div>
 <div class="listingblock">
-<div class="title">Решение 4 (<code>Date.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">Date</span> {
-
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> FIRST_YEAR = <span class="integer">1800</span>;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> LAST_YEAR = <span class="integer">2500</span>;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> DAYS_IN_YEAR = <span class="integer">365</span>;
-
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysOfMonth = {
-            <span class="integer">31</span>, <span class="integer">28</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>
-    };
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysTillFirstOfMonth;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysTillJan1;
-
-    <span class="directive">static</span> {
-        daysTillFirstOfMonth = <span class="keyword">new</span> <span class="type">int</span>[<span class="integer">12</span>];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">1</span>; i &lt; <span class="integer">12</span>; i++) {
-            daysTillFirstOfMonth[i] += daysTillFirstOfMonth[i - <span class="integer">1</span>] + daysOfMonth[i - <span class="integer">1</span>];
-        }
-        <span class="type">int</span> totalYears = LAST_YEAR - FIRST_YEAR + <span class="integer">1</span>;
-        daysTillJan1 = <span class="keyword">new</span> <span class="type">int</span>[totalYears];
-        <span class="type">int</span> currentYear = FIRST_YEAR;
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">1</span>; i &lt; totalYears; i++) {
-            <span class="keyword">if</span> (isLeapYear(currentYear)) {
-                daysTillJan1[i] = daysTillJan1[i - <span class="integer">1</span>] + DAYS_IN_YEAR + <span class="integer">1</span>;
-            } <span class="keyword">else</span> {
-                daysTillJan1[i] = daysTillJan1[i - <span class="integer">1</span>] + DAYS_IN_YEAR;
-            }
-            currentYear++;
-        }
-    }
-
-    <span class="directive">private</span> <span class="directive">static</span> <span class="type">boolean</span> isLeapYear(<span class="type">int</span> year) {
-        <span class="keyword">return</span> (year % <span class="integer">400</span> == <span class="integer">0</span> || (year % <span class="integer">4</span> == <span class="integer">0</span> &amp;&amp; year % <span class="integer">100</span> != <span class="integer">0</span>));
-    }
-
-    <span class="directive">private</span> <span class="directive">final</span> <span class="type">int</span> days;
-
-    <span class="directive">public</span> <span class="predefined-type">Date</span>(<span class="type">int</span> days) {
-        <span class="local-variable">this</span>.days = days;
-    }
-
-    <span class="directive">public</span> <span class="predefined-type">Date</span>(<span class="type">int</span> date, <span class="type">int</span> month, <span class="type">int</span> year) {
-        <span class="type">int</span> days = <span class="integer">0</span>;
-        <span class="keyword">if</span> (year &lt; FIRST_YEAR || year &gt; LAST_YEAR) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">RuntimeException</span>();
-        }
-        days += daysTillJan1[year - FIRST_YEAR];
-        days += daysTillFirstOfMonth[month - <span class="integer">1</span>];
-        <span class="keyword">if</span> (month &gt; <span class="integer">2</span> &amp;&amp; isLeapYear(year)) {
-            days++;
-        }
-        days += date;
-        <span class="local-variable">this</span>.days = days;
-    }
-
-    <span class="directive">public</span> <span class="type">int</span> subtract(<span class="predefined-type">Date</span> date) {
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days - date.days;
-    }
-
-    <span class="directive">public</span> <span class="predefined-type">Date</span> increment(<span class="type">int</span> days) {
-        <span class="keyword">return</span> <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="local-variable">this</span>.days + days);
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> other) {
-        <span class="predefined-type">Date</span> date = (<span class="predefined-type">Date</span>) other;
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days == date.days;
-    }
-
-    <span class="directive">public</span> <span class="type">int</span> compareTo(<span class="predefined-type">Date</span> date) {
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days - date.days;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="type">int</span> d = days;
-        <span class="type">int</span> i;
-        <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; daysTillJan1.length; i++) {
-            <span class="keyword">if</span> (daysTillJan1[i] &gt;= days) {
-                <span class="keyword">break</span>;
-            }
-        }
-        d -= daysTillJan1[i - <span class="integer">1</span>];
-        <span class="type">int</span> year = FIRST_YEAR + i - <span class="integer">1</span>;
-        <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; daysTillFirstOfMonth.length; i++) {
-            <span class="keyword">if</span> (daysTillFirstOfMonth[i] &gt;= d) {
-                <span class="keyword">break</span>;
-            }
-        }
-        <span class="type">int</span> month = i;
-        d -= daysTillFirstOfMonth[i - <span class="integer">1</span>];
-        <span class="type">int</span> date = d;
-        <span class="keyword">if</span> (isLeapYear(year)) {
-            date--;
-        }
-        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%02d.%02d.%4d</span><span class="delimiter">&quot;</span></span>, date, month, year);
-    }
-
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        <span class="predefined-type">Date</span> sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">10</span>, <span class="integer">2012</span>);
-        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Date: </span><span class="delimiter">&quot;</span></span> + sample);
-        <span class="predefined-type">System</span>.out.println(sample.subtract(<span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">2000</span>)));
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">1800</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">31</span>, <span class="integer">12</span>, <span class="integer">2500</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">31</span>, <span class="integer">12</span>, <span class="integer">2300</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = sample.increment(<span class="integer">100</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="Задача-5">5. Задача</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>PlayingCard</code> (карта) е класа со која се репрезентира карта во игри со
-карти како покер и блек џек и во не се чува информација за бојата (херц, каро, пик, треф) и
-рангот (вредност од 2 до 10 или џандар, кралица, поп или ас). <code>Deck</code>
-(шпил од карти) е класа која репрезентира комплет од 52 карти. Додека
-<code>MultipleDeck</code> (повеќе шпилови) е класа која репрезентира повеќе шпилови
-со карти (точниот број се задава во конструкторот). Да се имплментираат 3 класи
-<code>PlayingCard</code>, <code>Deck</code>, и <code>MultipleDeck</code>, со стандардна
-функционалност за карта, за шпил и повеќе шпилови да се имплментираат методи за
-мешање <code>shuffle</code>, делење на карта  <code>dealCard</code> и проверка дали има
-останато карти.</p>
-</div>
-<div class="listingblock">
-<div class="title">Решение 4 (<code>PlayingCard.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">PlayingCard</span> {
-    <span class="directive">public</span> <span class="type">enum</span> TYPE {
-        HEARTS,
-        DIAMONDS,
-        SPADES,
-        CLUBS
-    }
-
-    <span class="directive">private</span> TYPE type;
-    <span class="directive">private</span> <span class="type">int</span> rank;
-
-    <span class="directive">public</span> PlayingCard(TYPE type, <span class="type">int</span> rank) {
-        <span class="local-variable">this</span>.type = type;
-        <span class="local-variable">this</span>.rank = rank;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%d %s</span><span class="delimiter">&quot;</span></span>, rank, type.toString());
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">int</span> hashCode() {
-        <span class="directive">final</span> <span class="type">int</span> prime = <span class="integer">31</span>;
-        <span class="type">int</span> result = <span class="integer">1</span>;
-        result = prime * result + rank;
-        result = prime * result + ((type == <span class="predefined-constant">null</span>) ? <span class="integer">0</span> : type.hashCode());
-        <span class="keyword">return</span> result;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> obj) {
-        <span class="keyword">if</span> (<span class="local-variable">this</span> == obj)
-            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-        <span class="keyword">if</span> (obj == <span class="predefined-constant">null</span>)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (getClass() != obj.getClass())
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        PlayingCard other = (PlayingCard) obj;
-        <span class="keyword">if</span> (rank != other.rank)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (type != other.type)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-    }
-
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение 4 (<code>Deck.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2</span>;
-
-<span class="keyword">import</span> <span class="include">java.util.Arrays</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">Deck</span> {
-    <span class="directive">private</span> PlayingCard<span class="type">[]</span> cards;
-    <span class="directive">private</span> <span class="type">boolean</span><span class="type">[]</span> picked;
-    <span class="directive">private</span> <span class="type">int</span> total;
-
-    <span class="directive">public</span> Deck() {
-        total = <span class="integer">0</span>;
-        cards = <span class="keyword">new</span> PlayingCard[<span class="integer">52</span>];
-        picked = <span class="keyword">new</span> <span class="type">boolean</span>[<span class="integer">52</span>];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; PlayingCard.TYPE.values().length; ++i) {
-            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="integer">0</span>; j &lt; <span class="integer">13</span>; ++j) {
-                cards[j + (<span class="integer">13</span> * i)] =
-                        <span class="keyword">new</span> PlayingCard(PlayingCard.TYPE.values()[i], j + <span class="integer">1</span>);
-            }
-        }
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="predefined-type">StringBuilder</span> result = <span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>();
-        <span class="keyword">for</span> (PlayingCard playingCard : cards) {
-            result.append(playingCard);
-            result.append(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-        }
-        <span class="keyword">return</span> result.toString();
-    }
-
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        Deck deck = <span class="keyword">new</span> Deck();
-        PlayingCard card;
-        <span class="keyword">while</span> ((card = deck.dealCard()) != <span class="predefined-constant">null</span>) {
-            <span class="predefined-type">System</span>.out.println(card);
-        }
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">int</span> hashCode() {
-        <span class="directive">final</span> <span class="type">int</span> prime = <span class="integer">31</span>;
-        <span class="type">int</span> result = <span class="integer">1</span>;
-        result = prime * result + <span class="predefined-type">Arrays</span>.hashCode(cards);
-        <span class="keyword">return</span> result;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> obj) {
-        <span class="keyword">if</span> (<span class="local-variable">this</span> == obj)
-            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-        <span class="keyword">if</span> (obj == <span class="predefined-constant">null</span>)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (getClass() != obj.getClass())
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        Deck other = (Deck) obj;
-        <span class="keyword">if</span> (!<span class="predefined-type">Arrays</span>.equals(cards, other.cards))
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-    }
-
-    <span class="directive">public</span> PlayingCard dealCard() {
-        <span class="keyword">if</span> (total == <span class="integer">52</span>) <span class="keyword">return</span> <span class="predefined-constant">null</span>;
-        <span class="type">int</span> card = (<span class="type">int</span>) (<span class="integer">52</span> * <span class="predefined-type">Math</span>.random());
-        <span class="keyword">if</span> (!picked[card]) {
-            ++total;
-            picked[card] = <span class="predefined-constant">true</span>;
-            <span class="keyword">return</span> cards[card];
-        }
-        <span class="keyword">return</span> dealCard();
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение 4 (<code>MultipleDeck.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">MultipleDeck</span> {
-    <span class="directive">private</span> Deck<span class="type">[]</span> decks;
-
-    <span class="directive">public</span> MultipleDeck(<span class="type">int</span> n) {
-        decks = <span class="keyword">new</span> Deck[n];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; n; ++i) {
-            decks[i] = <span class="keyword">new</span> Deck();
-        }
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="predefined-type">StringBuilder</span> sb = <span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>();
-        <span class="keyword">for</span> (Deck deck : decks) {
-            sb.append(deck);
-            sb.append(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-        }
-        <span class="keyword">return</span> sb.toString();
-    }
-
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        MultipleDeck md = <span class="keyword">new</span> MultipleDeck(<span class="integer">3</span>);
-        <span class="predefined-type">System</span>.out.println(md);
-    }
-
-
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="Задача-6">6. Задача</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Комплексен број се состои од реален дел и имагинарен дел. Да се импалементира
-класа <code>BigComplex</code>, во која реалниот и имагинарниот дел ќе се чуваат во
-објекти од класата <code>BigDecimals</code>.</p>
-</div>
-<div class="listingblock">
-<div class="title">Решение 5 (<code>BigComplex.java</code>)</div>
+<div class="title">Решение (<code>BigComplex.java</code>)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2</span>;
 
 <span class="keyword">import</span> <span class="include">java.math.BigDecimal</span>;
 
-<span class="directive">public</span> <span class="type">class</span> <span class="class">BigComplex</span> {
-    <span class="directive">private</span> <span class="predefined-type">BigDecimal</span> real;
-    <span class="directive">private</span> <span class="predefined-type">BigDecimal</span> imag;
+<span class="directive">public</span> <span class="directive">final</span> <span class="type">class</span> <span class="class">BigComplex</span> {
+
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">BigDecimal</span> real;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">BigDecimal</span> imag;
 
     <span class="directive">public</span> BigComplex(<span class="predefined-type">BigDecimal</span> real, <span class="predefined-type">BigDecimal</span> imag) {
         <span class="local-variable">this</span>.real = real;
@@ -1051,261 +719,16 @@ double и враќаат како резултат сума и просек.</p>
 </td>
 <td class="content">
 <div class="title">За дома</div>
-Имплементирајте ги останатите методи за
-одземање <code>subtract</code>, множење <code>multiply</code> и делење <code>divide</code>.
+Имплементирајте ги останатите методи за одземање <code>subtract</code>, множење <code>multiply</code> и делење <code>divide</code>.
 </td>
 </tr>
 </table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="Задача-7">7. Задача</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Дадени се следниве пет класи:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><code>Bank</code></p>
-</li>
-<li>
-<p><code>Account</code></p>
-</li>
-<li>
-<p><code>NonInterestCheckingAccount</code></p>
-</li>
-<li>
-<p><code>InterestCheckingAccount</code></p>
-</li>
-<li>
-<p><code>PlatinumCheckingAccount</code></p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>како и интефејс наречен <code>InterestBearingAccount</code> кои се однесуваат на следниот начин:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Во <code>Bank</code> чува листа од сите видови сметки, вклучувајќи сметки
-за штедење и за трошење, некои од нив подложни на камата, а некои не.
-Во <code>Bank</code> постои метод <code>totalAssets</code> кој ја враќа сумата на состојбата на сите сметки.
-Исто така содржи метод <code>addInterest</code> кој го повикува методот <code>addInterest</code>
-на сите сметки кои се подложни на камата.</p>
-</li>
-<li>
-<p><code>Account</code> е апстрактна класа. Во секој сметка се чуваат името на
-сопственикот на сметката, бројот на сметката (секвенцијален број доделен
-автоматски), моменталната состојба.
-Во класата се имплементираат конструктор за иницијализација на
-податочните членови, методи за пристап до моменталната
- состојба, како и за додавање и одземање од моменталната состојба.</p>
-</li>
-<li>
-<p><code>InterestBearingAccount</code> интерфејсот декларрира единствен метод
-<code>addInterest</code> (без параметри и не враќа ништо - <code>void</code>) кој ја зголемува
-состојбата со соодветната камата за овој вид на сметка.</p>
-</li>
-<li>
-<p><code>InterestCheckingAccount</code> е сметка <code>Account</code> која е исто
-така <code>InterestBearingAccount</code>. Повикување <code>addInterest</code> ја
-зголемува состојбата за 3%.</p>
-</li>
-<li>
-<p><code>PlatinumCheckingAccount</code> е <code>InterestCheckingAccount</code>.
-Повикување <code>addInterest</code> ја зголемува состојбата двојно од каматата за
-<code>InterestCheckingAccount</code> (колку и да е таа).</p>
-</li>
-<li>
-<p><code>NonInterestCheckingAccount</code> е сметка <code>Account</code> но не е
-<code>InterestBearingAccount</code>. Нема дополнителни функционалности надвор од
-основните од класата <code>Account</code>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>За оваа задача, потребно е да се имплментира функционалност дадена
-во претходниот текст:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Пет од шест класи од споменатите формираат хиерархија. За овие класи да
-се нацрта оваа хиерархија.</p>
-</li>
-<li>
-<p>Да се имплементира <code>Account</code>.</p>
-</li>
-<li>
-<p>Да се имплементира <code>NonInterestCheckingAccount</code>.</p>
-</li>
-<li>
-<p>Да се напише <code>InterestBearingAccount</code> интерфејсот.</p>
-</li>
-<li>
-<p>Да се имплементира <code>Bank</code>.</p>
-</li>
-<li>
-<p>Да се имплементира <code>InterestCheckingAccount</code>.</p>
-</li>
-<li>
-<p>Да се имплементира <code>PlatinumCheckingAccount</code>.</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="title">Решение 6 (<code>Account.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2.bank</span>;
-
-<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">Account</span> {
-
-    <span class="directive">private</span> <span class="predefined-type">String</span> holderName;
-    <span class="directive">private</span> <span class="type">int</span> number;
-    <span class="directive">private</span> <span class="type">double</span> currentAmount;
-
-    <span class="directive">public</span> Account(<span class="predefined-type">String</span> holderName, <span class="type">int</span> number, <span class="type">double</span> currentAmount) {
-        <span class="local-variable">this</span>.holderName = holderName;
-        <span class="local-variable">this</span>.number = number;
-        <span class="local-variable">this</span>.currentAmount = currentAmount;
-    }
-
-    <span class="directive">public</span> <span class="type">double</span> getCurrentAmount() {
-        <span class="keyword">return</span> currentAmount;
-    }
-
-    <span class="directive">public</span> <span class="type">void</span> addAmount(<span class="type">double</span> amount) {
-        currentAmount += amount;
-    }
-
-    <span class="directive">public</span> <span class="type">void</span> withdrawAmount(<span class="type">double</span> amount) {
-        currentAmount -= amount;
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение 6 (<code>NonInterestCheckingAccount.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2.bank</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">NonInterestCheckingAccount</span> <span class="directive">extends</span> Account {
-
-    <span class="directive">public</span> NonInterestCheckingAccount(<span class="predefined-type">String</span> holderName, <span class="type">int</span> number, <span class="type">double</span> currentAmount) {
-        <span class="local-variable">super</span>(holderName, number, currentAmount);
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение 6 (<code>InterestBearingAccount.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2.bank</span>;
-
-<span class="directive">public</span> <span class="type">interface</span> <span class="class">InterestBearingAccount</span> {
-    <span class="type">void</span> addInterest();
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение 6 (<code>Bank.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2.bank</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">Bank</span> {
-    <span class="directive">private</span> Account<span class="type">[]</span> accounts;
-    <span class="directive">private</span> <span class="type">int</span> totalAccounts;
-    <span class="directive">private</span> <span class="type">int</span> max;
-
-    <span class="directive">public</span> Bank(<span class="type">int</span> max) {
-        <span class="local-variable">this</span>.totalAccounts = <span class="integer">0</span>;
-        <span class="local-variable">this</span>.max = max;
-        accounts = <span class="keyword">new</span> Account[max];
-    }
-
-    <span class="directive">public</span> <span class="type">void</span> addAccount(Account account) {
-        <span class="keyword">if</span> (totalAccounts == accounts.length) {
-            Account<span class="type">[]</span> old = accounts;
-            max *= <span class="integer">2</span>;
-            accounts = <span class="keyword">new</span> Account[max];
-            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; old.length; i++) {
-                accounts[i] = old[i];
-            }
-        }
-        accounts[totalAccounts++] = account;
-    }
-
-    <span class="directive">public</span> <span class="type">double</span> totalAssets() {
-        <span class="type">double</span> sum = <span class="integer">0</span>;
-        <span class="keyword">for</span> (Account account : accounts) {
-            sum += account.getCurrentAmount();
-        }
-        <span class="keyword">return</span> sum;
-    }
-
-    <span class="directive">public</span> <span class="type">void</span> addInterest() {
-        <span class="keyword">for</span> (Account account : accounts) {
-            <span class="keyword">if</span> (account <span class="keyword">instanceof</span> InterestBearingAccount) {
-                InterestBearingAccount iba = (InterestBearingAccount) account;
-                iba.addInterest();
-            }
-        }
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение 6 (<code>InterestCheckingAccount.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2.bank</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">InterestCheckingAccount</span>
-        <span class="directive">extends</span> Account <span class="directive">implements</span> InterestBearingAccount {
-
-    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">double</span> INTEREST_RATE = <span class="float">.03</span>; <span class="comment">// 3%</span>
-
-    <span class="directive">public</span> InterestCheckingAccount(<span class="predefined-type">String</span> holderName, <span class="type">int</span> number, <span class="type">double</span> currentAmount) {
-        <span class="local-variable">super</span>(holderName, number, currentAmount);
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">void</span> addInterest() {
-        addAmount(getCurrentAmount() * INTEREST_RATE);
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение 6 (<code>PlatinumCheckingAccount.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av2.bank</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">PlatinumCheckingAccount</span> <span class="directive">extends</span> Account <span class="directive">implements</span>
-        InterestBearingAccount {
-
-    <span class="directive">public</span> PlatinumCheckingAccount(<span class="predefined-type">String</span> holderName, <span class="type">int</span> number, <span class="type">double</span> currentAmount) {
-        <span class="local-variable">super</span>(holderName, number, currentAmount);
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">void</span> addInterest() {
-        addAmount(getCurrentAmount() * InterestCheckingAccount.INTEREST_RATE * <span class="integer">2</span>);
-    }
-
-}</code></pre>
-</div>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="Изворен-код-од-примери-и-задачи">8. Изворен код од примери и задачи</h2>
+<h2 id="Изворен-код-од-примери-и-задачи">5. Изворен код од примери и задачи</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="https://github.com/finki-mk/NP/" class="bare">https://github.com/finki-mk/NP/</a></p>
@@ -1319,7 +742,7 @@ double и враќаат како резултат сума и просек.</p>
 <div id="footer">
 <div id="footer-text">
 Верзија 1.0<br>
-Last updated 2016-09-23 13:50:19 CEST
+Last updated 2016-10-12 00:25:42 CEST
 </div>
 </div>
 <script type="text/x-mathjax-config">

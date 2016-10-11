@@ -2,9 +2,10 @@ package mk.ukim.finki.np.av2;
 
 import java.math.BigDecimal;
 
-public class BigComplex {
-    private BigDecimal real;
-    private BigDecimal imag;
+public final class BigComplex {
+
+    private final BigDecimal real;
+    private final BigDecimal imag;
 
     public BigComplex(BigDecimal real, BigDecimal imag) {
         this.real = real;

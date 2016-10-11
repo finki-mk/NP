@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.4">
-<meta name="author" content="Аудиториски вежби 3">
+<meta name="author" content="Аудиториски вежби 4">
 <title>Напредно програмирање</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -514,373 +514,494 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Напредно програмирање</h1>
 <div class="details">
-<span id="author" class="author">Аудиториски вежби 3</span><br>
+<span id="author" class="author">Аудиториски вежби 4</span><br>
 <span id="revnumber">Верзија 1.0,</span>
-<span id="revdate">23 Септември, 2016</span>
+<span id="revdate">20 Септември, 2016</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Содржина</div>
 <ul class="sectlevel1">
-<li><a href="#Датум">1. Датум</a></li>
-<li><a href="#Карти-playingcard">2. Карти (PlayingCard)</a></li>
-<li><a href="#Изворен-код-од-примери-и-задачи">3. Изворен код од примери и задачи</a></li>
+<li><a href="#bank-наследување-полиморфизам-и-интерфејси">1. Bank (наследување, полиморфизам и интерфејси)</a></li>
+<li><a href="#Наследување-рефакторирање">2. Наследување (рефакторирање)</a></li>
+<li><a href="#Читање-од-стандарден-влез-si">3. Читање од стандарден влез (SI)</a>
+<ul class="sectlevel2">
+<li><a href="#Калкулатор">3.1. Калкулатор</a></li>
+</ul>
+</li>
+<li><a href="#Изворен-код-од-примери-и-задачи">4. Изворен код од примери и задачи</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="Датум">1. Датум</h2>
+<h2 id="bank-наследување-полиморфизам-и-интерфејси">1. Bank (наследување, полиморфизам и интерфејси)</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Имплементирајте едноставна класа за датум <code>Date</code>.
-Класата треба да овозможува:</p>
+<p>Дадени се следниве пет класи:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>Bank</code></p>
+</li>
+<li>
+<p><code>Account</code></p>
+</li>
+<li>
+<p><code>NonInterestCheckingAccount</code></p>
+</li>
+<li>
+<p><code>InterestCheckingAccount</code></p>
+</li>
+<li>
+<p><code>PlatinumCheckingAccount</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>како и интефејс наречен <code>InterestBearingAccount</code> кои се однесуваат на следниот начин:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>репрезентација на сите датуми од 1 Јануари 1800 до 31 Декември 2500</p>
+<p>Во <code>Bank</code> чува листа од сите видови сметки, вклучувајќи сметки за штедење и за трошење, некои од нив подложни на камата, а некои не.
+Во <code>Bank</code> постои метод <code>totalAssets</code> кој ја враќа сумата на состојбата на сите сметки.
+Исто така содржи метод <code>addInterest</code> кој го повикува методот <code>addInterest</code> на сите сметки кои се подложни на камата.</p>
 </li>
 <li>
-<p>одземање два датуми</p>
+<p><code>Account</code> е апстрактна класа.
+Во секој сметка се чуваат името на сопственикот на сметката, бројот на сметката (секвенцијален број доделен автоматски), моменталната состојба.
+Во класата се имплементираат конструктор за иницијализација на податочните членови, методи за пристап до моменталната состојба, како и за додавање и одземање од моменталната состојба.</p>
 </li>
 <li>
-<p>зголемување датум за даден број денови</p>
+<p><code>InterestBearingAccount</code> интерфејсот декларрира единствен метод <code>addInterest</code> (без параметри и не враќа ништо - <code>void</code>) кој ја зголемува состојбата со соодветната камата за овој вид на сметка.</p>
 </li>
 <li>
-<p>да споредува два датуми со помош на <code>equals</code> и <code>compareTo</code>.</p>
+<p><code>InterestCheckingAccount</code> е сметка <code>Account</code> која е исто така <code>InterestBearingAccount</code>.
+Повикување <code>addInterest</code> ја зголемува состојбата за 3%.</p>
+</li>
+<li>
+<p><code>PlatinumCheckingAccount</code> е <code>InterestCheckingAccount</code>.
+Повикување <code>addInterest</code> ја зголемува состојбата двојно од каматата за <code>InterestCheckingAccount</code> (колку и да е таа).</p>
+</li>
+<li>
+<p><code>NonInterestCheckingAccount</code> е сметка <code>Account</code> но не е <code>InterestBearingAccount</code>.
+Нема дополнителни функционалности надвор од основните од класата <code>Account</code>.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Датумот внатрешно ќе се репрезентира како број на денови од почетното време, кое во овој случај е почетокот на 1800.
-Со ова сите методи освен методот <code>toString</code> се поедноставуваат.
-Да се запази правилото за престапни години (престапна година е секоја година која е делива со 4 и не е делива со 100 освен ако е делива со 400).
-Конструкторот треба да ја провери валидноста на датумот, а исто така и методот <code>toString</code>.
-Датумот може да стане неточен ако зголемувањето или намалувањто придонсе да излезе надвор од опсегот.</p>
+<p>За оваа задача, потребно е да се имплментира функционалност дадена во претходниот текст:</p>
 </div>
-<div class="paragraph">
-<p>Потешкиот дел од задачата е конверзијата од интерната репрезентација во надворешна репрезентација на датум.
-Еден предлог алгоритам е следниот.
-Се иницијализираат две низи во статички членови.
-Првата низа е денови до први во месецот (daysTillFirstOfMonth) во не престапна година.
-Оваа низа содржи 0, 31, 59, 90, итн.
-Во втората низа, денови од почетокот на првата година (daysTillJan1) ќе содржи 0, 365, 730, 1095, 1460, 1826, итн.
-Со помош на овие низи ќе ја правиме конверзијата на различни репрезентации на датум.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Пет од шест класи од споменатите формираат хиерархија. За овие класи да се нацрта оваа хиерархија.</p>
+</li>
+<li>
+<p>Да се имплементира <code>Account</code>.</p>
+</li>
+<li>
+<p>Да се имплементира <code>NonInterestCheckingAccount</code>.</p>
+</li>
+<li>
+<p>Да се напише <code>InterestBearingAccount</code> интерфејсот.</p>
+</li>
+<li>
+<p>Да се имплементира <code>Bank</code>.</p>
+</li>
+<li>
+<p>Да се имплементира <code>InterestCheckingAccount</code>.</p>
+</li>
+<li>
+<p>Да се имплементира <code>PlatinumCheckingAccount</code>.</p>
+</li>
+</ol>
 </div>
 <div class="listingblock">
-<div class="title">Решение (<code>Date.java</code>)</div>
+<div class="title">Решение (<code>Account.java</code>)</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av3</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4.bank</span>;
 
-<span class="directive">public</span> <span class="type">class</span> <span class="class">Date</span> {
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">Account</span> {
 
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> FIRST_YEAR = <span class="integer">1800</span>;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> LAST_YEAR = <span class="integer">2500</span>;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> DAYS_IN_YEAR = <span class="integer">365</span>;
+    <span class="directive">private</span> <span class="predefined-type">String</span> holderName;
+    <span class="directive">private</span> <span class="type">int</span> number;
+    <span class="directive">private</span> <span class="type">double</span> currentAmount;
 
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysOfMonth = {
-            <span class="integer">31</span>, <span class="integer">28</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>
-    };
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysTillFirstOfMonth;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysTillJan1;
+    <span class="directive">public</span> Account(<span class="predefined-type">String</span> holderName, <span class="type">int</span> number, <span class="type">double</span> currentAmount) {
+        <span class="local-variable">this</span>.holderName = holderName;
+        <span class="local-variable">this</span>.number = number;
+        <span class="local-variable">this</span>.currentAmount = currentAmount;
+    }
 
-    <span class="directive">static</span> {
-        daysTillFirstOfMonth = <span class="keyword">new</span> <span class="type">int</span>[<span class="integer">12</span>];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">1</span>; i &lt; <span class="integer">12</span>; i++) {
-            daysTillFirstOfMonth[i] += daysTillFirstOfMonth[i - <span class="integer">1</span>] + daysOfMonth[i - <span class="integer">1</span>];
+    <span class="directive">public</span> <span class="type">double</span> getCurrentAmount() {
+        <span class="keyword">return</span> currentAmount;
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> addAmount(<span class="type">double</span> amount) {
+        currentAmount += amount;
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> withdrawAmount(<span class="type">double</span> amount) {
+        currentAmount -= amount;
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Решение (<code>NonInterestCheckingAccount.java</code>)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4.bank</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">NonInterestCheckingAccount</span> <span class="directive">extends</span> Account {
+
+    <span class="directive">public</span> NonInterestCheckingAccount(<span class="predefined-type">String</span> holderName, <span class="type">int</span> number, <span class="type">double</span> currentAmount) {
+        <span class="local-variable">super</span>(holderName, number, currentAmount);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Решение (<code>InterestBearingAccount.java</code>)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4.bank</span>;
+
+<span class="directive">public</span> <span class="type">interface</span> <span class="class">InterestBearingAccount</span> {
+    <span class="type">void</span> addInterest();
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Решение (<code>Bank.java</code>)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4.bank</span>;
+
+<span class="keyword">import</span> <span class="include">java.util.Arrays</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">Bank</span> {
+    <span class="directive">private</span> Account<span class="type">[]</span> accounts;
+    <span class="directive">private</span> <span class="type">int</span> totalAccounts;
+    <span class="directive">private</span> <span class="type">int</span> max;
+
+    <span class="directive">public</span> Bank(<span class="type">int</span> max) {
+        <span class="local-variable">this</span>.totalAccounts = <span class="integer">0</span>;
+        <span class="local-variable">this</span>.max = max;
+        accounts = <span class="keyword">new</span> Account[max];
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> addAccount(Account account) {
+        <span class="keyword">if</span> (totalAccounts == accounts.length) {
+            accounts = <span class="predefined-type">Arrays</span>.copyOf(accounts, max * <span class="integer">2</span>);
         }
-        <span class="type">int</span> totalYears = LAST_YEAR - FIRST_YEAR + <span class="integer">1</span>;
-        daysTillJan1 = <span class="keyword">new</span> <span class="type">int</span>[totalYears];
-        <span class="type">int</span> currentYear = FIRST_YEAR;
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">1</span>; i &lt; totalYears; i++) {
-            <span class="keyword">if</span> (isLeapYear(currentYear)) {
-                daysTillJan1[i] = daysTillJan1[i - <span class="integer">1</span>] + DAYS_IN_YEAR + <span class="integer">1</span>;
-            } <span class="keyword">else</span> {
-                daysTillJan1[i] = daysTillJan1[i - <span class="integer">1</span>] + DAYS_IN_YEAR;
+        accounts[totalAccounts++] = account;
+    }
+
+    <span class="directive">public</span> <span class="type">double</span> totalAssets() {
+        <span class="type">double</span> sum = <span class="integer">0</span>;
+        <span class="keyword">for</span> (Account account : accounts) {
+            sum += account.getCurrentAmount();
+        }
+        <span class="keyword">return</span> sum;
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> addInterest() {
+        <span class="keyword">for</span> (Account account : accounts) {
+            <span class="keyword">if</span> (account <span class="keyword">instanceof</span> InterestBearingAccount) {
+                InterestBearingAccount iba = (InterestBearingAccount) account;
+                iba.addInterest();
             }
-            currentYear++;
         }
     }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Решение (<code>InterestCheckingAccount.java</code>)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4.bank</span>;
 
-    <span class="directive">private</span> <span class="directive">static</span> <span class="type">boolean</span> isLeapYear(<span class="type">int</span> year) {
-        <span class="keyword">return</span> (year % <span class="integer">400</span> == <span class="integer">0</span> || (year % <span class="integer">4</span> == <span class="integer">0</span> &amp;&amp; year % <span class="integer">100</span> != <span class="integer">0</span>));
-    }
+<span class="directive">public</span> <span class="type">class</span> <span class="class">InterestCheckingAccount</span>
+        <span class="directive">extends</span> Account <span class="directive">implements</span> InterestBearingAccount {
 
-    <span class="directive">private</span> <span class="directive">final</span> <span class="type">int</span> days;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">double</span> INTEREST_RATE = <span class="float">.03</span>; <span class="comment">// 3%</span>
 
-    <span class="directive">public</span> <span class="predefined-type">Date</span>(<span class="type">int</span> days) {
-        <span class="local-variable">this</span>.days = days;
-    }
-
-    <span class="directive">public</span> <span class="predefined-type">Date</span>(<span class="type">int</span> date, <span class="type">int</span> month, <span class="type">int</span> year) {
-        <span class="type">int</span> days = <span class="integer">0</span>;
-        <span class="keyword">if</span> (year &lt; FIRST_YEAR || year &gt; LAST_YEAR) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">RuntimeException</span>();
-        }
-        days += daysTillJan1[year - FIRST_YEAR];
-        days += daysTillFirstOfMonth[month - <span class="integer">1</span>];
-        <span class="keyword">if</span> (month &gt; <span class="integer">2</span> &amp;&amp; isLeapYear(year)) {
-            days++;
-        }
-        days += date;
-        <span class="local-variable">this</span>.days = days;
-    }
-
-    <span class="directive">public</span> <span class="type">int</span> subtract(<span class="predefined-type">Date</span> date) {
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days - date.days;
-    }
-
-    <span class="directive">public</span> <span class="predefined-type">Date</span> increment(<span class="type">int</span> days) {
-        <span class="keyword">return</span> <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="local-variable">this</span>.days + days);
+    <span class="directive">public</span> InterestCheckingAccount(<span class="predefined-type">String</span> holderName, <span class="type">int</span> number, <span class="type">double</span> currentAmount) {
+        <span class="local-variable">super</span>(holderName, number, currentAmount);
     }
 
     <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> other) {
-        <span class="predefined-type">Date</span> date = (<span class="predefined-type">Date</span>) other;
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days == date.days;
+    <span class="directive">public</span> <span class="type">void</span> addInterest() {
+        addAmount(getCurrentAmount() * INTEREST_RATE);
     }
 
-    <span class="directive">public</span> <span class="type">int</span> compareTo(<span class="predefined-type">Date</span> date) {
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days - date.days;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Решение (<code>PlatinumCheckingAccount.java</code>)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4.bank</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">PlatinumCheckingAccount</span> <span class="directive">extends</span> Account <span class="directive">implements</span>
+        InterestBearingAccount {
+
+    <span class="directive">public</span> PlatinumCheckingAccount(<span class="predefined-type">String</span> holderName, <span class="type">int</span> number, <span class="type">double</span> currentAmount) {
+        <span class="local-variable">super</span>(holderName, number, currentAmount);
     }
 
     <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="type">int</span> d = days;
-        <span class="type">int</span> i;
-        <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; daysTillJan1.length; i++) {
-            <span class="keyword">if</span> (daysTillJan1[i] &gt;= days) {
-                <span class="keyword">break</span>;
-            }
-        }
-        d -= daysTillJan1[i - <span class="integer">1</span>];
-        <span class="type">int</span> year = FIRST_YEAR + i - <span class="integer">1</span>;
-        <span class="keyword">if</span> (isLeapYear(year)) {
-            d--;
-        }
-        <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; daysTillFirstOfMonth.length; i++) {
-            <span class="keyword">if</span> (daysTillFirstOfMonth[i] &gt;= d) {
-                <span class="keyword">break</span>;
-            }
-        }
-        <span class="type">int</span> month = i;
-        d -= daysTillFirstOfMonth[i - <span class="integer">1</span>];
-        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%02d.%02d.%4d</span><span class="delimiter">&quot;</span></span>, d, month, year);
+    <span class="directive">public</span> <span class="type">void</span> addInterest() {
+        addAmount(getCurrentAmount() * InterestCheckingAccount.INTEREST_RATE * <span class="integer">2</span>);
     }
 
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        <span class="predefined-type">Date</span> sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">10</span>, <span class="integer">2012</span>);
-        <span class="predefined-type">System</span>.out.println(sample.subtract(<span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">2000</span>)));
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">1800</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">31</span>, <span class="integer">12</span>, <span class="integer">2500</span>);
-        <span class="predefined-type">System</span>.out.println(daysTillJan1[daysTillJan1.length - <span class="integer">1</span>]);
-        <span class="predefined-type">System</span>.out.println(sample.days);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">30</span>, <span class="integer">11</span>, <span class="integer">2012</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = sample.increment(<span class="integer">100</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-    }
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="Карти-playingcard">2. Карти (PlayingCard)</h2>
+<h2 id="Наследување-рефакторирање">2. Наследување (рефакторирање)</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>PlayingCard</code> (карта) е класа со која се репрезентира карта во игри со карти како покер и блек џек.
-Во неа се чува информација за бојата (херц, каро, пик, треф) и рангот (вредност од 2 до 10 или џандар, кралица, поп или ас).
-<code>Deck</code> (шпил од карти) е класа која репрезентира комплет од 52 карти.
-Додека <code>MultipleDeck</code> (повеќе шпилови) е класа која репрезентира повеќе шпилови со карти (точниот број се задава во конструкторот).
-Да се имплментираат 3 класи <code>PlayingCard</code>, <code>Deck</code>, и <code>MultipleDeck</code>, со стандардна функционалност за карта, за шпил и повеќе шпилови.
-Да се имплментираат методи за мешање <code>shuffle</code>, делење на карта  <code>dealCard</code> и проверка дали има останато карти.</p>
+<p>Следниот код е дизајниран од J. Hacker за видео игра.
+Постои класа <code>Alien</code> која репрезентира вонземјанин и класа <code>AlienPack</code> која репрезентира група вонземјани и колку штета може да нанесат:</p>
 </div>
 <div class="listingblock">
-<div class="title">Решение (<code>PlayingCard.java</code>)</div>
+<div class="title"><code>Alian.java</code></div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av3</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4</span>;
 
-<span class="directive">public</span> <span class="type">class</span> <span class="class">PlayingCard</span> {
-    <span class="directive">public</span> <span class="type">enum</span> TYPE {
-        HEARTS,
-        DIAMONDS,
-        SPADES,
-        CLUBS
+<span class="directive">public</span> <span class="type">class</span> <span class="class">Alien</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> SNAKE_ALIEN = <span class="integer">0</span>;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OGRE_ALIEN = <span class="integer">1</span>;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> MARSHMALLOW_MAN_ALIEN = <span class="integer">2</span>;
+    <span class="directive">public</span> <span class="type">int</span> type; <span class="comment">// Stores one of the three above types</span>
+    <span class="directive">public</span> <span class="type">int</span> health; <span class="comment">// 0=dead, 100=full strength</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> name;
+
+    <span class="directive">public</span> Alien(<span class="type">int</span> type, <span class="type">int</span> health, <span class="predefined-type">String</span> name) {
+        <span class="local-variable">this</span>.type = type;
+        <span class="local-variable">this</span>.health = health;
+        <span class="local-variable">this</span>.name = name;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title"><code>AlianPack.java</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">AlienPack</span> {
+    <span class="directive">private</span> Alien<span class="type">[]</span> aliens;
+
+    <span class="directive">public</span> AlienPack(<span class="type">int</span> numAliens) {
+        aliens = <span class="keyword">new</span> Alien[numAliens];
     }
 
-    <span class="directive">private</span> TYPE type;
-    <span class="directive">private</span> <span class="type">int</span> rank;
+    <span class="directive">public</span> <span class="type">void</span> addAlien(Alien newAlien, <span class="type">int</span> index) {
+        aliens[index] = newAlien;
+    }
 
-    <span class="directive">public</span> PlayingCard(TYPE type, <span class="type">int</span> rank) {
-        <span class="local-variable">this</span>.type = type;
-        <span class="local-variable">this</span>.rank = rank;
+    <span class="directive">public</span> Alien<span class="type">[]</span> getAliens() {
+        <span class="keyword">return</span> aliens;
+    }
+
+    <span class="directive">public</span> <span class="type">int</span> calculateDamage() {
+        <span class="type">int</span> damage = <span class="integer">0</span>;
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; aliens.length; i++) {
+            <span class="keyword">if</span> (aliens[i].type == Alien.SNAKE_ALIEN) {
+                damage += <span class="integer">10</span>;<span class="comment">// Snake does 10 damage</span>
+            } <span class="keyword">else</span> <span class="keyword">if</span> (aliens[i].type == Alien.OGRE_ALIEN) {
+                damage += <span class="integer">6</span>;<span class="comment">// Ogre does 6 damage</span>
+            } <span class="keyword">else</span> <span class="keyword">if</span> (aliens[i].type == Alien.MARSHMALLOW_MAN_ALIEN) {
+                damage += <span class="integer">1</span>;
+                <span class="comment">// Marshmallow Man does 1 damage</span>
+            }
+        }
+        <span class="keyword">return</span> damage;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Кодот не е многу објектно ориентиран и не подржува криење на информациите во класата <code>Alien</code>.
+Да се пренапише, така што ќе се искористи наследување за да се репрезентираат различни типови вонземјани, наместо да се користи параметарот <code>type</code>.
+Исто така пренапишете jа класата <code>Alien</code> така што ќе ги крие инстанцните променливи и додадете метод <code>getDamage</code> коj за секоја од изведените класа ќе jа врак̀а штетата која jа предизвикува.
+На крај пренапишете го методот <code>calculateDamage</code> да го користи <code>getDamage</code> и напишете <code>main</code> метод да ја тестирате класата.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="Читање-од-стандарден-влез-si">3. Читање од стандарден влез (SI)</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="Калкулатор">3.1. Калкулатор</h3>
+<div class="paragraph">
+<p>Да се напише програма едноставен калкулатор.
+Калкулаторот чува еден број од тип <code>double</code> со име резултат и неговата почетна вредност е <code>0.0</code>.
+Во циклус му се дозволува на корисникот да додаде, одземе, помножи или подели со втор број.
+Резултатот од овие операции е новата вредност на резултатот.
+Пресметката завршува кога корисникот ќе внесе R за <code>result</code> (како мала или голема буква).
+Корисникот може да направи уште една пресметка од почеток или да ја заврши програмата <code>(Y/N)</code>.
+Ако корисникот внесе различен знак за оператор од <code>+</code>, <code>-</code>, <code>*</code> или <code>/</code>, тогаш се фрла исклучок <code>UnknownOperatorException</code> и се чека повторно на внес.</p>
+</div>
+<div class="listingblock">
+<div class="title">Пример форматот на влезните податоци:</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">Calculator is on.
+result = 0.0
++5
+result + 5.0 = 5.0
+new result = 5.0
+* 2.2
+result * 2.2 = 11.0
+updated result = 11.0
+% 10
+% is an unknown operation.
+Reenter, your last line:
+* 0.1
+result * 0.1 = 1.1
+updated result = 1.1
+r
+Final result = 1.1
+Again? (y/n)
+yes
+result = 0.0
++10
+result + 10.0 = 10.0
+new result = 10.0
+/2
+result / 2.0 = 5.0
+updated result = 5.0
+r
+Final result = 5.0
+Again? (y/n)
+N
+End of Program</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Решение</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">Calculator</span> {
+    <span class="directive">private</span> <span class="type">double</span> result;
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">char</span> PLUS = <span class="string"><span class="delimiter">'</span><span class="content">+</span><span class="delimiter">'</span></span>;
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">char</span> MINUS = <span class="string"><span class="delimiter">'</span><span class="content">-</span><span class="delimiter">'</span></span>;
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">char</span> MULTIPLY = <span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>;
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">char</span> DIVIDE = <span class="string"><span class="delimiter">'</span><span class="content">/</span><span class="delimiter">'</span></span>;
+
+    <span class="directive">public</span> Calculator() {
+        result = <span class="integer">0</span>;
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> init() {
+        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">result = %f</span><span class="delimiter">&quot;</span></span>, result);
+    }
+
+    <span class="directive">public</span> <span class="type">double</span> getResult() {
+        <span class="keyword">return</span> result;
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> execute(<span class="type">char</span> operator, <span class="type">double</span> value)
+            <span class="directive">throws</span> UnknownOperatorException {
+
+        <span class="keyword">if</span> (operator == PLUS) {
+            result += value;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (operator == MINUS) {
+            result -= value;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (operator == MULTIPLY) {
+            result *= value;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (operator == DIVIDE) {
+            result /= value;
+        } <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="keyword">new</span> UnknownOperatorException(operator);
+        }
+        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">result %c %f = %f</span><span class="delimiter">&quot;</span></span>, operator, value, result);
+    }
+
+    <span class="type">class</span> <span class="class">UnknownOperatorException</span> <span class="directive">extends</span> <span class="exception">Exception</span> {
+        <span class="directive">public</span> UnknownOperatorException(<span class="type">char</span> operator) {
+            <span class="local-variable">super</span>(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%c is unknown operation</span><span class="delimiter">&quot;</span></span>, operator));
+        }
     }
 
     <span class="annotation">@Override</span>
     <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%d %s</span><span class="delimiter">&quot;</span></span>, rank, type.toString());
+        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">updated result = %f</span><span class="delimiter">&quot;</span></span>, result);
     }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">int</span> hashCode() {
-        <span class="directive">final</span> <span class="type">int</span> prime = <span class="integer">31</span>;
-        <span class="type">int</span> result = <span class="integer">1</span>;
-        result = prime * result + rank;
-        result = prime * result + ((type == <span class="predefined-constant">null</span>) ? <span class="integer">0</span> : type.hashCode());
-        <span class="keyword">return</span> result;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> obj) {
-        <span class="keyword">if</span> (<span class="local-variable">this</span> == obj)
-            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-        <span class="keyword">if</span> (obj == <span class="predefined-constant">null</span>)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (getClass() != obj.getClass())
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        PlayingCard other = (PlayingCard) obj;
-        <span class="keyword">if</span> (rank != other.rank)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (type != other.type)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-    }
-
 
 }</code></pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Решение (<code>Deck.java</code>)</div>
+<div class="title">Решение (Тест програма)</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av3</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av4</span>;
 
-<span class="keyword">import</span> <span class="include">java.util.Arrays</span>;
+<span class="keyword">import</span> <span class="include">java.util.Scanner</span>;
 
-<span class="directive">public</span> <span class="type">class</span> <span class="class">Deck</span> {
-    <span class="directive">private</span> PlayingCard<span class="type">[]</span> cards;
-    <span class="directive">private</span> <span class="type">boolean</span><span class="type">[]</span> picked;
-    <span class="directive">private</span> <span class="type">int</span> total;
 
-    <span class="directive">public</span> Deck() {
-        total = <span class="integer">0</span>;
-        cards = <span class="keyword">new</span> PlayingCard[<span class="integer">52</span>];
-        picked = <span class="keyword">new</span> <span class="type">boolean</span>[<span class="integer">52</span>];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; PlayingCard.TYPE.values().length; ++i) {
-            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="integer">0</span>; j &lt; <span class="integer">13</span>; ++j) {
-                cards[j + (<span class="integer">13</span> * i)] =
-                        <span class="keyword">new</span> PlayingCard(PlayingCard.TYPE.values()[i], j + <span class="integer">1</span>);
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CalculatorTest</span> {
+    <span class="directive">static</span> <span class="directive">final</span> <span class="type">char</span> RESULT = <span class="string"><span class="delimiter">'</span><span class="content">r</span><span class="delimiter">'</span></span>;
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+        <span class="predefined-type">Scanner</span> scanner = <span class="keyword">new</span> <span class="predefined-type">Scanner</span>(<span class="predefined-type">System</span>.in);
+        <span class="keyword">while</span> (<span class="predefined-constant">true</span>) {
+            Calculator calculator = <span class="keyword">new</span> Calculator();
+            <span class="predefined-type">System</span>.out.println(calculator.init());
+            <span class="keyword">while</span> (<span class="predefined-constant">true</span>) {
+                <span class="predefined-type">String</span> line = scanner.nextLine();
+                <span class="type">char</span> choice = getCharLower(line);
+                <span class="keyword">if</span> (choice == RESULT) {
+                    <span class="predefined-type">System</span>.out.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">final result = %f</span><span class="delimiter">&quot;</span></span>, calculator.getResult()));
+                    <span class="keyword">break</span>;
+                }
+                <span class="predefined-type">String</span><span class="type">[]</span> parts = line.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>);
+                <span class="type">char</span> operator = parts[<span class="integer">0</span>].charAt(<span class="integer">0</span>);
+                <span class="type">double</span> value = <span class="predefined-type">Double</span>.parseDouble(parts[<span class="integer">1</span>]);
+                <span class="keyword">try</span> {
+                    <span class="predefined-type">String</span> result = calculator.execute(operator, value);
+                    <span class="predefined-type">System</span>.out.println(result);
+                    <span class="predefined-type">System</span>.out.println(calculator);
+                } <span class="keyword">catch</span> (Calculator.UnknownOperatorException e) {
+                    <span class="predefined-type">System</span>.out.println(e.getMessage());
+                }
+            }
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">(Y/N)</span><span class="delimiter">&quot;</span></span>);
+            <span class="predefined-type">String</span> line = scanner.nextLine();
+            <span class="type">char</span> choice = getCharLower(line);
+            <span class="keyword">if</span> (choice == <span class="string"><span class="delimiter">'</span><span class="content">n</span><span class="delimiter">'</span></span>) {
+                <span class="keyword">break</span>;
             }
         }
     }
 
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="predefined-type">StringBuilder</span> result = <span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>();
-        <span class="keyword">for</span> (PlayingCard playingCard : cards) {
-            result.append(playingCard);
-            result.append(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+    <span class="directive">static</span> <span class="type">char</span> getCharLower(<span class="predefined-type">String</span> line) {
+        <span class="keyword">if</span> (line.trim().length() &gt; <span class="integer">0</span>) {
+            <span class="keyword">return</span> <span class="predefined-type">Character</span>.toLowerCase(line.charAt(<span class="integer">0</span>));
         }
-        <span class="keyword">return</span> result.toString();
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">'</span><span class="content">?</span><span class="delimiter">'</span></span>;
     }
-
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        Deck deck = <span class="keyword">new</span> Deck();
-        PlayingCard card;
-        <span class="keyword">while</span> ((card = deck.dealCard()) != <span class="predefined-constant">null</span>) {
-            <span class="predefined-type">System</span>.out.println(card);
-        }
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">int</span> hashCode() {
-        <span class="directive">final</span> <span class="type">int</span> prime = <span class="integer">31</span>;
-        <span class="type">int</span> result = <span class="integer">1</span>;
-        result = prime * result + <span class="predefined-type">Arrays</span>.hashCode(cards);
-        <span class="keyword">return</span> result;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> obj) {
-        <span class="keyword">if</span> (<span class="local-variable">this</span> == obj)
-            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-        <span class="keyword">if</span> (obj == <span class="predefined-constant">null</span>)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (getClass() != obj.getClass())
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        Deck other = (Deck) obj;
-        <span class="keyword">return</span> <span class="predefined-type">Arrays</span>.equals(cards, other.cards);
-    }
-
-    <span class="directive">public</span> PlayingCard dealCard() {
-        <span class="keyword">if</span> (total == <span class="integer">52</span>) <span class="keyword">return</span> <span class="predefined-constant">null</span>;
-        <span class="type">int</span> card = (<span class="type">int</span>) (<span class="integer">52</span> * <span class="predefined-type">Math</span>.random());
-        <span class="keyword">if</span> (!picked[card]) {
-            ++total;
-            picked[card] = <span class="predefined-constant">true</span>;
-            <span class="keyword">return</span> cards[card];
-        }
-        <span class="keyword">return</span> dealCard();
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение (<code>MultipleDeck.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av3</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">MultipleDeck</span> {
-    <span class="directive">private</span> Deck<span class="type">[]</span> decks;
-
-    <span class="directive">public</span> MultipleDeck(<span class="type">int</span> n) {
-        decks = <span class="keyword">new</span> Deck[n];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; n; ++i) {
-            decks[i] = <span class="keyword">new</span> Deck();
-        }
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="predefined-type">StringBuilder</span> sb = <span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>();
-        <span class="keyword">for</span> (Deck deck : decks) {
-            sb.append(deck);
-            sb.append(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-        }
-        <span class="keyword">return</span> sb.toString();
-        <span class="comment">// java 8</span>
-        <span class="comment">/*
-        return Arrays.stream(decks)
-                .map(Deck::toString)
-                .collect(Collectors.joining(&quot;\n&quot;));
-         */</span>
-    }
-
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        MultipleDeck md = <span class="keyword">new</span> MultipleDeck(<span class="integer">3</span>);
-        <span class="predefined-type">System</span>.out.println(md);
-    }
-
-
 }</code></pre>
 </div>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="Изворен-код-од-примери-и-задачи">3. Изворен код од примери и задачи</h2>
+<h2 id="Изворен-код-од-примери-и-задачи">4. Изворен код од примери и задачи</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="https://github.com/finki-mk/NP/" class="bare">https://github.com/finki-mk/NP/</a></p>
 </div>
 <div class="paragraph">
-<p><a href="https://finki-mk.github.io/NP/sources/np_av2_src.zip">Source Code ZIP</a></p>
+<p><a href="https://finki-mk.github.io/NP/sources/np_av3_src.zip">Source Code ZIP</a></p>
 </div>
 </div>
 </div>
@@ -888,7 +1009,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="footer">
 <div id="footer-text">
 Верзија 1.0<br>
-Last updated 2016-10-12 00:03:15 CEST
+Last updated 2016-10-12 00:33:17 CEST
 </div>
 </div>
 <script type="text/x-mathjax-config">

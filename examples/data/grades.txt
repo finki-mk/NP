@@ -1,3 +1,7 @@
-Doe:John 100:100:100
-Pantz:Smartee 80:90:80
-Hands:Downy 100:44:22
+Doe:John:100:100:100
+Pantz:Smartee:80:90:80
+Hands:Downy:100:44:22
+George:Costanza:50:77:49
+Jerry:Seinfeld:99:88:89
+Elaine:Benes:87:42:39
+Cosmo:Kramer:91:82:73

@@ -1,5 +1,8 @@
 package mk.ukim.finki.np.av2;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 public class Examples2 {
 
     // tag::prefix[]
@@ -16,6 +19,16 @@ public class Examples2 {
     }
     // end::prefix[]
 
+    // tag::prefix_stream[]
+    public static boolean isPrefixStream(String str1, String str2) {
+        if (str1.length() > str2.length()) {
+            return false;
+        }
+        return IntStream.range(0, str1.length())
+                .allMatch(i -> str1.charAt(i) == str2.charAt(i));
+    }
+    // end::prefix_stream[]
+
     // tag::sum[]
     public static double sum(double[][] a) {
         double s = 0;
@@ -27,6 +40,14 @@ public class Examples2 {
         return s;
     }
     // end::sum[]
+
+    // tag::sum_stream[]
+    public static double sumStream(double[][] a) {
+        return Arrays.stream(a)
+                .mapToDouble(row -> Arrays.stream(row).sum())
+                .sum();
+    }
+    // end::sum_stream[]
 
     // tag::average[]
     public static double average(double[][] a) {
@@ -41,7 +62,7 @@ public class Examples2 {
     // end::average[]
 
     public static void main(String[] args) {
-        System.out.println(isPrefix("mak", "makedonija"));
+        System.out.println(isPrefixStream("mak", "makedonija"));
         System.out.println(isPrefix("napredno programiranje", "np"));
         System.out.println(isPrefix("start", "start stop"));
     }
