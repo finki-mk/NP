@@ -533,6 +533,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#word-count">2.1. Word Count</a></li>
 <li><a href="#oldest-person">2.2. Oldest Person</a></li>
 <li><a href="#Оценки-за-курс">2.3. Оценки за курс</a></li>
+<li><a href="#Најдолг-палиндром">2.4. Најдолг палиндром</a></li>
 </ul>
 </li>
 <li><a href="#Бинарни-датотеки">3. Бинарни датотеки</a>
@@ -688,6 +689,10 @@ table.CodeRay td.code>pre{padding:0}
 
     <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">IOException</span> {
         <span class="predefined-type">StringBuilder</span> result = <span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>();
+        <span class="keyword">if</span> (args.length == <span class="integer">0</span>) {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Provide filename as argument</span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">return</span>;
+        }
         <span class="keyword">for</span> (<span class="predefined-type">String</span> fileName : args) {
             <span class="keyword">try</span> {
                 <span class="predefined-type">String</span> wordCount = processFile(fileName);
@@ -752,6 +757,7 @@ table.CodeRay td.code>pre{padding:0}
     }
 
     <span class="directive">static</span> <span class="type">class</span> <span class="class">FileCounts</span> <span class="directive">implements</span> Consumer&lt;<span class="predefined-type">String</span>&gt; {
+        <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">Pattern</span> WORD = <span class="predefined-type">Pattern</span>.compile(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>);
         <span class="type">long</span> lines;
         <span class="type">long</span> chars;
         <span class="type">long</span> words;
@@ -765,8 +771,8 @@ table.CodeRay td.code>pre{padding:0}
         <span class="annotation">@Override</span>
         <span class="directive">public</span> <span class="type">void</span> accept(<span class="predefined-type">String</span> line) {
             ++lines;
-            <span class="local-variable">this</span>.chars += line.length() + <span class="integer">1</span>;
-            <span class="local-variable">this</span>.words += line.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>).length;
+            <span class="local-variable">this</span>.chars += line.length() + <span class="integer">1</span>; <span class="comment">// + the \n character</span>
+            <span class="local-variable">this</span>.words += WORD.split(line).length;
         }
 
         <span class="annotation">@Override</span>
@@ -807,11 +813,14 @@ table.CodeRay td.code>pre{padding:0}
 <span class="keyword">import</span> <span class="include">java.io</span>.*;
 <span class="keyword">import</span> <span class="include">java.util.Scanner</span>;
 
+<span class="comment">/**
+ * Argument: examples/data/persons.txt
+ */</span>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">FindOldest</span> {
     <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
         <span class="keyword">try</span> {
-            <span class="comment">//findWithScanner(new FileInputStream(args[0]));</span>
-            findWithStream(<span class="keyword">new</span> <span class="predefined-type">FileInputStream</span>(args[<span class="integer">0</span>]));
+            findWithScanner(<span class="keyword">new</span> <span class="predefined-type">FileInputStream</span>(args[<span class="integer">0</span>]));
+            <span class="comment">//findWithStream(new FileInputStream(args[0]));</span>
         } <span class="keyword">catch</span> (<span class="exception">FileNotFoundException</span> e) {
             <span class="predefined-type">System</span>.err.println(e.getMessage());
         }
@@ -840,21 +849,21 @@ table.CodeRay td.code>pre{padding:0}
     }
 
     <span class="comment">/**
-     * Functional solution using {@link BufferedReader}
+     * Functional solution using {@link BufferedReader} and map-reduce
      */</span>
     <span class="directive">static</span> <span class="type">void</span> findWithStream(<span class="predefined-type">InputStream</span> inputStream) {
         <span class="predefined-type">BufferedReader</span> reader = <span class="keyword">new</span> <span class="predefined-type">BufferedReader</span>(<span class="keyword">new</span> <span class="predefined-type">InputStreamReader</span>(inputStream));
-        <span class="predefined-type">String</span> max = reader.lines()
-                .reduce(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>, (left, right) -&gt; {
-                    <span class="keyword">if</span> (left.length() == <span class="integer">0</span>) <span class="keyword">return</span> right;
-                    <span class="keyword">if</span> (right.length() == <span class="integer">0</span>) <span class="keyword">return</span> left;
-                    <span class="predefined-type">String</span><span class="type">[]</span> leftParts = left.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>);
-                    <span class="predefined-type">String</span><span class="type">[]</span> rightParts = right.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>);
-                    <span class="type">int</span> leftAge = <span class="predefined-type">Integer</span>.parseInt(leftParts[<span class="integer">1</span>]);
-                    <span class="type">int</span> rightAge = <span class="predefined-type">Integer</span>.parseInt(rightParts[<span class="integer">1</span>]);
+        <span class="predefined-type">String</span><span class="type">[]</span> max = reader.lines()
+                .map(line -&gt; line.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>))
+                .reduce(<span class="keyword">new</span> <span class="predefined-type">String</span><span class="type">[]</span>{}, (left, right) -&gt; {
+                    <span class="keyword">if</span> (left.length == <span class="integer">0</span>) <span class="keyword">return</span> right;
+                    <span class="keyword">if</span> (right.length == <span class="integer">0</span>) <span class="keyword">return</span> left;
+                    <span class="type">int</span> leftAge = <span class="predefined-type">Integer</span>.parseInt(left[<span class="integer">1</span>]);
+                    <span class="type">int</span> rightAge = <span class="predefined-type">Integer</span>.parseInt(right[<span class="integer">1</span>]);
                     <span class="keyword">return</span> leftAge &gt; rightAge ? left : right;
                 });
-        <span class="predefined-type">System</span>.out.println(max);
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Name: </span><span class="delimiter">&quot;</span></span> + max[<span class="integer">0</span>]);
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Age: </span><span class="delimiter">&quot;</span></span> + max[<span class="integer">1</span>]);
     }
 }</code></pre>
 </div>
@@ -974,7 +983,7 @@ F 0</pre>
         } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="local-variable">this</span>.total &gt;= <span class="integer">61</span>) {
             <span class="local-variable">this</span>.grade = <span class="string"><span class="delimiter">'</span><span class="content">D</span><span class="delimiter">'</span></span>;
         } <span class="keyword">else</span> {
-            <span class="local-variable">this</span>.grade = <span class="string"><span class="delimiter">'</span><span class="content">F</span><span class="delimiter">'</span></span>;
+            <span class="local-variable">this</span>.grade = <span class="string"><span class="delimiter">'</span><span class="content">E</span><span class="delimiter">'</span></span>;
         }
     }
 
@@ -984,18 +993,6 @@ F 0</pre>
 
     <span class="directive">public</span> <span class="predefined-type">String</span> getLastName() {
         <span class="keyword">return</span> lastName;
-    }
-
-    <span class="directive">public</span> <span class="type">int</span> getExam1() {
-        <span class="keyword">return</span> exam1;
-    }
-
-    <span class="directive">public</span> <span class="type">int</span> getExam2() {
-        <span class="keyword">return</span> exam2;
-    }
-
-    <span class="directive">public</span> <span class="type">int</span> getExam3() {
-        <span class="keyword">return</span> exam3;
     }
 
     <span class="directive">public</span> <span class="type">char</span> getGrade() {
@@ -1036,70 +1033,59 @@ F 0</pre>
 <span class="keyword">import</span> <span class="include">java.io</span>.*;
 <span class="keyword">import</span> <span class="include">java.util.ArrayList</span>;
 <span class="keyword">import</span> <span class="include">java.util.Collections</span>;
+<span class="keyword">import</span> <span class="include">java.util.List</span>;
 <span class="keyword">import</span> <span class="include">java.util.Scanner</span>;
 
 <span class="directive">public</span> <span class="type">class</span> <span class="class">CalculateGrades</span> {
+    <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> FILE_NAME = <span class="string"><span class="delimiter">&quot;</span><span class="content">examples/data/grades.txt</span><span class="delimiter">&quot;</span></span>;
 
     <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
         <span class="predefined-type">Scanner</span> scanner = <span class="keyword">new</span> <span class="predefined-type">Scanner</span>(<span class="predefined-type">System</span>.in);
-        <span class="predefined-type">String</span> filename = scanner.nextLine();
-        <span class="predefined-type">BufferedReader</span> fileReader = <span class="predefined-constant">null</span>;
-        <span class="predefined-type">ArrayList</span>&lt;Student&gt; students = <span class="keyword">new</span> <span class="predefined-type">ArrayList</span>&lt;Student&gt;();
-        <span class="type">int</span><span class="type">[]</span> gradesDistribution = <span class="keyword">new</span> <span class="type">int</span>[<span class="integer">5</span>];
+        <span class="predefined-type">List</span>&lt;Student&gt; students = <span class="predefined-constant">null</span>;
         <span class="keyword">try</span> {
-            fileReader = <span class="keyword">new</span> <span class="predefined-type">BufferedReader</span>(<span class="keyword">new</span> <span class="predefined-type">FileReader</span>(filename));
-            <span class="predefined-type">String</span> line = <span class="predefined-constant">null</span>;
-            <span class="keyword">while</span> ((line = fileReader.readLine()) != <span class="predefined-constant">null</span>) {
-                <span class="predefined-type">String</span><span class="type">[]</span> parts = line.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>);
-                <span class="type">int</span> exam1 = <span class="predefined-type">Integer</span>.parseInt(parts[<span class="integer">2</span>]);
-                <span class="type">int</span> exam2 = <span class="predefined-type">Integer</span>.parseInt(parts[<span class="integer">3</span>]);
-                <span class="type">int</span> exam3 = <span class="predefined-type">Integer</span>.parseInt(parts[<span class="integer">4</span>]);
-                Student s = <span class="keyword">new</span> Student(parts[<span class="integer">0</span>], parts[<span class="integer">1</span>], exam1, exam2, exam3);
-                students.add(s);
-                <span class="keyword">if</span> (s.getGrade() == <span class="string"><span class="delimiter">'</span><span class="content">A</span><span class="delimiter">'</span></span>) {
-                    gradesDistribution[<span class="integer">0</span>]++;
-                } <span class="keyword">else</span> <span class="keyword">if</span> (s.getGrade() == <span class="string"><span class="delimiter">'</span><span class="content">B</span><span class="delimiter">'</span></span>) {
-                    gradesDistribution[<span class="integer">1</span>]++;
-                } <span class="keyword">else</span> <span class="keyword">if</span> (s.getGrade() == <span class="string"><span class="delimiter">'</span><span class="content">C</span><span class="delimiter">'</span></span>) {
-                    gradesDistribution[<span class="integer">2</span>]++;
-                } <span class="keyword">else</span> <span class="keyword">if</span> (s.getGrade() == <span class="string"><span class="delimiter">'</span><span class="content">D</span><span class="delimiter">'</span></span>) {
-                    gradesDistribution[<span class="integer">3</span>]++;
-                } <span class="keyword">else</span> {
-                    gradesDistribution[<span class="integer">4</span>]++;
-                }
-            }
+            students = loadStudents(<span class="keyword">new</span> <span class="predefined-type">FileInputStream</span>(FILE_NAME));
         } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
-            e.printStackTrace();
-        } <span class="keyword">finally</span> {
-            <span class="keyword">try</span> {
-                fileReader.close();
-            } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
-                e.printStackTrace();
-            }
+            <span class="predefined-type">System</span>.err.println(e.getMessage());
+            <span class="keyword">return</span>;
         }
         <span class="predefined-type">Collections</span>.sort(students);
-        <span class="keyword">for</span> (Student s : students) {
-            <span class="predefined-type">System</span>.out.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%s %s %c</span><span class="delimiter">&quot;</span></span>, s.getFirstName(),
-                    s.getLastName(), s.getGrade()));
+        <span class="keyword">for</span> (Student student : students) {
+            <span class="predefined-type">System</span>.out.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%s %s %c</span><span class="delimiter">&quot;</span></span>, student.getFirstName(),
+                    student.getLastName(), student.getGrade()));
         }
+        <span class="type">int</span><span class="type">[]</span> gradesDistribution = findGradeDistribution(students);
         <span class="predefined-type">String</span> outputFile = scanner.nextLine();
-        <span class="predefined-type">PrintWriter</span> printWriter = <span class="predefined-constant">null</span>;
-        <span class="keyword">try</span> {
-            printWriter = <span class="keyword">new</span> <span class="predefined-type">PrintWriter</span>(<span class="keyword">new</span> <span class="predefined-type">FileWriter</span>(outputFile));
-            <span class="keyword">for</span> (Student s : students) {
-                printWriter.println(s);
-            }
-            printWriter.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">A : %d</span><span class="delimiter">&quot;</span></span>, gradesDistribution[<span class="integer">0</span>]));
-            printWriter.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">B : %d</span><span class="delimiter">&quot;</span></span>, gradesDistribution[<span class="integer">1</span>]));
-            printWriter.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">C : %d</span><span class="delimiter">&quot;</span></span>, gradesDistribution[<span class="integer">2</span>]));
-            printWriter.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">D : %d</span><span class="delimiter">&quot;</span></span>, gradesDistribution[<span class="integer">3</span>]));
-            printWriter.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">F : %d</span><span class="delimiter">&quot;</span></span>, gradesDistribution[<span class="integer">4</span>]));
-        } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
-            e.printStackTrace();
-        } <span class="keyword">finally</span> {
-            printWriter.close();
-        }
 
+        <span class="keyword">try</span> (<span class="predefined-type">PrintWriter</span> printWriter = <span class="keyword">new</span> <span class="predefined-type">PrintWriter</span>(<span class="keyword">new</span> <span class="predefined-type">FileWriter</span>(outputFile))) {
+            <span class="keyword">for</span> (Student student : students) {
+                printWriter.println(student);
+            }
+            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; gradesDistribution.length; ++i) {
+                printWriter.println(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%c : %d</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">A</span><span class="delimiter">'</span></span> + i, gradesDistribution[i]));
+            }
+        } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+            <span class="predefined-type">System</span>.err.println(e.getMessage());
+        }
+    }
+
+    <span class="directive">static</span> <span class="predefined-type">List</span>&lt;Student&gt; loadStudents(<span class="predefined-type">InputStream</span> inputStream) <span class="directive">throws</span> <span class="exception">IOException</span> {
+        <span class="predefined-type">ArrayList</span>&lt;Student&gt; students = <span class="keyword">new</span> <span class="predefined-type">ArrayList</span>&lt;&gt;();
+        <span class="keyword">try</span> (<span class="predefined-type">BufferedReader</span> fileReader = <span class="keyword">new</span> <span class="predefined-type">BufferedReader</span>(<span class="keyword">new</span> <span class="predefined-type">InputStreamReader</span>(inputStream))) {
+            <span class="predefined-type">String</span> line;
+            <span class="keyword">while</span> ((line = fileReader.readLine()) != <span class="predefined-constant">null</span>) {
+                Student student = Student.fromString(line);
+                students.add(student);
+            }
+        }
+        <span class="keyword">return</span> students;
+    }
+
+    <span class="directive">static</span> <span class="type">int</span><span class="type">[]</span> findGradeDistribution(<span class="predefined-type">List</span>&lt;Student&gt; students) {
+        <span class="type">int</span><span class="type">[]</span> gradesDistribution = <span class="keyword">new</span> <span class="type">int</span>[<span class="integer">5</span>];
+        <span class="keyword">for</span> (Student student : students) {
+            gradesDistribution[student.getGrade() - <span class="string"><span class="delimiter">'</span><span class="content">A</span><span class="delimiter">'</span></span>]++;
+        }
+        <span class="keyword">return</span> gradesDistribution;
     }
 }</code></pre>
 </div>
@@ -1114,6 +1100,7 @@ F 0</pre>
 <span class="keyword">import</span> <span class="include">java.nio.file.Files</span>;
 <span class="keyword">import</span> <span class="include">java.nio.file.Paths</span>;
 <span class="keyword">import</span> <span class="include">java.nio.file.StandardOpenOption</span>;
+<span class="keyword">import</span> <span class="include">java.util.ArrayList</span>;
 <span class="keyword">import</span> <span class="include">java.util.Arrays</span>;
 <span class="keyword">import</span> <span class="include">java.util.List</span>;
 <span class="keyword">import</span> <span class="include">java.util.Scanner</span>;
@@ -1147,8 +1134,7 @@ F 0</pre>
         } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
             <span class="predefined-type">System</span>.err.println(e.getMessage());
         }
-        <span class="predefined-type">System</span>.exit(-<span class="integer">1</span>);
-        <span class="keyword">return</span> <span class="predefined-constant">null</span>;
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="predefined-type">ArrayList</span>&lt;&gt;();
     }
 
     <span class="directive">static</span> <span class="type">int</span><span class="type">[]</span> findDistribution(<span class="predefined-type">List</span>&lt;Student&gt; students) {
@@ -1183,6 +1169,93 @@ F 0</pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="Најдолг-палиндром">2.4. Најдолг палиндром</h3>
+<div class="paragraph">
+<p>Во датотеката <code>words.txt</code> има 99,171 зборови од Англискиот јазик.
+Да се напише програма која ќе го пронајде најдолгиот збор палиндром.</p>
+</div>
+<div class="listingblock">
+<div class="title">Решение (<code>LongestPalindrome.java</code>)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av5</span>;
+
+<span class="keyword">import</span> <span class="include">java.io</span>.*;
+<span class="keyword">import</span> <span class="include">java.util.Comparator</span>;
+<span class="keyword">import</span> <span class="include">java.util.stream.IntStream</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">LongestPalindrome</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> FILENAME = <span class="string"><span class="delimiter">&quot;</span><span class="content">examples/data/words.txt</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+        <span class="keyword">try</span> {
+            <span class="comment">//System.out.println(findLongest(new FileInputStream(FILENAME)));</span>
+            <span class="predefined-type">System</span>.out.println(findLongestFunc(<span class="keyword">new</span> <span class="predefined-type">FileInputStream</span>(FILENAME)));
+        } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+            <span class="predefined-type">System</span>.err.println(e.getMessage());
+        }
+    }
+
+    <span class="comment">/**
+     * Standard imperative solution, reading line by line
+     *
+     * @param inputStream The input stream with the data
+     * @return The longest palindrome string
+     * @throws IOException
+     */</span>
+    <span class="directive">static</span> <span class="predefined-type">String</span> findLongest(<span class="predefined-type">InputStream</span> inputStream) <span class="directive">throws</span> <span class="exception">IOException</span> {
+        <span class="predefined-type">String</span> longest = <span class="predefined-constant">null</span>;
+        <span class="keyword">try</span> (<span class="predefined-type">BufferedReader</span> reader = <span class="keyword">new</span> <span class="predefined-type">BufferedReader</span>(<span class="keyword">new</span> <span class="predefined-type">InputStreamReader</span>(inputStream))) {
+            <span class="predefined-type">String</span> word;
+            <span class="keyword">while</span> ((word = reader.readLine()) != <span class="predefined-constant">null</span>) {
+                <span class="keyword">if</span> (isPalindrome(word)) {
+                    <span class="keyword">if</span> (longest == <span class="predefined-constant">null</span>) {
+                        longest = word;
+                    } <span class="keyword">else</span> {
+                        <span class="keyword">if</span> (word.length() &gt;= longest.length()) {
+                            longest = word;
+                        }
+                    }
+                }
+            }
+        }
+        <span class="keyword">return</span> longest;
+    }
+
+    <span class="comment">/**
+     * Functional solution with following steps: 1. filter palindromes, 2. get max by length (longest)
+     *
+     * @param inputStream The input stream with data
+     * @return The longest palindrome string
+     * @throws IOException
+     */</span>
+    <span class="directive">static</span> <span class="predefined-type">String</span> findLongestFunc(<span class="predefined-type">InputStream</span> inputStream) <span class="directive">throws</span> <span class="exception">IOException</span> {
+        <span class="keyword">try</span> (<span class="predefined-type">BufferedReader</span> reader = <span class="keyword">new</span> <span class="predefined-type">BufferedReader</span>(<span class="keyword">new</span> <span class="predefined-type">InputStreamReader</span>(inputStream))) {
+            <span class="keyword">return</span> reader.lines()
+                    .filter(LongestPalindrome::isPalindromeFunc)
+                    .max(<span class="predefined-type">Comparator</span>.comparing(<span class="predefined-type">String</span>::length))
+                    .orElse(<span class="predefined-constant">null</span>);
+        }
+    }
+
+    <span class="directive">static</span> <span class="type">boolean</span> isPalindrome(<span class="predefined-type">String</span> word) {
+        <span class="type">int</span> len = word.length();
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; len / <span class="integer">2</span>; i++) {
+            <span class="keyword">if</span> (word.charAt(i) != word.charAt(len - <span class="integer">1</span> - i)) {
+                <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+            }
+        }
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+
+    <span class="directive">static</span> <span class="type">boolean</span> isPalindromeFunc(<span class="predefined-type">String</span> word) {
+        <span class="keyword">return</span> IntStream.range(<span class="integer">0</span>, word.length() / <span class="integer">2</span>)
+                .allMatch(i -&gt; word.charAt(i) == word.charAt(word.length() - <span class="integer">1</span> - i));
+    }
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1191,7 +1264,7 @@ F 0</pre>
 <div class="sect2">
 <h3 id="Просек-на-случајни-броеви">3.1. Просек на случајни броеви</h3>
 <div class="paragraph">
-<p>Да се напише програма која запишува n случајни цели броеви во бинарна датотека, потоа ги вчитува и го пресметува нивниот просек.</p>
+<p>Да се напише програма која запишува <code>n</code> случајни цели броеви во бинарна датотека, потоа ги вчитува и го пресметува нивниот просек.</p>
 </div>
 <div class="listingblock">
 <div class="title">Решение 1</div>
@@ -1202,7 +1275,13 @@ F 0</pre>
 <span class="keyword">import</span> <span class="include">java.util.Random</span>;
 
 <span class="directive">public</span> <span class="type">class</span> <span class="class">BinaryNumbers</span> {
-    <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> FILE_NAME = <span class="string"><span class="delimiter">&quot;</span><span class="content">numbers.dat</span><span class="delimiter">&quot;</span></span>;
+    <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> FILE_NAME = <span class="string"><span class="delimiter">&quot;</span><span class="content">examples/data/numbers.dat</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+        generateFile(<span class="integer">1000</span>);
+        <span class="type">double</span> avg = findNumbersAverage();
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Average: </span><span class="delimiter">&quot;</span></span> + avg);
+    }
 
     <span class="directive">private</span> <span class="directive">static</span> <span class="type">void</span> generateFile(<span class="type">int</span> n) {
         <span class="keyword">try</span> (<span class="predefined-type">ObjectOutputStream</span> oos = <span class="keyword">new</span> <span class="predefined-type">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(FILE_NAME))) {
@@ -1235,11 +1314,6 @@ F 0</pre>
         <span class="keyword">return</span> sum / total;
     }
 
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        generateFile(<span class="integer">1000</span>);
-        <span class="type">double</span> avg = findNumbersAverage();
-        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Average: </span><span class="delimiter">&quot;</span></span> + avg);
-    }
 }</code></pre>
 </div>
 </div>
@@ -1283,7 +1357,7 @@ F 0</pre>
 <div id="footer">
 <div id="footer-text">
 Верзија 1.0<br>
-Last updated 2016-10-12 00:46:44 CEST
+Last updated 2016-10-18 22:49:18 CEST
 </div>
 </div>
 <script type="text/x-mathjax-config">

@@ -3,70 +3,59 @@ package mk.ukim.finki.np.av5;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class CalculateGrades {
+    static final String FILE_NAME = "examples/data/grades.txt";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String filename = scanner.nextLine();
-        BufferedReader fileReader = null;
-        ArrayList<Student> students = new ArrayList<Student>();
-        int[] gradesDistribution = new int[5];
+        List<Student> students = null;
         try {
-            fileReader = new BufferedReader(new FileReader(filename));
-            String line = null;
-            while ((line = fileReader.readLine()) != null) {
-                String[] parts = line.split(":");
-                int exam1 = Integer.parseInt(parts[2]);
-                int exam2 = Integer.parseInt(parts[3]);
-                int exam3 = Integer.parseInt(parts[4]);
-                Student s = new Student(parts[0], parts[1], exam1, exam2, exam3);
-                students.add(s);
-                if (s.getGrade() == 'A') {
-                    gradesDistribution[0]++;
-                } else if (s.getGrade() == 'B') {
-                    gradesDistribution[1]++;
-                } else if (s.getGrade() == 'C') {
-                    gradesDistribution[2]++;
-                } else if (s.getGrade() == 'D') {
-                    gradesDistribution[3]++;
-                } else {
-                    gradesDistribution[4]++;
-                }
-            }
+            students = loadStudents(new FileInputStream(FILE_NAME));
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            System.err.println(e.getMessage());
+            return;
         }
         Collections.sort(students);
-        for (Student s : students) {
-            System.out.println(String.format("%s %s %c", s.getFirstName(),
-                    s.getLastName(), s.getGrade()));
+        for (Student student : students) {
+            System.out.println(String.format("%s %s %c", student.getFirstName(),
+                    student.getLastName(), student.getGrade()));
         }
+        int[] gradesDistribution = findGradeDistribution(students);
         String outputFile = scanner.nextLine();
-        PrintWriter printWriter = null;
-        try {
-            printWriter = new PrintWriter(new FileWriter(outputFile));
-            for (Student s : students) {
-                printWriter.println(s);
-            }
-            printWriter.println(String.format("A : %d", gradesDistribution[0]));
-            printWriter.println(String.format("B : %d", gradesDistribution[1]));
-            printWriter.println(String.format("C : %d", gradesDistribution[2]));
-            printWriter.println(String.format("D : %d", gradesDistribution[3]));
-            printWriter.println(String.format("F : %d", gradesDistribution[4]));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            printWriter.close();
-        }
 
+        try (PrintWriter printWriter = new PrintWriter(new FileWriter(outputFile))) {
+            for (Student student : students) {
+                printWriter.println(student);
+            }
+            for (int i = 0; i < gradesDistribution.length; ++i) {
+                printWriter.println(String.format("%c : %d", 'A' + i, gradesDistribution[i]));
+            }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    static List<Student> loadStudents(InputStream inputStream) throws IOException {
+        ArrayList<Student> students = new ArrayList<>();
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = fileReader.readLine()) != null) {
+                Student student = Student.fromString(line);
+                students.add(student);
+            }
+        }
+        return students;
+    }
+
+    static int[] findGradeDistribution(List<Student> students) {
+        int[] gradesDistribution = new int[5];
+        for (Student student : students) {
+            gradesDistribution[student.getGrade() - 'A']++;
+        }
+        return gradesDistribution;
     }
 }
 

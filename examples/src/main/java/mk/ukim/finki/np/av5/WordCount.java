@@ -17,6 +17,10 @@ public class WordCount {
 
     public static void main(String[] args) throws IOException {
         StringBuilder result = new StringBuilder();
+        if (args.length == 0) {
+            System.out.println("Provide filename as argument");
+            return;
+        }
         for (String fileName : args) {
             try {
                 String wordCount = processFile(fileName);
@@ -81,6 +85,7 @@ public class WordCount {
     }
 
     static class FileCounts implements Consumer<String> {
+        private static final Pattern WORD = Pattern.compile("\\s+");
         long lines;
         long chars;
         long words;
@@ -94,8 +99,8 @@ public class WordCount {
         @Override
         public void accept(String line) {
             ++lines;
-            this.chars += line.length() + 1;
-            this.words += line.split("\\s+").length;
+            this.chars += line.length() + 1; // + the \n character
+            this.words += WORD.split(line).length;
         }
 
         @Override

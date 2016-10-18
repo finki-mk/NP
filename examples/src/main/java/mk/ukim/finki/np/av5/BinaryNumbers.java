@@ -4,7 +4,13 @@ import java.io.*;
 import java.util.Random;
 
 public class BinaryNumbers {
-    static final String FILE_NAME = "numbers.dat";
+    static final String FILE_NAME = "examples/data/numbers.dat";
+
+    public static void main(String[] args) {
+        generateFile(1000);
+        double avg = findNumbersAverage();
+        System.out.println("Average: " + avg);
+    }
 
     private static void generateFile(int n) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
@@ -37,9 +43,4 @@ public class BinaryNumbers {
         return sum / total;
     }
 
-    public static void main(String[] args) {
-        generateFile(1000);
-        double avg = findNumbersAverage();
-        System.out.println("Average: " + avg);
-    }
 }

@@ -3,11 +3,14 @@ package mk.ukim.finki.np.av5;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * Argument: examples/data/persons.txt
+ */
 public class FindOldest {
     public static void main(String[] args) {
         try {
-            //findWithScanner(new FileInputStream(args[0]));
-            findWithStream(new FileInputStream(args[0]));
+            findWithScanner(new FileInputStream(args[0]));
+            //findWithStream(new FileInputStream(args[0]));
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
@@ -36,20 +39,20 @@ public class FindOldest {
     }
 
     /**
-     * Functional solution using {@link BufferedReader}
+     * Functional solution using {@link BufferedReader} and map-reduce
      */
     static void findWithStream(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        String max = reader.lines()
-                .reduce("", (left, right) -> {
-                    if (left.length() == 0) return right;
-                    if (right.length() == 0) return left;
-                    String[] leftParts = left.split("\\s+");
-                    String[] rightParts = right.split("\\s+");
-                    int leftAge = Integer.parseInt(leftParts[1]);
-                    int rightAge = Integer.parseInt(rightParts[1]);
+        String[] max = reader.lines()
+                .map(line -> line.split("\\s+"))
+                .reduce(new String[]{}, (left, right) -> {
+                    if (left.length == 0) return right;
+                    if (right.length == 0) return left;
+                    int leftAge = Integer.parseInt(left[1]);
+                    int rightAge = Integer.parseInt(right[1]);
                     return leftAge > rightAge ? left : right;
                 });
-        System.out.println(max);
+        System.out.println("Name: " + max[0]);
+        System.out.println("Age: " + max[1]);
     }
 }

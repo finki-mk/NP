@@ -45,7 +45,7 @@ asciidoctor {
 
 task srcZip
 
-(1..3).each { id ->
+(1..5).each { id ->
     task "srcZip${id}"(type: Zip) {
         from('../examples/src/main/java/mk/ukim/finki/np/av' + id)
         excludes = []
@@ -53,6 +53,15 @@ task srcZip
         destinationDir = file('./sources')
     }
     srcZip.dependsOn "srcZip${id}"
+}
+
+task "srcZipExams"(type: Zip) {
+    from('../exams/src/main/java/mk/ukim/finki/np/mt1')
+    includes = ['TimesTest.java', 'MinAndMax.java', 'ShapesTest.java']
+    archiveName = "np_exam_problems_1_src.zip"
+    destinationDir = file('./sources')
+
+    srcZip.dependsOn "srcZipExams"
 }
 
 fileTree("src")

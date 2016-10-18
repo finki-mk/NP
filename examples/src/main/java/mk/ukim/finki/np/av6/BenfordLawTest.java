@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class BenfordLawTest {
-	/*
+    /*
 	 * librarybooks.txt
 	 * (* Library holdings (# of books in each library), *)
 	   (* collected by Christian Ayotte.                 *)
@@ -24,43 +24,43 @@ public class BenfordLawTest {
 	   (* http://sidc.oma.be/html/sunspot.html         *)
 
 	 */
-	
-	public static void main(String[] args) {
-		System.out.println("Enter filename: ");
-		Scanner scanner = new Scanner(System.in);
-		String filename = scanner.nextLine();
-		BufferedReader fileReader = null;
-		int[] counts = new int[10];
-		int total = 0;
-		try {
-			fileReader = new BufferedReader(new FileReader(filename));
-			String line;
-			while ((line = fileReader.readLine()) != null) {
-				if(line.length() > 0) {
-					String[] parts = line.split(" ");
-					int num;
-					if(parts.length > 0) {
-						num = Integer.parseInt(parts[parts.length - 1]);
-					} else {
-						num = Integer.parseInt(line); 
-					}
-					int firstDigit = firstDigit(num);
-					counts[firstDigit]++;
-					total++;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		for(int i = 1; i < counts.length; i++) {
-			System.out.printf("%d : %d : %.2f%%\n", i, counts[i], counts[i] * 100. / total);
-		}
-	}
-	
-	static int firstDigit(int num) {
-		while(num >= 10) {
-			num /= 10;
-		}
-		return num;
-	}
+
+    public static void main(String[] args) {
+        System.out.println("Enter filename: ");
+        Scanner scanner = new Scanner(System.in);
+        String filename = scanner.nextLine();
+        BufferedReader fileReader = null;
+        int[] counts = new int[10];
+        int total = 0;
+        try {
+            fileReader = new BufferedReader(new FileReader(filename));
+            String line;
+            while ((line = fileReader.readLine()) != null) {
+                if (line.length() > 0) {
+                    String[] parts = line.split(" ");
+                    int num;
+                    if (parts.length > 0) {
+                        num = Integer.parseInt(parts[parts.length - 1]);
+                    } else {
+                        num = Integer.parseInt(line);
+                    }
+                    int firstDigit = firstDigit(num);
+                    counts[firstDigit]++;
+                    total++;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int i = 1; i < counts.length; i++) {
+            System.out.printf("%d : %d : %.2f%%\n", i, counts[i], counts[i] * 100. / total);
+        }
+    }
+
+    static int firstDigit(int num) {
+        while (num >= 10) {
+            num /= 10;
+        }
+        return num;
+    }
 }

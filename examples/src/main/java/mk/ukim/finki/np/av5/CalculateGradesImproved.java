@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -38,8 +39,7 @@ public class CalculateGradesImproved {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-        System.exit(-1);
-        return null;
+        return new ArrayList<>();
     }
 
     static int[] findDistribution(List<Student> students) {

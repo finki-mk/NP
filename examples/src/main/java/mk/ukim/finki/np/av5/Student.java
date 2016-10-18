@@ -29,7 +29,7 @@ class Student implements Comparable<Student> {
         } else if (this.total >= 61) {
             this.grade = 'D';
         } else {
-            this.grade = 'F';
+            this.grade = 'E';
         }
     }
 
@@ -39,18 +39,6 @@ class Student implements Comparable<Student> {
 
     public String getLastName() {
         return lastName;
-    }
-
-    public int getExam1() {
-        return exam1;
-    }
-
-    public int getExam2() {
-        return exam2;
-    }
-
-    public int getExam3() {
-        return exam3;
     }
 
     public char getGrade() {
