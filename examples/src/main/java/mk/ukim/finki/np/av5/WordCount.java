@@ -79,7 +79,7 @@ public class WordCount {
                             return sum;
                         });
         return Arrays.stream(result)
-                .mapToObj(l -> String.format("%d", l))
+                .mapToObj(String::valueOf)
                 .collect(Collectors.joining(" "));
 
     }

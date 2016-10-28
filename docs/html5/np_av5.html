@@ -751,7 +751,7 @@ table.CodeRay td.code>pre{padding:0}
                             <span class="keyword">return</span> sum;
                         });
         <span class="keyword">return</span> <span class="predefined-type">Arrays</span>.stream(result)
-                .mapToObj(l -&gt; <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%d</span><span class="delimiter">&quot;</span></span>, l))
+                .mapToObj(<span class="predefined-type">String</span>::valueOf)
                 .collect(Collectors.joining(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>));
 
     }
@@ -812,6 +812,7 @@ table.CodeRay td.code>pre{padding:0}
 
 <span class="keyword">import</span> <span class="include">java.io</span>.*;
 <span class="keyword">import</span> <span class="include">java.util.Scanner</span>;
+<span class="keyword">import</span> <span class="include">java.util.function.Function</span>;
 
 <span class="comment">/**
  * Argument: examples/data/persons.txt

@@ -2,6 +2,7 @@ package mk.ukim.finki.np.av5;
 
 import java.io.*;
 import java.util.Scanner;
+import java.util.function.Function;
 
 /**
  * Argument: examples/data/persons.txt
