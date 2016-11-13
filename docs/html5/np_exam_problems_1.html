@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.4">
-<meta name="author" content="Аудиториски вежби 3">
+<meta name="author" content="Примери од прв парцијален испит">
 <title>Напредно програмирање</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -514,373 +514,407 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Напредно програмирање</h1>
 <div class="details">
-<span id="author" class="author">Аудиториски вежби 3</span><br>
+<span id="author" class="author">Примери од прв парцијален испит</span><br>
 <span id="revnumber">Верзија 1.0,</span>
-<span id="revdate">23 Септември, 2016</span>
+<span id="revdate">20 Септември, 2016</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Содржина</div>
-<ul class="sectlevel1">
-<li><a href="#Датум">1. Датум</a></li>
-<li><a href="#Карти-playingcard">2. Карти (PlayingCard)</a></li>
-<li><a href="#Изворен-код-од-примери-и-задачи">3. Изворен код од примери и задачи</a></li>
+<ul class="sectlevel2">
+<li><a href="#time-table-1-парцијален-испит-2014">1. Time Table (1 парцијален испит 2014)</a></li>
+<li><a href="#minmax-1-парцијален-испит-2014">2. MinMax (1 парцијален испит 2014)</a></li>
+<li><a href="#stacked-canvas">3. Stacked Canvas</a></li>
+<li><a href="#Изворен-код-од-примери-и-задачи">4. Изворен код од примери и задачи</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="Датум">1. Датум</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="time-table-1-парцијален-испит-2014">1. Time Table (1 парцијален испит 2014)</h3>
 <div class="paragraph">
-<p>Имплементирајте едноставна класа за датум <code>Date</code>.
-Класата треба да овозможува:</p>
+<p>Да се имплементира класа <code>TimeTable</code> која ќе чита од влезен тек (стандарден влез, датотека, &#8230;&#8203;) податоци за времиња во 24-часовен формат.
+Сите времиња се разделени со едно празно место, а во самото време часот и минутите може да бидат разделени со <code>:</code> или <code>.</code>.
+Пример за форматот на податоците:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>11:15 0.45 23:12 15:29 18.46</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ваша задача е да ги имплементирате методите:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>репрезентација на сите датуми од 1 Јануари 1800 до 31 Декември 2500</p>
+<p><code>TimeTable()</code> - default конструктор</p>
 </li>
 <li>
-<p>одземање два датуми</p>
+<p><code>void readTimes(InputStream inputStream)</code> - метод за читање на податоците</p>
 </li>
 <li>
-<p>зголемување датум за даден број денови</p>
-</li>
-<li>
-<p>да споредува два датуми со помош на <code>equals</code> и <code>compareTo</code>.</p>
+<p><code>void writeTimes(OutputStream outputStream, TimeFormat format)</code> - метод кој ги печати сите времиња сортирани во растечки редослед во зададениот формат (24 часовен или AM/PM).</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Датумот внатрешно ќе се репрезентира како број на денови од почетното време, кое во овој случај е почетокот на 1800.
-Со ова сите методи освен методот <code>toString</code> се поедноставуваат.
-Да се запази правилото за престапни години (престапна година е секоја година која е делива со 4 и не е делива со 100 освен ако е делива со 400).
-Конструкторот треба да ја провери валидноста на датумот, а исто така и методот <code>toString</code>.
-Датумот може да стане неточен ако зголемувањето или намалувањто придонсе да излезе надвор од опсегот.</p>
+<p>Методот за читање <code>readTimes</code> фрла исклучоци од тип <code>UnsupportedFormatException</code> ако времињата се разделени со нешто друго што не е <code>:</code> или <code>.</code> и <code>InvalidTimeException</code> ако времето (часот или минутите) е надвор од дозволениот опсег (0-23, 0-59).
+И двата исклучоци во пораката <code>getMessage()</code> треба да го вратат влезниот податок кој го предизвикал исклучокот.
+Сите времиња до моментот кога ќе се фрли некој од овие два исклучоци треба да си останат вчитани.
+Правила за конверзија од 24-часовен формат во AM/PM:</p>
 </div>
-<div class="paragraph">
-<p>Потешкиот дел од задачата е конверзијата од интерната репрезентација во надворешна репрезентација на датум.
-Еден предлог алгоритам е следниот.
-Се иницијализираат две низи во статички членови.
-Првата низа е денови до први во месецот (daysTillFirstOfMonth) во не престапна година.
-Оваа низа содржи 0, 31, 59, 90, итн.
-Во втората низа, денови од почетокот на првата година (daysTillJan1) ќе содржи 0, 365, 730, 1095, 1460, 1826, итн.
-Со помош на овие низи ќе ја правиме конверзијата на различни репрезентации на датум.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>за првиот час од денот (0:00 - 0:59), додадете 12 и направете го "AM"</p>
+</li>
+<li>
+<p>од 1:00 до 11:59, само направето го "AM"</p>
+</li>
+<li>
+<p>од 12:00 до 12:59, само направето го "PM"</p>
+</li>
+<li>
+<p>од 13:00 до 23:59 одземете 12 и направете го "PM"</p>
+</li>
+</ol>
 </div>
 <div class="listingblock">
-<div class="title">Решение (<code>Date.java</code>)</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av3</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.mt1</span>;
 
-<span class="directive">public</span> <span class="type">class</span> <span class="class">Date</span> {
+<span class="keyword">import</span> <span class="include">java.io.InputStream</span>;
+<span class="keyword">import</span> <span class="include">java.io.OutputStream</span>;
+<span class="keyword">import</span> <span class="include">java.io.PrintWriter</span>;
+<span class="keyword">import</span> <span class="include">java.util.ArrayList</span>;
+<span class="keyword">import</span> <span class="include">java.util.Comparator</span>;
+<span class="keyword">import</span> <span class="include">java.util.List</span>;
+<span class="keyword">import</span> <span class="include">java.util.Scanner</span>;
+<span class="keyword">import</span> <span class="include">java.util.function.Function</span>;
+<span class="keyword">import</span> <span class="include">java.util.stream.Collectors</span>;
 
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> FIRST_YEAR = <span class="integer">1800</span>;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> LAST_YEAR = <span class="integer">2500</span>;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> DAYS_IN_YEAR = <span class="integer">365</span>;
-
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysOfMonth = {
-            <span class="integer">31</span>, <span class="integer">28</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>, <span class="integer">30</span>, <span class="integer">31</span>
-    };
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysTillFirstOfMonth;
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span><span class="type">[]</span> daysTillJan1;
-
-    <span class="directive">static</span> {
-        daysTillFirstOfMonth = <span class="keyword">new</span> <span class="type">int</span>[<span class="integer">12</span>];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">1</span>; i &lt; <span class="integer">12</span>; i++) {
-            daysTillFirstOfMonth[i] += daysTillFirstOfMonth[i - <span class="integer">1</span>] + daysOfMonth[i - <span class="integer">1</span>];
-        }
-        <span class="type">int</span> totalYears = LAST_YEAR - FIRST_YEAR + <span class="integer">1</span>;
-        daysTillJan1 = <span class="keyword">new</span> <span class="type">int</span>[totalYears];
-        <span class="type">int</span> currentYear = FIRST_YEAR;
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">1</span>; i &lt; totalYears; i++) {
-            <span class="keyword">if</span> (isLeapYear(currentYear)) {
-                daysTillJan1[i] = daysTillJan1[i - <span class="integer">1</span>] + DAYS_IN_YEAR + <span class="integer">1</span>;
-            } <span class="keyword">else</span> {
-                daysTillJan1[i] = daysTillJan1[i - <span class="integer">1</span>] + DAYS_IN_YEAR;
-            }
-            currentYear++;
-        }
-    }
-
-    <span class="directive">private</span> <span class="directive">static</span> <span class="type">boolean</span> isLeapYear(<span class="type">int</span> year) {
-        <span class="keyword">return</span> (year % <span class="integer">400</span> == <span class="integer">0</span> || (year % <span class="integer">4</span> == <span class="integer">0</span> &amp;&amp; year % <span class="integer">100</span> != <span class="integer">0</span>));
-    }
-
-    <span class="directive">private</span> <span class="directive">final</span> <span class="type">int</span> days;
-
-    <span class="directive">public</span> <span class="predefined-type">Date</span>(<span class="type">int</span> days) {
-        <span class="local-variable">this</span>.days = days;
-    }
-
-    <span class="directive">public</span> <span class="predefined-type">Date</span>(<span class="type">int</span> date, <span class="type">int</span> month, <span class="type">int</span> year) {
-        <span class="type">int</span> days = <span class="integer">0</span>;
-        <span class="keyword">if</span> (year &lt; FIRST_YEAR || year &gt; LAST_YEAR) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">RuntimeException</span>();
-        }
-        days += daysTillJan1[year - FIRST_YEAR];
-        days += daysTillFirstOfMonth[month - <span class="integer">1</span>];
-        <span class="keyword">if</span> (month &gt; <span class="integer">2</span> &amp;&amp; isLeapYear(year)) {
-            days++;
-        }
-        days += date;
-        <span class="local-variable">this</span>.days = days;
-    }
-
-    <span class="directive">public</span> <span class="type">int</span> subtract(<span class="predefined-type">Date</span> date) {
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days - date.days;
-    }
-
-    <span class="directive">public</span> <span class="predefined-type">Date</span> increment(<span class="type">int</span> days) {
-        <span class="keyword">return</span> <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="local-variable">this</span>.days + days);
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> other) {
-        <span class="predefined-type">Date</span> date = (<span class="predefined-type">Date</span>) other;
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days == date.days;
-    }
-
-    <span class="directive">public</span> <span class="type">int</span> compareTo(<span class="predefined-type">Date</span> date) {
-        <span class="keyword">return</span> <span class="local-variable">this</span>.days - date.days;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="type">int</span> d = days;
-        <span class="type">int</span> i;
-        <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; daysTillJan1.length; i++) {
-            <span class="keyword">if</span> (daysTillJan1[i] &gt;= days) {
-                <span class="keyword">break</span>;
-            }
-        }
-        d -= daysTillJan1[i - <span class="integer">1</span>];
-        <span class="type">int</span> year = FIRST_YEAR + i - <span class="integer">1</span>;
-        <span class="keyword">if</span> (isLeapYear(year)) {
-            d--;
-        }
-        <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; daysTillFirstOfMonth.length; i++) {
-            <span class="keyword">if</span> (daysTillFirstOfMonth[i] &gt;= d) {
-                <span class="keyword">break</span>;
-            }
-        }
-        <span class="type">int</span> month = i;
-        d -= daysTillFirstOfMonth[i - <span class="integer">1</span>];
-        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%02d.%02d.%4d</span><span class="delimiter">&quot;</span></span>, d, month, year);
-    }
+<span class="directive">public</span> <span class="type">class</span> <span class="class">TimesTest</span> {
 
     <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        <span class="predefined-type">Date</span> sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">10</span>, <span class="integer">2012</span>);
-        <span class="predefined-type">System</span>.out.println(sample.subtract(<span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">2000</span>)));
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">1800</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">31</span>, <span class="integer">12</span>, <span class="integer">2500</span>);
-        <span class="predefined-type">System</span>.out.println(daysTillJan1[daysTillJan1.length - <span class="integer">1</span>]);
-        <span class="predefined-type">System</span>.out.println(sample.days);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = <span class="keyword">new</span> <span class="predefined-type">Date</span>(<span class="integer">30</span>, <span class="integer">11</span>, <span class="integer">2012</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-        sample = sample.increment(<span class="integer">100</span>);
-        <span class="predefined-type">System</span>.out.println(sample);
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="Карти-playingcard">2. Карти (PlayingCard)</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>PlayingCard</code> (карта) е класа со која се репрезентира карта во игри со карти како покер и блек џек.
-Во неа се чува информација за бојата (херц, каро, пик, треф) и рангот (вредност од 2 до 10 или џандар, кралица, поп или ас).
-<code>Deck</code> (шпил од карти) е класа која репрезентира комплет од 52 карти.
-Додека <code>MultipleDeck</code> (повеќе шпилови) е класа која репрезентира повеќе шпилови со карти (точниот број се задава во конструкторот).
-Да се имплментираат 3 класи <code>PlayingCard</code>, <code>Deck</code>, и <code>MultipleDeck</code>, со стандардна функционалност за карта, за шпил и повеќе шпилови.
-Да се имплментираат методи за мешање <code>shuffle</code>, делење на карта  <code>dealCard</code> и проверка дали има останато карти.</p>
-</div>
-<div class="listingblock">
-<div class="title">Решение (<code>PlayingCard.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av3</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">PlayingCard</span> {
-    <span class="directive">public</span> <span class="type">enum</span> TYPE {
-        HEARTS,
-        DIAMONDS,
-        SPADES,
-        CLUBS
+        TimeTable timeTable = <span class="keyword">new</span> TimeTable();
+        <span class="keyword">try</span> {
+            timeTable.readTimes(<span class="predefined-type">System</span>.in);
+        } <span class="keyword">catch</span> (UnsupportedFormatException e) {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">UnsupportedFormatException: </span><span class="delimiter">&quot;</span></span> + e.getMessage());
+        } <span class="keyword">catch</span> (InvalidTimeException e) {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">InvalidTimeException: </span><span class="delimiter">&quot;</span></span> + e.getMessage());
+        }
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">24 HOUR FORMAT</span><span class="delimiter">&quot;</span></span>);
+        timeTable.writeTimes(<span class="predefined-type">System</span>.out, TimeFormat.FORMAT_24);
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">AM/PM FORMAT</span><span class="delimiter">&quot;</span></span>);
+        timeTable.writeTimes(<span class="predefined-type">System</span>.out, TimeFormat.FORMAT_AMPM);
     }
 
-    <span class="directive">private</span> TYPE type;
-    <span class="directive">private</span> <span class="type">int</span> rank;
+}
 
-    <span class="directive">public</span> PlayingCard(TYPE type, <span class="type">int</span> rank) {
-        <span class="local-variable">this</span>.type = type;
-        <span class="local-variable">this</span>.rank = rank;
+<span class="type">enum</span> TimeFormat {
+    FORMAT_24, FORMAT_AMPM
+}
+
+<span class="type">class</span> <span class="class">UnsupportedFormatException</span> <span class="directive">extends</span> <span class="exception">Exception</span> {
+    <span class="directive">public</span> UnsupportedFormatException(<span class="predefined-type">String</span> msg) {
+        <span class="local-variable">super</span>(msg);
+    }
+}
+
+<span class="type">class</span> <span class="class">InvalidTimeException</span> <span class="directive">extends</span> <span class="exception">Exception</span> {
+    <span class="directive">public</span> InvalidTimeException(<span class="predefined-type">String</span> msg) {
+        <span class="local-variable">super</span>(msg);
+    }
+}
+
+<span class="type">class</span> <span class="class">TimeTable</span> {
+    <span class="predefined-type">List</span>&lt;<span class="predefined-type">Time</span>&gt; times;
+
+    <span class="directive">public</span> TimeTable() {
+        times = <span class="keyword">new</span> <span class="predefined-type">ArrayList</span>&lt;&gt;();
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> readTimes(<span class="predefined-type">InputStream</span> input) <span class="directive">throws</span> UnsupportedFormatException,
+            InvalidTimeException {
+        <span class="predefined-type">Scanner</span> scanner = <span class="keyword">new</span> <span class="predefined-type">Scanner</span>(input);
+        <span class="keyword">while</span> (scanner.hasNextLine()) {
+            <span class="predefined-type">String</span> line = scanner.nextLine();
+            <span class="predefined-type">String</span><span class="type">[]</span> parts = line.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">for</span> (<span class="predefined-type">String</span> p : parts) {
+                <span class="predefined-type">Time</span> time = <span class="keyword">new</span> <span class="predefined-type">Time</span>(p);
+                times.add(time);
+            }
+        }
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> writeTimes(<span class="predefined-type">OutputStream</span> output, TimeFormat format) {
+        <span class="predefined-type">PrintWriter</span> writer = <span class="keyword">new</span> <span class="predefined-type">PrintWriter</span>(output);
+        <span class="directive">final</span> Function&lt;<span class="predefined-type">Time</span>, <span class="predefined-type">String</span>&gt; toString = time -&gt; {
+            <span class="keyword">if</span> (format.equals(TimeFormat.FORMAT_24)) <span class="keyword">return</span> time.toString();
+            <span class="keyword">else</span> <span class="keyword">return</span> time.toStringAMPM();
+        };
+        <span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; timesToPrint = times.stream().sorted(<span class="predefined-type">Comparator</span>.comparing(<span class="predefined-type">Time</span>::getHour)
+                .thenComparing(<span class="predefined-type">Time</span>::getMinute))
+                .map(toString)
+                .collect(Collectors.toList());
+        timesToPrint.forEach(writer::println);
+        writer.flush();
+    }
+}
+
+<span class="type">class</span> <span class="class">Time</span> {
+    <span class="directive">private</span> <span class="directive">final</span> <span class="type">int</span> hour;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="type">int</span> minute;
+
+    <span class="directive">public</span> <span class="predefined-type">Time</span>(<span class="predefined-type">String</span> time) <span class="directive">throws</span> UnsupportedFormatException,
+            InvalidTimeException {
+        <span class="predefined-type">String</span><span class="type">[]</span> parts = time.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">.</span><span class="delimiter">&quot;</span></span>);
+        <span class="keyword">if</span> (parts.length == <span class="integer">1</span>) {
+            parts = time.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>);
+        }
+        <span class="keyword">if</span> (parts.length == <span class="integer">1</span>)
+            <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedFormatException(time);
+        <span class="local-variable">this</span>.hour = <span class="predefined-type">Integer</span>.parseInt(parts[<span class="integer">0</span>]);
+        <span class="local-variable">this</span>.minute = <span class="predefined-type">Integer</span>.parseInt(parts[<span class="integer">1</span>]);
+        <span class="keyword">if</span> (hour &lt; <span class="integer">0</span> || hour &gt; <span class="integer">23</span> || minute &lt; <span class="integer">0</span> || minute &gt; <span class="integer">59</span>)
+            <span class="keyword">throw</span> <span class="keyword">new</span> InvalidTimeException(time);
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> toStringAMPM() {
+        <span class="predefined-type">String</span> part = <span class="string"><span class="delimiter">&quot;</span><span class="content">AM</span><span class="delimiter">&quot;</span></span>;
+        <span class="type">int</span> h = hour;
+        <span class="keyword">if</span> (h == <span class="integer">0</span>) {
+            h += <span class="integer">12</span>;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (h == <span class="integer">12</span>) {
+            part = <span class="string"><span class="delimiter">&quot;</span><span class="content">PM</span><span class="delimiter">&quot;</span></span>;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (h &gt; <span class="integer">12</span>) {
+            h -= <span class="integer">12</span>;
+            part = <span class="string"><span class="delimiter">&quot;</span><span class="content">PM</span><span class="delimiter">&quot;</span></span>;
+        }
+        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%2d:%02d %s</span><span class="delimiter">&quot;</span></span>, h, minute, part);
+    }
+
+    <span class="directive">public</span> <span class="type">int</span> getHour() {
+        <span class="keyword">return</span> hour;
+    }
+
+    <span class="directive">public</span> <span class="type">int</span> getMinute() {
+        <span class="keyword">return</span> minute;
     }
 
     <span class="annotation">@Override</span>
     <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%d %s</span><span class="delimiter">&quot;</span></span>, rank, type.toString());
+        <span class="keyword">return</span> <span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%2d:%02d</span><span class="delimiter">&quot;</span></span>, hour, minute);
     }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">int</span> hashCode() {
-        <span class="directive">final</span> <span class="type">int</span> prime = <span class="integer">31</span>;
-        <span class="type">int</span> result = <span class="integer">1</span>;
-        result = prime * result + rank;
-        result = prime * result + ((type == <span class="predefined-constant">null</span>) ? <span class="integer">0</span> : type.hashCode());
-        <span class="keyword">return</span> result;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> obj) {
-        <span class="keyword">if</span> (<span class="local-variable">this</span> == obj)
-            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-        <span class="keyword">if</span> (obj == <span class="predefined-constant">null</span>)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (getClass() != obj.getClass())
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        PlayingCard other = (PlayingCard) obj;
-        <span class="keyword">if</span> (rank != other.rank)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (type != other.type)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-    }
-
 
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="minmax-1-парцијален-испит-2014">2. MinMax (1 парцијален испит 2014)</h3>
+<div class="paragraph">
+<p>Да се имплемнтира генеричка класа <code>MinMax</code> од два споредливи објекти (минимум/максимум).
+За класата да се имплементираат:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MinMax()</code> - default конструктор</p>
+</li>
+<li>
+<p><code>void update(T element)</code> - метод за ажурирање на тековните минимум/максимум</p>
+</li>
+<li>
+<p><code>T max()</code> - го враќа најголемиот елемент</p>
+</li>
+<li>
+<p><code>T min()</code> - го враќа најмалиот елемент</p>
+</li>
+<li>
+<p>да се преоптовари методот <code>toString()</code> кој враќа стринг составен од минималниот и максималниот елемент и бројот на елементи обработени во методот <code>update</code> кои се различни од тековниот минимум/максимум, разделени со празно место.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Во класата не смеат да се чуваат елементите кои се обработуваат во методот <code>update</code>, освен тековниот минимум/максимум.
+</td>
+</tr>
+</table>
+</div>
 <div class="listingblock">
-<div class="title">Решение (<code>Deck.java</code>)</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av3</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.mt1</span>;
 
-<span class="keyword">import</span> <span class="include">java.util.Arrays</span>;
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MinAndMax</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="exception">ClassNotFoundException</span> {
+        MinMax&lt;<span class="predefined-type">String</span>&gt; strings = <span class="keyword">new</span> MinMax&lt;&gt;();
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>);
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>);
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
 
-<span class="directive">public</span> <span class="type">class</span> <span class="class">Deck</span> {
-    <span class="directive">private</span> PlayingCard<span class="type">[]</span> cards;
-    <span class="directive">private</span> <span class="type">boolean</span><span class="type">[]</span> picked;
-    <span class="directive">private</span> <span class="type">int</span> total;
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>);
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>);
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>);
+        strings.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>);
+        <span class="predefined-type">System</span>.out.println(strings);
+    }
+}
 
-    <span class="directive">public</span> Deck() {
+<span class="type">class</span> <span class="class">MinMax</span>&lt;T <span class="directive">extends</span> <span class="predefined-type">Comparable</span>&lt;T&gt;&gt; {
+    T min;
+    T max;
+    <span class="type">int</span> total;
+    <span class="type">int</span> minCount;
+    <span class="type">int</span> maxCount;
+
+    <span class="directive">public</span> MinMax() {
         total = <span class="integer">0</span>;
-        cards = <span class="keyword">new</span> PlayingCard[<span class="integer">52</span>];
-        picked = <span class="keyword">new</span> <span class="type">boolean</span>[<span class="integer">52</span>];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; PlayingCard.TYPE.values().length; ++i) {
-            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="integer">0</span>; j &lt; <span class="integer">13</span>; ++j) {
-                cards[j + (<span class="integer">13</span> * i)] =
-                        <span class="keyword">new</span> PlayingCard(PlayingCard.TYPE.values()[i], j + <span class="integer">1</span>);
+        minCount = <span class="integer">0</span>;
+        maxCount = <span class="integer">0</span>;
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> add(T element) {
+        <span class="keyword">if</span> (total == <span class="integer">0</span>) {
+            min = element;
+            max = element;
+        }
+        ++total;
+        <span class="keyword">if</span> (element.compareTo(min) &lt; <span class="integer">0</span>) {
+            minCount = <span class="integer">1</span>;
+            min = element;
+        } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (element.compareTo(min) == <span class="integer">0</span>) {
+                minCount++;
+            }
+        }
+        <span class="keyword">if</span> (element.compareTo(max) &gt; <span class="integer">0</span>) {
+            maxCount = <span class="integer">1</span>;
+            max = element;
+        } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (element.compareTo(max) == <span class="integer">0</span>) {
+                maxCount++;
             }
         }
     }
 
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
-        <span class="predefined-type">StringBuilder</span> result = <span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>();
-        <span class="keyword">for</span> (PlayingCard playingCard : cards) {
-            result.append(playingCard);
-            result.append(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-        }
-        <span class="keyword">return</span> result.toString();
+    <span class="directive">public</span> T min() {
+        <span class="keyword">return</span> min;
     }
 
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        Deck deck = <span class="keyword">new</span> Deck();
-        PlayingCard card;
-        <span class="keyword">while</span> ((card = deck.dealCard()) != <span class="predefined-constant">null</span>) {
-            <span class="predefined-type">System</span>.out.println(card);
-        }
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">int</span> hashCode() {
-        <span class="directive">final</span> <span class="type">int</span> prime = <span class="integer">31</span>;
-        <span class="type">int</span> result = <span class="integer">1</span>;
-        result = prime * result + <span class="predefined-type">Arrays</span>.hashCode(cards);
-        <span class="keyword">return</span> result;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">boolean</span> equals(<span class="predefined-type">Object</span> obj) {
-        <span class="keyword">if</span> (<span class="local-variable">this</span> == obj)
-            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-        <span class="keyword">if</span> (obj == <span class="predefined-constant">null</span>)
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        <span class="keyword">if</span> (getClass() != obj.getClass())
-            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
-        Deck other = (Deck) obj;
-        <span class="keyword">return</span> <span class="predefined-type">Arrays</span>.equals(cards, other.cards);
-    }
-
-    <span class="directive">public</span> PlayingCard dealCard() {
-        <span class="keyword">if</span> (total == <span class="integer">52</span>) <span class="keyword">return</span> <span class="predefined-constant">null</span>;
-        <span class="type">int</span> card = (<span class="type">int</span>) (<span class="integer">52</span> * <span class="predefined-type">Math</span>.random());
-        <span class="keyword">if</span> (!picked[card]) {
-            ++total;
-            picked[card] = <span class="predefined-constant">true</span>;
-            <span class="keyword">return</span> cards[card];
-        }
-        <span class="keyword">return</span> dealCard();
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Решение (<code>MultipleDeck.java</code>)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">mk.ukim.finki.np.av3</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">MultipleDeck</span> {
-    <span class="directive">private</span> Deck<span class="type">[]</span> decks;
-
-    <span class="directive">public</span> MultipleDeck(<span class="type">int</span> n) {
-        decks = <span class="keyword">new</span> Deck[n];
-        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; n; ++i) {
-            decks[i] = <span class="keyword">new</span> Deck();
-        }
+    <span class="directive">public</span> T max() {
+        <span class="keyword">return</span> max;
     }
 
     <span class="annotation">@Override</span>
     <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
         <span class="predefined-type">StringBuilder</span> sb = <span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>();
-        <span class="keyword">for</span> (Deck deck : decks) {
-            sb.append(deck);
-            sb.append(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-        }
+        T min = min();
+        T max = max();
+        sb.append(<span class="predefined-type">String</span>.format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%s %s %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, min, max, total
+                - (maxCount + minCount)));
         <span class="keyword">return</span> sb.toString();
-        <span class="comment">// java 8</span>
-        <span class="comment">/*
-        return Arrays.stream(decks)
-                .map(Deck::toString)
-                .collect(Collectors.joining(&quot;\n&quot;));
-         */</span>
     }
-
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        MultipleDeck md = <span class="keyword">new</span> MultipleDeck(<span class="integer">3</span>);
-        <span class="predefined-type">System</span>.out.println(md);
-    }
-
 
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="stacked-canvas">3. Stacked Canvas</h3>
+<div class="paragraph">
+<p>Да се имплементира класа <code>Canvas</code> на која ќе чуваат различни форми.
+За секоја форма се чува:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>id:String</code></p>
+</li>
+<li>
+<p><code>color:Color</code> (enum дадена)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Притоа сите форми треба да имплментираат два интерфејси:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Scalable</code> - дефиниран со еден метод <code>void scale(float scaleFactor)</code> за соодветно зголемување/намалување на формата за дадениот фактор</p>
+</li>
+<li>
+<p><code>Stackable</code> - дефиниран со еден метод <code>float weight()</code> кој враќа тежината на формата (се пресметува како плоштина на соодветната форма)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Во класата <code>Canvas</code> да се имплементираат следните методи:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>void add(String id, Color color, float radius)</code> за додавање круг</p>
+</li>
+<li>
+<p><code>void add(String id, Color color, float width, float height)</code> за додавање правоаголник</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>При додавањето на нова форма, во листата со форми таа треба да се смести на соодветното место според нејзината тежина. Елементите постојано се подредени според тежината во опаѓачки редослед.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>void scale(String id, float scaleFactor)</code> - метод кој ја скалира формата со даденото id за соодветниот scaleFactor. Притоа ако има потреба, треба да се изврши преместување на соодветните форми, за да се задржи подреденоста на елементите.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Не смее да се користи сортирање на листата.</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>toString()</code> - враќа стринг составен од сите фигури во нов ред.
+За секоја фигура се додава:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>C: [id:5 места од лево] [color:10 места од десно] [weight:10.2 места од десно]</code> ако е круг</p>
+</li>
+<li>
+<p><code>R: [id:5 места од лево] [color:10 места од десно] [weight:10.2 места од десно]</code> ако е правоаголник</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Користење на <code>instanceof</code> ќе се смета за неточно решение</strong></p>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="Изворен-код-од-примери-и-задачи">3. Изворен код од примери и задачи</h2>
+<h2 id="Изворен-код-од-примери-и-задачи">4. Изворен код од примери и задачи</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="https://github.com/finki-mk/NP/" class="bare">https://github.com/finki-mk/NP/</a></p>
 </div>
 <div class="paragraph">
-<p><a href="https://finki-mk.github.io/NP/sources/np_av3_src.zip">Source Code ZIP</a></p>
+<p><a href="https://finki-mk.github.io/NP/sources/np_exam_problems_1_src.zip">Source Code ZIP</a></p>
 </div>
 </div>
 </div>
@@ -888,7 +922,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="footer">
 <div id="footer-text">
 Верзија 1.0<br>
-Last updated 2016-10-12 00:47:52 CEST
+Last updated 2016-10-12 16:35:33 CEST
 </div>
 </div>
 <script type="text/x-mathjax-config">

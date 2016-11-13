@@ -1,5 +1,6 @@
 package mk.ukim.finki.np.mt1;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,12 +9,12 @@ public class ArchiveStore {
 	private StringBuilder log;
 
 	public ArchiveStore() {
-		items = new ArrayList<Archive>();
+		items = new ArrayList<>();
 		log = new StringBuilder();
 	}
 
 	public void archiveItem(Archive item) {
-		Date now = new Date();
+		LocalDateTime now = LocalDateTime.now();
 		item.archive(now);
 		items.add(item);
 		log.append(String.format("Item %d archived at %s\n", item.getId(), now));
@@ -45,9 +46,9 @@ public class ArchiveStore {
 abstract class Archive {
 	protected int id;
 	protected boolean isArchived;
-	protected Date dateArchived;
+	protected LocalDateTime dateArchived;
 
-	public void archive(Date date) {
+	public void archive(LocalDateTime date) {
 		this.dateArchived = date;
 		this.isArchived = true;
 	}

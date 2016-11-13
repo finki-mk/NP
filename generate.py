@@ -511,9 +511,15 @@ def tickets():
 	for i in range(n):
 		print random.randint(1, 5)
 
+def triples():
+	n = random.randint(10, 100)
+	for i in range(n):
+		print '%d %d %d' % (random.randint(0, 100), random.randint(0, 100), random.randint(0, 100))
+
+
 if __name__ == "__main__":
 #	if len(sys.argv) <= 1:
 #		print 'Usage: %s [arguments]' % (sys.argv[0])
 #	else:
-	numbers(number_to=10000)
+	triples()
 

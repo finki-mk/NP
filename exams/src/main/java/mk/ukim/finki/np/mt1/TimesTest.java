@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class TimesTest {
 
@@ -47,7 +49,7 @@ class TimeTable {
     List<Time> times;
 
     public TimeTable() {
-        times = new ArrayList<Time>();
+        times = new ArrayList<>();
     }
 
     public void readTimes(InputStream input) throws UnsupportedFormatException,
@@ -65,15 +67,15 @@ class TimeTable {
 
     public void writeTimes(OutputStream output, TimeFormat format) {
         PrintWriter writer = new PrintWriter(output);
-        times.sort(Comparator.<Time, Integer>comparing(time -> time.getHour())
-                .thenComparing(time -> time.getMinute()));
-        times.forEach(time -> {
-            if (format == TimeFormat.FORMAT_24) {
-                writer.println(time);
-            } else {
-                writer.println(time.toStringAMPM());
-            }
-        });
+        final Function<Time, String> toString = time -> {
+            if (format.equals(TimeFormat.FORMAT_24)) return time.toString();
+            else return time.toStringAMPM();
+        };
+        List<String> timesToPrint = times.stream().sorted(Comparator.comparing(Time::getHour)
+                .thenComparing(Time::getMinute))
+                .map(toString)
+                .collect(Collectors.toList());
+        timesToPrint.forEach(writer::println);
         writer.flush();
     }
 }

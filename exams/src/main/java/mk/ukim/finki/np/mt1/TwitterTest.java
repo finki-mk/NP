@@ -11,37 +11,37 @@ public class TwitterTest {
 
 class Twitter {
 
-  List<Tweet> tweets;
-  List<Likeable> likes;
-  List<Retweetable> retweets;
+    List<Tweet> tweets;
+    List<Likeable> likes;
+    List<Retweetable> retweets;
 
-  public void tweet(long id, String message) {
+    public void tweet(long id, String message) {
 
-  }
+    }
 
-  public void reply(long id, String message) {
+    public void reply(long id, String message) {
 
-  }
+    }
 
-  public void like(long id) {
+    public void like(long id) {
 
-  }
+    }
 
-  public void retweet(long id) {
+    public void retweet(long id) {
 
-  }
+    }
 }
 
 interface Likeable {
-  void like();
+    void like();
 }
 
 interface Retweetable {
-  void retweet();
+    void retweet();
 }
 
 class Tweet {
-  long id;
-  String message;
-  Tweet parent;
+    long id;
+    String message;
+    Tweet parent;
 }

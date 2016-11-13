@@ -23,3 +23,15 @@ link:np_av2.html[HTML] | link:{pdf_source}/np_av2.pdf[PDF] | link:{sources_zip}/
 == Аудиториска вежба 3
 
 link:np_av3.html[HTML] | link:{pdf_source}/np_av3.pdf[PDF] | link:{sources_zip}/np_av3_src.zip[Source Code ZIP]
+
+== Аудиториска вежба 4
+
+link:np_av4.html[HTML] | link:{pdf_source}/np_av4.pdf[PDF] | link:{sources_zip}/np_av4_src.zip[Source Code ZIP]
+
+== Аудиториска вежба 5
+
+link:np_av5.html[HTML] | link:{pdf_source}/np_av5.pdf[PDF] | link:{sources_zip}/np_av5_src.zip[Source Code ZIP]
+
+== Аудиториска вежба 3
+
+link:np_av6.html[HTML] | link:{pdf_source}/np_av6.pdf[PDF] | link:{sources_zip}/np_av6_src.zip[Source Code ZIP]
