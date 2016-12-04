@@ -32,6 +32,22 @@ link:np_av4.html[HTML] | link:{pdf_source}/np_av4.pdf[PDF] | link:{sources_zip}/
 
 link:np_av5.html[HTML] | link:{pdf_source}/np_av5.pdf[PDF] | link:{sources_zip}/np_av5_src.zip[Source Code ZIP]
 
-== Аудиториска вежба 3
+== Аудиториска вежба 6
 
 link:np_av6.html[HTML] | link:{pdf_source}/np_av6.pdf[PDF] | link:{sources_zip}/np_av6_src.zip[Source Code ZIP]
+
+== Пример колоквиумски задачи
+
+link:np_exam_problems_1.html[HTML] | link:{pdf_source}/np_exam_problems_1.pdf[PDF] | link:{sources_zip}/np_exam_problems_1_src.zip[Source Code ZIP]
+
+== Аудиториска вежба 7
+
+link:np_av7.html[HTML] | link:{pdf_source}/np_av7.pdf[PDF] | link:{sources_zip}/np_av7_src.zip[Source Code ZIP]
+
+== Аудиториска вежба 8
+
+link:np_av8.html[HTML] | link:{pdf_source}/np_av8.pdf[PDF] | link:{sources_zip}/np_av8_src.zip[Source Code ZIP]
+
+== Аудиториска вежба 9
+
+link:np_av9.html[HTML] | link:{pdf_source}/np_av9.pdf[PDF] | link:{sources_zip}/np_av9_src.zip[Source Code ZIP]
