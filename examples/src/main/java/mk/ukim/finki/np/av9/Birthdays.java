@@ -23,7 +23,7 @@ public class Birthdays {
 
     private double simulation(int numPeople, int numTrials, Random random) {
         int positiveEvents = 0;
-        for (int j = 0; j < numTrials; ++j) {
+        for (int i = 0; i < numTrials; ++i) {
             if (singleExperiment(numPeople, random)) {
                 ++positiveEvents;
             }

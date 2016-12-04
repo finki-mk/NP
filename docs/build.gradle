@@ -45,7 +45,7 @@ asciidoctor {
 
 task srcZip
 
-(1..5).each { id ->
+(1..9).each { id ->
     task "srcZip${id}"(type: Zip) {
         from('../examples/src/main/java/mk/ukim/finki/np/av' + id)
         excludes = []

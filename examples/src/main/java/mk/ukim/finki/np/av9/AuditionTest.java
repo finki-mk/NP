@@ -33,10 +33,9 @@ class Audition {
     }
 
     public void addParticipant(String city, String code, String name, int age) {
-        Participant participant = new Participant(code, name, age);
         participants.computeIfAbsent(city, key -> new HashSet<>());
         participants.computeIfPresent(city, (key, set) -> {
-            set.add(participant);
+            set.add(new Participant(code, name, age));
             return set;
         });
     }
