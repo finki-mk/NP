@@ -525,6 +525,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#birthdays-paradox">1.1. Birthdays paradox</a></li>
 <li><a href="#names">1.2. Names</a></li>
+<li><a href="#audition">1.3. Audition</a></li>
 </ul>
 </li>
 <li><a href="#Изворен-код-од-примери-и-задачи">2. Изворен код од примери и задачи</a></li>
@@ -587,7 +588,7 @@ For 50 people, the probability of two birthdays is about 0.969</pre>
 
     <span class="directive">private</span> <span class="type">double</span> simulation(<span class="type">int</span> numPeople, <span class="type">int</span> numTrials, <span class="predefined-type">Random</span> random) {
         <span class="type">int</span> positiveEvents = <span class="integer">0</span>;
-        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="integer">0</span>; j &lt; numTrials; ++j) {
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; numTrials; ++i) {
             <span class="keyword">if</span> (singleExperiment(numPeople, random)) {
                 ++positiveEvents;
             }
@@ -739,6 +740,23 @@ Emma 22532</pre>
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="audition">1.3. Audition</h3>
+<div class="paragraph">
+<p>Да се имплементира класа за аудиција <code>Audition</code> со следните методи:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>void addParticipant(String city, String code, String name, int age)</code> - додава нов кандидат со код <code>code</code>, име и возраст за аудиција во даден град <code>city</code>.
+Во ист град не се дозволува додавање на кандидат со ист код како некој претходно додаден кандидат (додавањето се игнорира, а комплексноста на овој метод треба да биде <code>O(1)</code>)</p>
+</li>
+<li>
+<p><code>void listByCity(String city)</code> - ги печати сите кандидати од даден град подредени според името, а ако е исто според возраста (комплексноста на овој метод не треба да надминува <code>O(n∗log2(n))</code>, каде <code>n</code> е бројот на кандидати во дадениот град).</p>
+</li>
+</ul>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -750,7 +768,7 @@ Emma 22532</pre>
 <p><a href="https://github.com/finki-mk/NP/" class="bare">https://github.com/finki-mk/NP/</a></p>
 </div>
 <div class="paragraph">
-<p><a href="https://finki-mk.github.io/NP/sources/np_av7_src.zip">Source Code ZIP</a></p>
+<p><a href="https://finki-mk.github.io/NP/sources/np_av9_src.zip">Source Code ZIP</a></p>
 </div>
 </div>
 </div>
@@ -758,7 +776,7 @@ Emma 22532</pre>
 <div id="footer">
 <div id="footer-text">
 Верзија 1.0<br>
-Last updated 2016-12-01 22:37:15 CET
+Last updated 2016-12-04 14:22:14 CET
 </div>
 </div>
 <script type="text/x-mathjax-config">
