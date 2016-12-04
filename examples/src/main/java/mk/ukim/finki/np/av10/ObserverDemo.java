@@ -1,4 +1,4 @@
-package mk.ukim.finki.np.av8;
+package mk.ukim.finki.np.av10;
 
 import java.util.Scanner;
 

@@ -516,10 +516,35 @@ def triples():
 	for i in range(n):
 		print '%d %d %d' % (random.randint(0, 100), random.randint(0, 100), random.randint(0, 100))
 
+def temp():
+    n = random.randint(10, 200)
+    days = set()
+    for i in range(n):
+        day = random.randint(1, 366)
+        if day not in days:
+            days.add(day)
+            print day,
+        else:
+            continue
+        x = random.randint(1, 20)
+        t = randTemp()
+        for j in range(x):
+            print '%d%c' % (t[1] + random.randint(0, 5), t[0]),
+        print
+
+
+def randTemp():
+    f = random.randint(0, 1)
+    if f == 0:
+        return ('C', random.randint(-20, 40))
+    else:
+        return ('F', random.randint(0, 100))
 
 if __name__ == "__main__":
 #	if len(sys.argv) <= 1:
 #		print 'Usage: %s [arguments]' % (sys.argv[0])
 #	else:
-	triples()
+	numbers(number_to = 1000)
+	print
+	numbers(number_to = 1000)
 

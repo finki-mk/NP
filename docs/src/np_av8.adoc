@@ -1,0 +1,125 @@
+# Напредно програмирање
+Аудиториски вежби 8
+v1.0, 23 Ноември, 2016
+include::parts/attributes.adoc[]
+
+:source_dir: ../../examples/src/main/java/mk/ukim/finki/np/av8
+
+== Колекции (List)
+
+=== Count occurrence
+
+Да се имплементира следниот метод коj го враќа бројот на појавување на стрингот `str` во колекцијата од колекција од стрингови:
+
+[source,java]
+----
+public static int count(Collection<Collection<String>> c, String str)
+----
+
+- Да претпоставиме дека `Collection c` содржи `N` колекции и дека секоја од овие колекции содржи `N` објекти.
+Кое е времето на извршување на вашиот метод?
+
+- Да претпоставиме дека е потребно 2 милисекунди да се изврши за N = 100.
+Колку ќе биде времето на извршување кога N = 300?
+
+.Решение (`CountCollection.java`)
+[source,java]
+----
+include::{source_dir}/CountCollection.java[lines=12..34]
+----
+
+=== Reverse list
+
+Да се напише метод за печатење на колекција во обратен редослед со помош на `Collections API` но без употреба на `ListIterator`.
+
+.Решение (`CountCollection.java`)
+[source,java]
+----
+include::{source_dir}/CountCollection.java[lines=36..50]
+----
+
+=== Equals performance
+
+Методот `equals` коj е прикажан, враќа `true` ако две листи имаат иста големина и ако ги содржат истите елементи во ист редослед.
+Да претпоставиме дека `N` е големината на овие листи.
+
+[source,java]
+----
+public boolean equals(List<Integer> left, List<Integer> right) {
+    if(left.size() != right.size()) {
+        return false;
+    } else {
+        for(int i = 0; i < left.size(); ++i) {
+          if(!left.get(i).equals(right.get(i))) {
+              return false;
+          }
+        }
+    }
+    return true;
+}
+----
+
+- Кое е времето на извршување ако двете листи се `ArrayLists`?
+- Кое е времето на извршување ако двете листи се `LinkedLists`?
+- Да претпоставиме дека за 4 секунди се извршува методот за две еднакво големи поврзани листи `LinkedList` со 10,000 елементи.
+Колку време ќе биде потребно за извршување со две еднакво големи поврзани листи со 50,000 елементи?
+- Објаснете со една реченица како да го направиме алгоритмот поефикасен за сите видови листи?
+
+=== The Sieve of Eratosthenes
+
+Ситото на Ерастотен (The Sieve of Eratosthenes) е древен алгоритам за генерирање прости броеви.
+Да jа земеме следната листа со броеви: 2 3 4 5 6 7 8 9 10
+
+Алгоритмот започнува со првиот прост број во листата, тоа е 2 и потоа ги изминува останатите елементи од листата, со тоа што ги отстранува сите броеви чии што множител е 2 (во овој случај, 4, 6, 8 и 10), со што остануваат 2 3 5 7.
+Го повторуваме овој процес со вториот прост број во листата, тоа е 3 и итерираме низ остатокот од листата и што ги отстрануваме броевите чии што множител е 3 (во овој случај 9), а остануваат 2 3 5 7.
+Потоа jа повторуваме постапката со секој следен прост број, но не се отстрануваат елемнти, затоа што нема броеви чии што множители се 5 и 7.
+Сите броеви кои остануваат во листата се прости.
+
+Да се имплементира алгоритмот со користење на `ArrayList` од цели броеви која што е иницијализирана со вредности од 2 до 100.
+Имплементацијата може да итерира низ листата со индекс од `0` од `size() - 1` за да го земе тековниот прост број, но треба да користи `Iterator` за да го скенира остатокот од листата и ги избрише сите елементи чии што множител е тековниот прост број.
+Отпечатете ги сите прости броеви во листата.
+
+.Решение (`EratosthenesSieve.java`)
+[source,java]
+----
+include::{source_dir}/EratosthenesSieve.java[]
+----
+
+=== Suitors
+
+In an ancient land, the beautiful princess Eve had many suitors.
+She decided on the following procedure to determine which suitor she would marry.
+First, all of the suitors would be lined up one after the other and assigned numbers.
+The first suitor would be number 1, the second number 2, and so on up to the last suitor, number n.
+Starting at the first suitor, she would then count three suitors down the line (because of the three letters in her name) and the third suitor would be eliminated from winning her hand and removed from the line.
+Eve would then continue, counting three more suitors, and eliminating every third suitor.
+When she reached the end of the line, she would reverse direction and work her way back to the beginning.
+Similarly, on reaching the first person in line, she would reverse direction and make her way to the end of the line.
+For example, if there were five suitors, then the elimination process would proceed as follows:
+
+----
+12345 Initial list of suitors; start counting from 1.
+1245 Suitor 3 eliminated; continue counting from 4 and bounce from end
+back to
+Suitor 4 eliminated; continue counting back from 2 and bounce from
+front back to 2.
+15
+Suitor 2 eliminated; continue counting forward from 5.
+1
+Suitor 5 eliminated; 1 is the lucky winner.
+----
+
+Write a program that uses an `ArrayList` or `Vector` to determine which position you should stand in to marry the princess if there are n suitors.
+Your program should use the `ListIterator` interface to traverse the list of suitors and remove a suitor.
+Be careful that your iterator references the proper object upon reversing direction at the beginning or end of the list.
+The suitor at the beginning or end of the list should only be counted once when the princess reverses the count.
+
+[source,java]
+----
+include::{source_dir}/LuckySuitor.java[]
+----
+
+
+include::parts/footer.adoc[]
+
+link:{sources_zip}/np_av7_src.zip[Source Code ZIP]

@@ -1,4 +1,4 @@
-package mk.ukim.finki.np.av8;
+package mk.ukim.finki.np.av10;
 
 public class Singleton {
     // Private constructor prevents instantiation from other classes

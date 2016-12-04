@@ -1,0 +1,112 @@
+# Напредно програмирање
+Аудиториски вежби 7
+v1.0, 15 Ноември, 2016
+include::parts/attributes.adoc[]
+
+:source_dir: ../../examples/src/main/java/mk/ukim/finki/np/av7
+
+== Рандомизација и случајни броеви
+
+=== Финалисти
+
+Ваша задача е да распределите три еднакви награди на 30 финалисти.
+За секој финалист има назначено број од 1 до 30.
+Напишете програма која случајно ги избира броевите на 3-те финалисти кои треба да добијат награда.
+Треба да внимавате на некои ограничувања при избирањето на наградените.
+На пример, одбирање на финалисти со броеви 3, 15 и 29 е валидно, но избирањето на 3, 3 и 31 како добитници не е валидно, затоа што финалистот со број 3 е избран два пати, а 31 не е валиден број на финалист.
+
+.Решение (`RandomPicker.java`)
+[source,java]
+----
+include::{source_dir}/RandomPicker.java[]
+----
+
+.Решение (`Finalists.java`)
+[source,java]
+----
+include::{source_dir}/Finalists.java[]
+----
+
+=== Benford's Law
+
+Задачата е дел од "Niffty Assignment" од авторот Steve Wolfman (http://nifty.stanford.edu/2006/wolfman-pretid). Дадена ни е листа на броеви од податочни
+извори од реалниот живот, на пример, листа со број на:
+
+- студенти запишани на различни курсеви
+- коментари на различни Facebook статуси
+- книги во различни библиотеки
+- бројот на гласови по избирачко место, итн.
+
+Логични би било почетната цифра на секој број во листата да биде 1-9 со приближно еднаква веројатност.
+Меѓутоа, законот на Бенфорд (Benford’s Law) тврди дека почетната цифра 1 е се појавува околу 30% од времето и оваа вредност опаѓа со големината на цифрата.
+Почетна цифра 9 се појавува само околу 5% од времето.
+Да се напише програма која го тестира законот на Бенфорд.
+Соберете листа од најмалку 10 броеви од извори од реланиот живот и ставете ги во текстуална датотека.
+Вашата програма треба ги измине сите броеви и треба да изброи колку броеви се со прва цифра 1, колку со прва цифра 2, итн.
+За секоја цифра да се отпечати процентот на застапеност како прва цифра.
+
+
+.Решение (`BenfordLawTest.java`)
+[source,java]
+----
+include::{source_dir}/BenfordLawTest.java[]
+----
+
+.Решение (`NumbersReader.java`)
+[source,java]
+----
+include::{source_dir}/NumbersReader.java[]
+----
+
+.Решение (`LineNumbersReader.java`)
+[source,java]
+----
+include::{source_dir}/LineNumbersReader.java[]
+----
+
+.Решение (`SunspotNumbersReader.java`)
+[source,java]
+----
+include::{source_dir}/SunspotNumbersReader.java[]
+----
+
+.Решение (`CountVisualizer.java`)
+[source,java]
+----
+include::{source_dir}/CountVisualizer.java[]
+----
+
+=== Arrange Letters (from codefu.com.mk)
+
+You are given a string and your task is to arrange the words in the string as follows:
+
+- each word should begin with a capital letter
+- the lowercase letters should be arranged alphabetically
+
+Afterwards, the words in the sentence should be arranged alphabetically.
+
+Example:
+
+"kO pSk sO" should return: "Ok Os Skp"
+
+Input parameters:
+
+- sentence - String
+
+Constraints:
+
+- sentence will have between 1 and 1000 characters inclusive,
+- every character will be a letter (’a’-’z’ ’A’-’Z’) or ’ ’ - space.
+- each word in sentence will have exactly one capital letter.
+- there will be no two consecutive spaces, and no spaces at the beginning or end of the string.
+- a word may consist of only one capital letter
+
+.Решение (`ArrangeLetters.java`)
+[source,java]
+----
+include::{source_dir}/ArrangeLetters.java[]
+----
+
+include::parts/footer.adoc[]
+
+link:{sources_zip}/np_av7_src.zip[Source Code ZIP]

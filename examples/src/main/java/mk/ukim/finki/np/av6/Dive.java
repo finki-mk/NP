@@ -10,7 +10,7 @@ public class Dive {
 
     public Dive(double difficulty) {
         this.difficulty = difficulty;
-        this.scores = new ArrayList<Double>();
+        this.scores = new ArrayList<>();
     }
 
     public void addScore(double score) {
