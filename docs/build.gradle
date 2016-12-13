@@ -55,13 +55,22 @@ task srcZip
     srcZip.dependsOn "srcZip${id}"
 }
 
-task "srcZipExams"(type: Zip) {
+task "srcZipExams1"(type: Zip) {
     from('../exams/src/main/java/mk/ukim/finki/np/mt1')
     includes = ['TimesTest.java', 'MinAndMax.java', 'ShapesTest.java']
     archiveName = "np_exam_problems_1_src.zip"
     destinationDir = file('./sources')
 
-    srcZip.dependsOn "srcZipExams"
+    srcZip.dependsOn "srcZipExams1"
+}
+
+task "srcZipExams2"(type: Zip) {
+    from('../exams/src/main/java/mk/ukim/finki/np/mt2')
+    includes = ['MoviesTest.java', 'WeatherStationTest.java', 'StadiumTest.java']
+    archiveName = "np_exam_problems_2_src.zip"
+    destinationDir = file('./sources')
+
+    srcZip.dependsOn "srcZipExams2"
 }
 
 fileTree("src")

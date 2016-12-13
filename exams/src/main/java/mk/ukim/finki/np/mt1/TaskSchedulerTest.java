@@ -1,10 +1,7 @@
 package mk.ukim.finki.np.mt1;
 
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +46,7 @@ class TaskRunner<T extends Task> {
 }
 
 interface TaskScheduler<T extends Task> {
+
     List<T> schedule(T[] tasks);
 }
 
