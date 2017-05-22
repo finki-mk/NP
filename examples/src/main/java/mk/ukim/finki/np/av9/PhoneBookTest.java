@@ -47,6 +47,7 @@ class PhoneBook {
         if (allNumbers.contains(number))
             throw new DuplicateNumberException(number);
 
+        allNumbers.add(number);
         Contact contact = new Contact(name, number);
 
         Set<Contact> contactsByName = byName.computeIfAbsent(name, key -> new TreeSet<>(comparator));

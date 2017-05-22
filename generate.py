@@ -191,8 +191,8 @@ def matrica(m, n):
 def matrica_kv(m):
 	print "%d" % m
 	for i in range(m):
-		for j in range(m):
-			print "%d\t" % random.randint(1, 100),
+		for j in range(m * 2):
+			print "%d " % random.randint(1, 100),
 		print
 
 def p13(n):
@@ -532,6 +532,11 @@ def temp():
             print '%d%c' % (t[1] + random.randint(0, 5), t[0]),
         print
 
+def ri(lo = 0, hi = 10):
+    return random.randint(lo, hi)
+
+def rc(list):
+	return random.choice(list)
 
 def randTemp():
     f = random.randint(0, 1)
@@ -540,11 +545,84 @@ def randTemp():
     else:
         return ('F', random.randint(0, 100))
 
+def files():
+	n = ri(lo=10, hi=100)
+	print n
+	letters_uppercase = alphabet.upper() + '.'
+	for i in range(n):
+		fname =  randstring(ri(3, 5))
+		if ri(0, 3) == 0:
+			fname = '.' + fname
+		print '%c:%s:%d:%d' % (random.choice(letters_uppercase), fname, ri(1, 5000), ri(0, 20000))
+
+def chat():
+	n = ri(lo=5, hi=30)
+	rooms = ['room %d' % i for i in range(n)]
+	users = ['user %d' % i for i in range(3 * n)]
+	room_users = {}
+	for r in rooms:
+		print '0\n%s' % r
+	for u in users:
+		#r = rc(rooms)
+		print '4\n%s' % u
+		#room_users.setdefault(r, [])
+		#room_users[r].append(u)
+
+def tabs():
+	n = ri(100, 1000)
+	print n
+	n = ri(10, 15)
+	print n
+	for i in range(n):
+		print 'tab%d\n%d' % (i + 1, ri(10, 150))
+
+def discounts():
+    stores = ['ZARA','Bershka', 'H&M', 'Stradivarius', 'P&B', 'GAP', 'Holister', 'Desigual', 'MassimoDutti', 'Diesel', 'Levis']
+    random.shuffle(stores)
+    for s in stores:
+        print s,
+        n = ri(5, 50)
+        for i in range(n):
+            price = ri(299, 9999)
+            op = ri(price, price * 2)
+            print '%d:%d ' % (price, op),
+        print ""
+
+def words():
+    n = ri(5, 50)
+    fake = Factory.create()
+    words = set(fake.words(nb=n))
+    print len(words)
+    for w in words:
+        print '%s %d:%d:%d:%d:%d' % (w, ri(0, 9), ri(0, 9), ri(0, 9), ri(0, 9), ri(0, 9))
+    n = ri(1, n / 2)
+    words = fake.words(nb=n) + list(words)
+    random.shuffle(words)
+    n = len(words)
+    print n
+    for w in words:
+        print w
+    print ri(1, n)
+
+def drivers():
+    n = ri(3, 10)
+    print n
+    for i in range(n):
+        print 'Location-%d' % (i + 1)
+        m = ri(5, 25)
+        generated = set()
+        for j in range(m):
+            name = random.choice(names)
+            if name not in generated:
+                generated.add(name)
+        print len(generated)
+        for n in generated:
+            print n
+            print ri(100, 2000)
+
+
 if __name__ == "__main__":
 #	if len(sys.argv) <= 1:
 #		print 'Usage: %s [arguments]' % (sys.argv[0])
 #	else:
-	numbers(number_to = 1000)
-	print
-	numbers(number_to = 1000)
-
+    drivers()
