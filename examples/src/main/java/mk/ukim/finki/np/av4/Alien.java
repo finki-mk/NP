@@ -1,16 +1,37 @@
-package mk.ukim.finki.np.av4;
 
-public class Alien {
-    public static final int SNAKE_ALIEN = 0;
-    public static final int OGRE_ALIEN = 1;
-    public static final int MARSHMALLOW_MAN_ALIEN = 2;
-    public int type; // Stores one of the three above types
-    public int health; // 0=dead, 100=full strength
-    public String name;
+public abstract class Alien {
+	
+	private int health;
+	private String name;
 
-    public Alien(int type, int health, String name) {
-        this.type = type;
-        this.health = health;
-        this.name = name;
-    }
+	public Alien(){
+		this.health = 100;
+		this.name = "Anonymous";
+	}
+	
+	public Alien(int health, String name) {
+		this.health = health; // 0-dead, 100-full_strength
+		this.name = name;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public abstract String getType();
+
+	public abstract int getDamage();
+	
 }
