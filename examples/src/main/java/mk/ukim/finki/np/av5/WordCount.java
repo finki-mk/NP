@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -23,8 +24,12 @@ public class WordCount {
         }
         for (String fileName : args) {
             try {
-                String wordCount = processFile(fileName);
-                //wordCount = processWithMapReduce(fileName);
+                long start = System.nanoTime();
+                //String wordCount = processFile(fileName);
+                //String wordCount = processFile(fileName);
+                FileStat wordCount = pureFunctional(fileName);
+                long end = System.nanoTime();
+                System.out.printf("Took: %.3fms\n", (end - start) / 1000000.);
                 result.append(String.format("%s -> %s\n", fileName, wordCount));
             } catch (IOException e) {
                 System.err.println(e.getMessage());
@@ -84,6 +89,12 @@ public class WordCount {
 
     }
 
+    private static FileStat pureFunctional(String fileName) throws IOException {
+        return Files.lines(Paths.get(fileName))
+                .map(new WordCounter())
+                .reduce(FileStat.identity(), FileStat::add);
+    }
+
     static class FileCounts implements Consumer<String> {
         private static final Pattern WORD = Pattern.compile("\\s+");
         long lines;
@@ -106,6 +117,40 @@ public class WordCount {
         @Override
         public String toString() {
             return String.format("%d %d %d", lines, words, chars);
+        }
+    }
+
+    static class FileStat {
+        private final long lines;
+        private final long chars;
+        private final long words;
+
+        FileStat(long lines, long chars, long words) {
+            this.lines = lines;
+            this.chars = chars;
+            this.words = words;
+        }
+
+        static FileStat identity() {
+            return new FileStat(0, 0, 0);
+        }
+
+        FileStat add(FileStat stat) {
+            return new FileStat(this.lines + stat.lines, this.chars + stat.chars, this.words + stat.words);
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%d %d %d", lines, words, chars);
+        }
+    }
+
+    static class WordCounter implements Function<String, FileStat> {
+        private static final Pattern WORD = Pattern.compile("\\s+");
+
+        @Override
+        public FileStat apply(String line) {
+            return new FileStat(1, line.length() + 1, WORD.split(line).length);
         }
     }
 
